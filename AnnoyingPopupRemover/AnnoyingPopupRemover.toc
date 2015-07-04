@@ -1,5 +1,5 @@
 ## Interface: 60200
-## Title: BOP Items Quick-Loot
-## Notes: Allows you to loot bind-on-pickup (BOP) items by clicking them in the loot window, without confirmation. Also removes the BOP confirmation when rolling on BOP items.
+## Title: Annoying Popup Remover
+## Notes: Removes the annoying confirmation popup that appears when looting or rolling on bind-on-pickup items, or depositing modified items into void storage.
 
-zAutoLootBOP.lua
+AnnoyingPopupRemover.lua

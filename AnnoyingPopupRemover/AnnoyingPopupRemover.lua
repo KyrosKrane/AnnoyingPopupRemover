@@ -1,4 +1,4 @@
--- AutoLootBOP.lua
+-- AnnoyingPopupRemover.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
 -- Licensed under the MIT License, as below.
 --
@@ -34,7 +34,7 @@ local DebugMode = true;
 -- Print debug output to the chat frame.
 function DebugPrint(...)
 	if (DebugMode) then
-		print (...);
+		print ("APR Debug: ", ...);
 	end
 end
 
@@ -65,15 +65,17 @@ function PrintVarArgs(...)
 	end
 end -- PrintVarArgs()
 
+
 -- Create the frame to hold our event catcher, and the list of events.
 local AutoLootBOP_Frame, events = CreateFrame("Frame"), {};
 
+
 -- Looting a BOP item triggers this event.
-function events:LOOT_BIND_CONFIRM(Self, ...)
+function events:LOOT_BIND_CONFIRM(Frame, ...)
 	if (DebugMode) then
 		DebugPrint ("In events:LOOT_BIND_CONFIRM");
-		DebugPrint ("Self is ", Self);
-		--DebugPrint ("typeof Self is ", typeof(Self));
+		DebugPrint ("Frame is ", Frame);
+		--DebugPrint ("typeof Frame is ", typeof(Frame));
 		PrintVarArgs(...);
 	end -- if Debugmode
 
@@ -89,9 +91,6 @@ function events:CONFIRM_LOOT_ROLL(...)
 		PrintVarArgs(...);
 	end -- if Debugmode
 
-	-- local id, rollType;
-	-- id = select(1, ...);
-	-- rollType = select(2, ...);
 	local id, rollType = ...;
 
 	DebugPrint ("id is ", id);
@@ -111,7 +110,6 @@ function events:VOID_DEPOSIT_WARNING(...)
 	-- Document the incoming parameters.
 	-- local slot, itemLink = ...;
 
-	VoidStorage_UpdateTransferButton(nil);
 	VoidStorage_UpdateTransferButton(nil);
 		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
 		-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
@@ -143,11 +141,17 @@ for k, v in pairs(events) do
 	AutoLootBOP_Frame:RegisterEvent(k);
 end
 
+-- Create a holder to store dialogs we're removing, in case I ever want to implement a per-dialog toggle (which means I'd have to restore the dialogs).
+local StoredDialogs = {};
+
 -- Disable the dialog that pops to confirm looting BoP gear yourself.
+StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"];
 StaticPopupDialogs["LOOT_BIND"] = nil;
 
 -- Disable the dialog for the event that triggers when rolling on BOP items.
+StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"];
 StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
 
 -- Disable the dialog for putting tradable or modified items into void storage.
+StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
 StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
