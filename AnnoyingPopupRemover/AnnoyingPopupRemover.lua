@@ -170,4 +170,5 @@ StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 --@do-not-package@
 -- Curse-specific command to exclude this section from appearing for end users.
 DebugMode = true;
+
 --@end-do-not-package@
