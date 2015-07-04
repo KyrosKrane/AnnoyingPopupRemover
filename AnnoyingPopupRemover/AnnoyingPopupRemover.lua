@@ -28,7 +28,9 @@
 --	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
 
 -- Define whether we're in debug mode or production mode. True means debug; false means production.
-local DebugMode = true;
+local DebugMode = false;
+
+local APR_Version = "@project-version@";
 
 
 -- Print debug output to the chat frame.
@@ -64,6 +66,15 @@ function PrintVarArgs(...)
 		DebugPrint ("Item ", i, " is ", msg);
 	end
 end -- PrintVarArgs()
+
+-- Announce our load.
+print ("Annoying Popup Remover " .. APR_Version .. " loaded.");
+
+
+-- Force the default Void Storage frame to load.
+local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
+DebugPrint ("Blizzard_VoidStorageUI isloaded is ", isloaded);
+DebugPrint ("Blizzard_VoidStorageUI reason is ", reason);
 
 
 -- Create the frame to hold our event catcher, and the list of events.
@@ -155,3 +166,8 @@ StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
 -- Disable the dialog for putting tradable or modified items into void storage.
 StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
 StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
+
+--@do-not-package@
+-- Curse-specific command to exclude this section from appearing for end users.
+DebugMode = true;
+--@end-do-not-package@
