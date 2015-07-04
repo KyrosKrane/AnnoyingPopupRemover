@@ -30,6 +30,7 @@
 -- Define whether we're in debug mode or production mode. True means debug; false means production.
 local DebugMode = false;
 
+-- Set the current version so we can display it.
 local APR_Version = "@project-version@";
 
 
@@ -39,21 +40,6 @@ function DebugPrint(...)
 		print ("APR Debug: ", ...);
 	end
 end
-
-
--- Figure out what sort of variable we're dealing with.
-function typeof(var)
-    local _type = type(var);
-    if(_type ~= "table" and _type ~= "userdata") then
-        return _type;
-    end
-    local _meta = getmetatable(var);
-    if(_meta ~= nil and _meta._NAME ~= nil) then
-        return _meta._NAME;
-    else
-        return _type;
-    end
-end -- typeof()
 
 
 -- Debugging code to see what the hell is being passed in...
@@ -86,7 +72,6 @@ function events:LOOT_BIND_CONFIRM(Frame, ...)
 	if (DebugMode) then
 		DebugPrint ("In events:LOOT_BIND_CONFIRM");
 		DebugPrint ("Frame is ", Frame);
-		--DebugPrint ("typeof Frame is ", typeof(Frame));
 		PrintVarArgs(...);
 	end -- if Debugmode
 
@@ -170,5 +155,4 @@ StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 --@do-not-package@
 -- Curse-specific command to exclude this section from appearing for end users.
 DebugMode = true;
-
 --@end-do-not-package@
