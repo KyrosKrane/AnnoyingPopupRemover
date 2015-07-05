@@ -192,3 +192,12 @@ if locale == "enUS" or locale == "enGB" then
 -- elseif locale == "deDE" then
 	-- L["foobar"] = "German here";
 end
+
+
+-- Slash command handling
+SlashCmdList.APR = function (...) HandleCommandLine(...) end
+SLASH_APR1 = "/apr"
+
+function HandleCommandLine(...)
+	PrintVarArgs(...);
+end -- HandleCommandLine()
