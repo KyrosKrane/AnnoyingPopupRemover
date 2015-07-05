@@ -34,17 +34,21 @@ local DebugMode = false;
 local APR_Version = "@project-version@";
 
 
+-- Load the saved variables, or initialize if they don't exist yet.
+APR_DB = APR_DB or { } ;
+
+
 -- Print debug output to the chat frame.
 function DebugPrint(...)
 	if (DebugMode) then
-		print ("APR Debug: ", ...);
+		print (L["APR"] .. " " .. L["Debug"] .. ": ", ...);
 	end
 end
 
 
 -- Print standard output to the chat frame.
 function ChatPrint(...)
-	print ("APR: ", ...);
+	print (L["APR"] ..": ", ...);
 end
 
 
@@ -60,7 +64,7 @@ function PrintVarArgs(...)
 end -- PrintVarArgs()
 
 -- Announce our load.
-print ("Annoying Popup Remover " .. APR_Version .. " loaded.");
+ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR_Version .. " " .. L["loaded"] .. ".");
 
 
 -- Force the default Void Storage frame to load.
@@ -162,3 +166,29 @@ StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 -- Curse-specific command to exclude this section from appearing for end users.
 DebugMode = true;
 --@end-do-not-package@
+
+
+-- Localizations
+-- Copied from Gladius; dunno what most of this does, honestly...
+local rawset = rawset
+local tostring = tostring
+
+local L = setmetatable({ }, {__index = function(t, k)
+	local v = tostring(k)
+	rawset(t, k, v)
+	return v
+end})
+
+-- Get the language used by the client.
+local locale = GetLocale();
+
+-- Set the strings used here.
+if locale == "enUS" or locale == "enGB" then
+	-- Not going to localize debug strings for now.
+	L["APR"] = "APR";
+	L["Debug"] = "Debug";
+	L["Annoying Pop-up Remover"] = "Annoying Pop-up Remover";
+	L["loaded"] = "loaded";
+-- elseif locale == "deDE" then
+	-- L["foobar"] = "German here";
+end
