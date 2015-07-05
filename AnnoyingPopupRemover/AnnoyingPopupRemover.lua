@@ -42,6 +42,12 @@ function DebugPrint(...)
 end
 
 
+-- Print standard output to the chat frame.
+function ChatPrint(...)
+	print ("APR: ", ...);
+end
+
+
 -- Debugging code to see what the hell is being passed in...
 function PrintVarArgs(...)
 	local n = select('#', ...)
