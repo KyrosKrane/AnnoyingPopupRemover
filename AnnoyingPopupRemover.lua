@@ -127,9 +127,9 @@ end
 -- Splits a string into sections, based on a specified separator.
 -- Split text into a list consisting of the strings in text,
 -- separated by strings matching delimiter (which may be a pattern).
--- example: strsplit(",%s*", "Anna, Bob, Charlie,Dolores")
+-- example: APR_strsplit(",%s*", "Anna, Bob, Charlie,Dolores")
 -- Taken from Lua manual: http://lua-users.org/wiki/SplitJoin
-function strsplit(delimiter, text)
+function APR_strsplit(delimiter, text)
   local list = {}
 	local pos = 1
 	if strfind("", delimiter, 1) then
@@ -157,7 +157,7 @@ end
 -- Respond to user chat-line commands.
 function HandleCommandLine(msg, editbox)
 	DebugPrint ("msg is " .. msg);
-	local Line = strsplit("%s+", msg);
+	local Line = APR_strsplit("%s+", msg);
 	-- DumpTable(Line);
 
 	if "hideloot" == Line[1] then
