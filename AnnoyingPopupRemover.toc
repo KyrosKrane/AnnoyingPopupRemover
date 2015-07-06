@@ -5,5 +5,4 @@
 ## SavedVariables: APR_DB
 ## OptionalDeps: Blizzard_VoidStorageUI
 
-
 AnnoyingPopupRemover.lua
