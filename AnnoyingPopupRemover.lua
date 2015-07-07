@@ -368,9 +368,9 @@ function APR:ShowPopupVoid(printconfirm)
 end -- APR:ShowPopupVoid()
 
 
-function APR:HidePopupBind()
+function APR:HidePopupBind(ForceHide)
 	APR:DebugPrint ("in APR:HidePopupBind");
-	if not APR.DB.HideBind then
+	if not APR.DB.HideBind or ForceHide then
 		-- Disable the dialog that pops to confirm looting BoP gear yourself.
 		APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"];
 		StaticPopupDialogs["LOOT_BIND"] = nil;
@@ -385,9 +385,9 @@ function APR:HidePopupBind()
 end -- APR:HidePopupBind()
 
 
-function APR:HidePopupRoll()
+function APR:HidePopupRoll(ForceHide)
 	APR:DebugPrint ("in APR:HidePopupRoll");
-	if not APR.DB.HideRoll then
+	if not APR.DB.HideRoll or ForceHide then
 		-- Disable the dialog for the event that triggers when rolling on BOP items.
 		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"];
 		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
@@ -402,9 +402,9 @@ function APR:HidePopupRoll()
 end -- APR:HidePopupRoll()
 
 
-function APR:HidePopupVoid()
+function APR:HidePopupVoid(ForceHide)
 	APR:DebugPrint ("in APR:HidePopupVoid");
-	if not APR.DB.HideVoid then
+	if not APR.DB.HideVoid or ForceHide then
 		-- Disable the dialog for putting tradable or modified items into void storage.
 		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
 		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
@@ -485,7 +485,7 @@ end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
-	APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ".");
+	APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ". For help and options, type /apr help.");
 
 	-- Force the default Void Storage frame to load so we can override it.
 	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
@@ -515,9 +515,10 @@ function APR.Events:ADDON_LOADED(addon)
 		APR:DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"));
 
 		-- Hide the dialogs the user has selected.
-		if APR.DB.HideBind then APR:HidePopupBind() end;
-		if APR.DB.HideRoll then APR:HidePopupRoll() end;
-		if APR.DB.HideVoid then APR:HidePopupVoid() end;
+		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass true to forcibly hide the dialogs.
+		if APR.DB.HideBind then APR:HidePopupBind(true) end;
+		if APR.DB.HideRoll then APR:HidePopupRoll(true) end;
+		if APR.DB.HideVoid then APR:HidePopupVoid(true) end;
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:PLAYER_LOGIN()
