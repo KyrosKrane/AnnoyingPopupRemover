@@ -196,6 +196,15 @@ function APR:HandleCommandLine(msg, editbox)
 				APR:TogglePopup(Line[2], Line[1])
 				return;
 			end
+		-- Undocumented command to toggle the debug state from the command line.
+		elseif "debug" == Line[1] then
+			if "on" == Line[2] then
+				APR.DebugMode = true;
+				return;
+			elseif "off" == Line[2] then
+				APR.DebugMode = false;
+				return;
+			end
 		end
 	elseif Line[1] then
 		if "status" == Line[1] then
