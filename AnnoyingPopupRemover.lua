@@ -91,14 +91,14 @@ end})
 -- Print debug output to the chat frame.
 function APR:DebugPrint(...)
 	if (APR.DebugMode) then
-		print (L["APR"] .. " " .. L["Debug"] .. ": ", ...);
+		print ("|cff" .. "a00000" .. L["APR"] .. " " .. L["Debug"] .. ":|r", ...);
 	end
 end -- APR:DebugPrint
 
 
 -- Print standard output to the chat frame.
 function APR:ChatPrint(...)
-	print (L["APR"] ..": ", ...);
+	print ("|cff" .. "0066ff" .. L["APR"] ..":|r", ...);
 end -- APR:ChatPrint()
 
 
@@ -226,10 +226,10 @@ end -- APR:HandleCommandLine()
 
 -- Print the instructions for the user.
 function APR:PrintHelp()
-		APR:ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
-		APR:ChatPrint("/apr   show OR hide   bind OR roll OR void"); -- not localized on purpose
-		APR:ChatPrint("/apr status"); -- not localized on purpose
-		APR:ChatPrint("/apr help"); -- not localized on purpose
+	APR:ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
+	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   bind |cffFFCC00OR|r roll |cffFFCC00OR|r void"); -- not localized on purpose
+	APR:ChatPrint("/apr status"); -- not localized on purpose
+	APR:ChatPrint("/apr help"); -- not localized on purpose
 end -- APR:PrintHelp()
 
 
