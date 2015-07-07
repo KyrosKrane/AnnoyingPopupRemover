@@ -64,27 +64,27 @@ APR.locale = GetLocale();
 --#########################################
 
 -- Print debug output to the chat frame.
-function DebugPrint(...)
+function APR:DebugPrint(...)
 	if (APR.DebugMode) then
 		print (L["APR"] .. " " .. L["Debug"] .. ": ", ...);
 	end
-end
+end -- APR:DebugPrint
 
 
 -- Print standard output to the chat frame.
-function ChatPrint(...)
+function APR:ChatPrint(...)
 	print (L["APR"] ..": ", ...);
-end
+end -- APR:ChatPrint()
 
 
 -- Debugging code to see what the hell is being passed in...
 function PrintVarArgs(...)
 	local n = select('#', ...)
-	DebugPrint ("There are ", n, " items in varargs.")
+	APR:DebugPrint ("There are ", n, " items in varargs.")
 	local msg
 	for i = 1, n do
 		msg = select(i, ...)
-		DebugPrint ("Item ", i, " is ", msg);
+		APR:DebugPrint ("Item ", i, " is ", msg);
 	end
 end -- PrintVarArgs()
 
@@ -98,10 +98,10 @@ SLASH_APR1 = "/apr"
 SlashCmdList.APR = function (...) APR:HandleCommandLine(...) end
 
 -- Dumps a table into chat. Not intended for production use.
-function DumpTable(tab, indent)
+function APR:DumpTable(tab, indent)
 	if not indent then indent = 0 end
 	if indent > 10 then
-		DebugPrint("Recursion is at 11 already; aborting.")
+		APR:DebugPrint("Recursion is at 11 already; aborting.")
 		return
 	end
 	for k, v in pairs(tab) do
@@ -113,16 +113,16 @@ function DumpTable(tab, indent)
 		end
 		if "table" == type(v) then
 			s = s .. "Item " .. k .. " is sub-table." ;
-			DebugPrint(s);
+			APR:DebugPrint(s);
 			indent = indent + 1;
-			DumpTable(v, indent);
+			APR:DumpTable(v, indent);
 			indent = indent - 1;
 		else
 			s = s .. "Item " .. k .. " is " .. tostring(v);
-			DebugPrint(s);
+			APR:DebugPrint(s);
 		end
 	end
-end
+end -- APR:DumpTable()
 
 
 -- Splits a string into sections, based on a specified separator.
@@ -157,33 +157,157 @@ end
 
 -- Respond to user chat-line commands.
 function APR:HandleCommandLine(msg, editbox)
-	DebugPrint ("msg is " .. msg);
-	local Line = APR:strsplit("%s+", msg);
-	-- DumpTable(Line);
+	-- no clue why the slash command handler passes in info about the message box itself, but it does...
 
-	if "hideloot" == Line[1] then
-		ChatPrint ("Loot is now " .. Line[2]);
-	elseif "hideroll" == Line[1] then
-		ChatPrint ("Roll selected");
-	elseif "hidevoid" == Line[1] then
-		ChatPrint ("Void selected");
-	else
-		if "help" == Line[1] then
-			ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
-		else
-			ChatPrint(L["Error: unknown command."])
+	APR:DebugPrint ("msg is " .. msg);
+	local Line = APR:strsplit("%s+", string.lower(msg));
+	-- APR:DumpTable(Line);
+
+	-- Validate parameters. Only 1 and 2 are checked; rest are ignored.
+	if Line[2] then
+		if "bind" == Line[2] or "roll" == Line[2] or "void" == Line[2] then
+			if "show" == Line[1] or "hide" == Line[1] then
+				APR:TogglePopup(Line[2], Line[1])
+				return;
+			end
 		end
-		-- Print the instructions for the user.
-		ChatPrint(L["Allowed commands are:"]);
-		ChatPrint("/apr hideloot on/off"); -- not localized on purpose
-		ChatPrint("/apr hideroll on/off"); -- not localized on purpose
-		ChatPrint("/apr hidevoid on/off"); -- not localized on purpose
-		ChatPrint("/apr help"); -- not localized on purpose
+	elseif Line[1] then
+		if "status" == Line[1] then
+			APR:PrintStatus();
+			return;
+		elseif "help" == Line[1] then
+			APR:PrintHelp();
+			return;
+		end
+
+	-- else no parameters specified
 	end
 
-
-	--DumpTable(editbox); -- no clue why the slash command handler passes in info about the message box itself, but it does...
+	-- if we get here, then the validation failed.
+	APR:ChatPrint(L["Error: unknown command."]);
+	APR:PrintHelp();
 end -- APR:HandleCommandLine()
+
+
+-- Print the instructions for the user.
+function APR:PrintHelp()
+		APR:ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
+		APR:ChatPrint("/apr   show OR hide   bind OR roll OR void"); -- not localized on purpose
+		APR:ChatPrint("/apr status"); -- not localized on purpose
+		APR:ChatPrint("/apr help"); -- not localized on purpose
+end -- APR:PrintHelp()
+
+
+-- Print the status for a given popup type, or for all if not specified.
+-- popup is optional
+function APR:PrintStatus(popup)
+	if not popup or "bind" == popup then
+		APR:ChatPrint (L["Confirmation pop-up when looting bind-on-pickup items will be "] .. (APR.DB.HideBind and L["shown"] or L["hidden"]) .. ".");
+	end
+	if not popup or "roll" == popup then
+		APR:ChatPrint (L["Confirmation pop-up when rolling on bind-on-pickup items will be "] .. (APR.DB.HideRoll and L["shown"] or L["hidden"]) .. ".");
+	end
+	if not popup or "void" == popup then
+		APR:ChatPrint (L["Confirmation pop-up when depositing modified items into void storage will be "] .. (APR.DB.HideVoid and L["shown"] or L["hidden"]) .. ".");
+	end
+end -- APR:PrintStatus()
+
+
+-- Dispatcher function to call the correct show or hide function for the appropriate popup window.
+-- popup is required, state is optional
+function APR:TogglePopup(popup, state)
+	if "bind" == popup then
+		if state then
+			if "show" == state then
+				APR:ShowPopupBind()
+			elseif "hide" == state then
+				APR:HidePopupBind()
+			else
+				-- error, bad programmer, no cookie!
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				return false
+			end
+		else
+			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
+			if APR.DB.HideBind then
+				APR:ShowPopupBind()
+			else
+				APR:HidePopupBind()
+			end
+		end
+
+	elseif "roll" == popup then
+		if state then
+			if "show" == state then
+				APR:ShowPopupRoll()
+			elseif "hide" == state then
+				APR:HidePopupRoll()
+			else
+				-- error, bad programmer, no cookie!
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				return false
+			end
+		else
+			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
+			if APR.DB.HideRoll then
+				APR:ShowPopupRoll()
+			else
+				APR:HidePopupRoll()
+			end
+		end
+
+	elseif "void" == popup then
+		if state then
+			if "show" == state then
+				APR:ShowPopupVoid()
+			elseif "hide" == state then
+				APR:HidePopupVoid()
+			else
+				-- error, bad programmer, no cookie!
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				return false
+			end
+		else
+			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
+			if APR.DB.HideVoid then
+				APR:ShowPopupVoid()
+			else
+				APR:HidePopupVoid()
+			end
+		end
+
+	else
+		-- error, bad programmer, no cookie!
+		DebugPrint("Error in APR:TogglePopup: unknown popup type " .. popup .. " passed in.");
+		return false
+	end
+end -- APR:TogglePopup()
+
+
+-- Show and hide functions for each of the supported types
+function APR:ShowPopupBind()
+	APR:DebugPrint ("in APR:ShowPopupBind");
+end -- APR:ShowPopupBind()
+
+function APR:ShowPopupRoll()
+	APR:DebugPrint ("in APR:ShowPopupRoll");
+end -- APR:ShowPopupRoll()
+
+function APR:ShowPopupVoid()
+	APR:DebugPrint ("in APR:ShowPopupVoid");
+end -- APR:ShowPopupVoid()
+
+function APR:HidePopupBind()
+	APR:DebugPrint ("in APR:HidePopupBind");
+end -- APR:HidePopupBind()
+
+function APR:HidePopupRoll()
+	APR:DebugPrint ("in APR:HidePopupRoll");
+end -- APR:HidePopupRoll()
+
+function APR:HidePopupVoid()
+	APR:DebugPrint ("in APR:HidePopupVoid");
+end -- APR:HidePopupVoid()
 
 
 --#########################################
@@ -220,8 +344,8 @@ APR.Frame, APR.Events = CreateFrame("Frame"), {};
 -- Looting a BOP item triggers this event.
 function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	if (APR.DebugMode) then
-		DebugPrint ("In APR.Events:LOOT_BIND_CONFIRM");
-		DebugPrint ("Frame is ", Frame);
+		APR:DebugPrint ("In APR.Events:LOOT_BIND_CONFIRM");
+		APR:DebugPrint ("Frame is ", Frame);
 		PrintVarArgs(...);
 	end -- if APR.DebugMode
 
@@ -233,14 +357,14 @@ end -- APR.Events:LOOT_BIND_CONFIRM()
 -- Rolling on a BOP item triggers this event.
 function APR.Events:CONFIRM_LOOT_ROLL(...)
 	if (APR.DebugMode) then
-		DebugPrint ("In APR.Events:CONFIRM_LOOT_ROLL");
+		APR:DebugPrint ("In APR.Events:CONFIRM_LOOT_ROLL");
 		PrintVarArgs(...);
 	end -- if APR.DebugMode
 
 	local id, rollType = ...;
 
-	DebugPrint ("id is ", id);
-	DebugPrint ("rollType is ", rollType);
+	APR:DebugPrint ("id is ", id);
+	APR:DebugPrint ("rollType is ", rollType);
 
 	ConfirmLootRoll(id, rollType);
 end -- APR.Events:CONFIRM_LOOT_ROLL()
@@ -249,7 +373,7 @@ end -- APR.Events:CONFIRM_LOOT_ROLL()
 -- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
 function APR.Events:VOID_DEPOSIT_WARNING(...)
 	if (APR.DebugMode) then
-		DebugPrint ("In APR.Events:VOID_DEPOSIT_WARNING");
+		APR:DebugPrint ("In APR.Events:VOID_DEPOSIT_WARNING");
 		PrintVarArgs(...);
 	end -- if APR.DebugMode
 
@@ -267,7 +391,7 @@ function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
 	-- We don't actually do anything in this function; it's just for debugging.
 	if (not APR.DebugMode) then return end;
 
-	DebugPrint ("In APR.Events:VOID_STORAGE_DEPOSIT_UPDATE");
+	APR:DebugPrint ("In APR.Events:VOID_STORAGE_DEPOSIT_UPDATE");
 	PrintVarArgs(...);
 
 	-- Document the incoming parameters.
@@ -279,34 +403,34 @@ end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
-	ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ".");
+	APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ".");
 
 	-- Force the default Void Storage frame to load so we can override it.
 	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
-	DebugPrint ("Blizzard_VoidStorageUI isloaded is ", isloaded);
-	DebugPrint ("Blizzard_VoidStorageUI reason is ", reason);
+	APR:DebugPrint ("Blizzard_VoidStorageUI isloaded is ", isloaded);
+	APR:DebugPrint ("Blizzard_VoidStorageUI reason is ", reason);
 end -- APR.Events:PLAYER_LOGIN()
 
 
 function APR.Events:ADDON_LOADED(addon)
-	DebugPrint ("Got ADDON_LOADED for " .. addon);
+	APR:DebugPrint ("Got ADDON_LOADED for " .. addon);
 	if addon == "AnnoyingPopupRemover" then
 		-- Load the saved variables, or initialize if they don't exist yet.
-		if APR_DB and APR_DB.HideLoot then
-			DebugPrint ("Loading existing saved var.");
+		if APR_DB and APR_DB.HideBind then
+			APR:DebugPrint ("Loading existing saved var.");
 			APR.DB = APR_DB
 		else
-			DebugPrint ("No saved var, setting defaults.");
+			APR:DebugPrint ("No saved var, setting defaults.");
 			APR.DB = {
-				HideLoot = true,
+				HideBind = true,
 				HideRoll = true,
 				HideVoid = true,
 			} ;
 		end
 
-		DebugPrint ("HideLoot is " .. (APR.DB.HideLoot and "true" or "false"));
-		DebugPrint ("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"));
-		DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"));
+		APR:DebugPrint ("HideBind is " .. (APR.DB.HideBind and "true" or "false"));
+		APR:DebugPrint ("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"));
+		APR:DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"));
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:PLAYER_LOGIN()
@@ -326,7 +450,7 @@ end);
 
 -- Register all events for which handlers have been defined
 for k, v in pairs(APR.Events) do
-	DebugPrint ("Registering event ", k);
+	APR:DebugPrint ("Registering event ", k);
 	APR.Frame:RegisterEvent(k);
 end
 
