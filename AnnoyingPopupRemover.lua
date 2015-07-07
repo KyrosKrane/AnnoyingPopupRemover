@@ -36,26 +36,27 @@
 --# Global Variables
 --#########################################
 
+-- Define a global for our namespace
+local APR = { };
+
 -- Define whether we're in debug mode or production mode. True means debug; false means production.
-local DebugMode = false;
+APR.DebugMode = false;
 
 -- Set the current version so we can display it.
-local APR_Version = "@project-version@";
+APR.Version = "@project-version@";
 
 -- Get a local reference to these functions to speed up execution.
 local rawset = rawset
 local tostring = tostring
 
 -- Get the language used by the client.
-local locale = GetLocale();
+APR.locale = GetLocale();
 
 
 --#########################################
 --# Saved Variables
 --#########################################
 
--- Load the saved variables, or initialize if they don't exist yet.
-APR_DB = APR_DB or { } ;
 
 
 --#########################################
@@ -64,7 +65,7 @@ APR_DB = APR_DB or { } ;
 
 -- Print debug output to the chat frame.
 function DebugPrint(...)
-	if (DebugMode) then
+	if (APR.DebugMode) then
 		print (L["APR"] .. " " .. L["Debug"] .. ": ", ...);
 	end
 end
@@ -94,7 +95,7 @@ end -- PrintVarArgs()
 
 -- Set the default slash command.
 SLASH_APR1 = "/apr"
-SlashCmdList.APR = function (...) HandleCommandLine(...) end
+SlashCmdList.APR = function (...) APR:HandleCommandLine(...) end
 
 -- Dumps a table into chat. Not intended for production use.
 function DumpTable(tab, indent)
@@ -127,9 +128,9 @@ end
 -- Splits a string into sections, based on a specified separator.
 -- Split text into a list consisting of the strings in text,
 -- separated by strings matching delimiter (which may be a pattern).
--- example: APR_strsplit(",%s*", "Anna, Bob, Charlie,Dolores")
--- Taken from Lua manual: http://lua-users.org/wiki/SplitJoin
-function APR_strsplit(delimiter, text)
+-- example: APR:strsplit(",%s*", "Anna, Bob, Charlie,Dolores")
+-- Adapted from Lua manual: http://lua-users.org/wiki/SplitJoin
+function APR:strsplit(delimiter, text)
   local list = {}
 	local pos = 1
 	if strfind("", delimiter, 1) then
@@ -155,9 +156,9 @@ end
 
 
 -- Respond to user chat-line commands.
-function HandleCommandLine(msg, editbox)
+function APR:HandleCommandLine(msg, editbox)
 	DebugPrint ("msg is " .. msg);
-	local Line = APR_strsplit("%s+", msg);
+	local Line = APR:strsplit("%s+", msg);
 	-- DumpTable(Line);
 
 	if "hideloot" == Line[1] then
@@ -182,7 +183,7 @@ function HandleCommandLine(msg, editbox)
 
 
 	--DumpTable(editbox); -- no clue why the slash command handler passes in info about the message box itself, but it does...
-end -- HandleCommandLine()
+end -- APR:HandleCommandLine()
 
 
 --#########################################
@@ -201,7 +202,7 @@ end})
 -- Not going to localize debug strings for now.
 
 -- In another file, you can override these strings like:
--- if locale == "deDE" then
+-- if APR.locale == "deDE" then
 --		L["APR"] = "German name of APR here";
 -- end
 -- That way, it preserves the default English strings in case of a missed translation.
@@ -213,28 +214,28 @@ end})
 
 
 -- Create the frame to hold our event catcher, and the list of events.
-local APR_Frame, events = CreateFrame("Frame"), {};
+APR.Frame, APR.Events = CreateFrame("Frame"), {};
 
 
 -- Looting a BOP item triggers this event.
-function events:LOOT_BIND_CONFIRM(Frame, ...)
-	if (DebugMode) then
-		DebugPrint ("In events:LOOT_BIND_CONFIRM");
+function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
+	if (APR.DebugMode) then
+		DebugPrint ("In APR.Events:LOOT_BIND_CONFIRM");
 		DebugPrint ("Frame is ", Frame);
 		PrintVarArgs(...);
-	end -- if Debugmode
+	end -- if APR.DebugMode
 
 	local id = ...;
 	ConfirmLootSlot(id);
-end -- events:LOOT_BIND_CONFIRM()
+end -- APR.Events:LOOT_BIND_CONFIRM()
 
 
 -- Rolling on a BOP item triggers this event.
-function events:CONFIRM_LOOT_ROLL(...)
-	if (DebugMode) then
-		DebugPrint ("In events:CONFIRM_LOOT_ROLL");
+function APR.Events:CONFIRM_LOOT_ROLL(...)
+	if (APR.DebugMode) then
+		DebugPrint ("In APR.Events:CONFIRM_LOOT_ROLL");
 		PrintVarArgs(...);
-	end -- if Debugmode
+	end -- if APR.DebugMode
 
 	local id, rollType = ...;
 
@@ -242,15 +243,15 @@ function events:CONFIRM_LOOT_ROLL(...)
 	DebugPrint ("rollType is ", rollType);
 
 	ConfirmLootRoll(id, rollType);
-end -- events:CONFIRM_LOOT_ROLL()
+end -- APR.Events:CONFIRM_LOOT_ROLL()
 
 
 -- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
-function events:VOID_DEPOSIT_WARNING(...)
-	if (DebugMode) then
-		DebugPrint ("In events:VOID_DEPOSIT_WARNING");
+function APR.Events:VOID_DEPOSIT_WARNING(...)
+	if (APR.DebugMode) then
+		DebugPrint ("In APR.Events:VOID_DEPOSIT_WARNING");
 		PrintVarArgs(...);
-	end -- if Debugmode
+	end -- if APR.DebugMode
 
 	-- Document the incoming parameters.
 	-- local slot, itemLink = ...;
@@ -258,46 +259,75 @@ function events:VOID_DEPOSIT_WARNING(...)
 	VoidStorage_UpdateTransferButton(nil);
 		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
 		-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
-end -- events:VOID_DEPOSIT_WARNING()
+end -- APR.Events:VOID_DEPOSIT_WARNING()
 
 
 -- For debugging only.
-function events:VOID_STORAGE_DEPOSIT_UPDATE(...)
+function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
 	-- We don't actually do anything in this function; it's just for debugging.
-	if (not DebugMode) then return end;
+	if (not APR.DebugMode) then return end;
 
-	DebugPrint ("In events:VOID_STORAGE_DEPOSIT_UPDATE");
+	DebugPrint ("In APR.Events:VOID_STORAGE_DEPOSIT_UPDATE");
 	PrintVarArgs(...);
 
 	-- Document the incoming parameters.
 	-- local slot = ...;
 
-end -- events:VOID_STORAGE_DEPOSIT_UPDATE()
+end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
 
 
 -- On-load handler for addon initialization.
-function events:PLAYER_LOGIN(...)
+function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
-	ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR_Version .. " " .. L["loaded"] .. ".");
+	ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ".");
 
 	-- Force the default Void Storage frame to load so we can override it.
 	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
 	DebugPrint ("Blizzard_VoidStorageUI isloaded is ", isloaded);
 	DebugPrint ("Blizzard_VoidStorageUI reason is ", reason);
-end -- events:PLAYER_LOGIN()
+end -- APR.Events:PLAYER_LOGIN()
 
+
+function APR.Events:ADDON_LOADED(addon)
+	DebugPrint ("Got ADDON_LOADED for " .. addon);
+	if addon == "AnnoyingPopupRemover" then
+		-- Load the saved variables, or initialize if they don't exist yet.
+		if APR_DB and APR_DB.HideLoot then
+			DebugPrint ("Loading existing saved var.");
+			APR.DB = APR_DB
+		else
+			DebugPrint ("No saved var, setting defaults.");
+			APR.DB = {
+				HideLoot = true,
+				HideRoll = true,
+				HideVoid = true,
+			} ;
+		end
+
+		DebugPrint ("HideLoot is " .. (APR.DB.HideLoot and "true" or "false"));
+		DebugPrint ("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"));
+		DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"));
+
+	end -- if AnnoyingPopupRemover
+end -- APR.Events:PLAYER_LOGIN()
+
+
+-- Save the db on logout.
+function APR.Events:PLAYER_LOGOUT(...)
+	APR_DB = APR.DB;
+end -- APR.Events:PLAYER_LOGOUT()
 
 
 
 -- Create the event handler function.
-APR_Frame:SetScript("OnEvent", function(self, event, ...)
-	events[event](self, ...); -- call one of the functions above
+APR.Frame:SetScript("OnEvent", function(self, event, ...)
+	APR.Events[event](self, ...); -- call one of the functions above
 end);
 
 -- Register all events for which handlers have been defined
-for k, v in pairs(events) do
+for k, v in pairs(APR.Events) do
 	DebugPrint ("Registering event ", k);
-	APR_Frame:RegisterEvent(k);
+	APR.Frame:RegisterEvent(k);
 end
 
 
@@ -306,18 +336,18 @@ end
 --#########################################
 
 -- Create a holder to store dialogs we're removing, in case I ever want to implement a per-dialog toggle (which means I'd have to restore the dialogs).
-local StoredDialogs = {};
+APR.StoredDialogs = {};
 
 -- Disable the dialog that pops to confirm looting BoP gear yourself.
-StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"];
+APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"];
 StaticPopupDialogs["LOOT_BIND"] = nil;
 
 -- Disable the dialog for the event that triggers when rolling on BOP items.
-StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"];
+APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"];
 StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
 
 -- Disable the dialog for putting tradable or modified items into void storage.
-StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
+APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
 StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 
 
@@ -328,5 +358,5 @@ StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 --# Local settings for debugging
 --#########################################
 
-DebugMode = true;
+APR.DebugMode = true;
 --@end-do-not-package@
