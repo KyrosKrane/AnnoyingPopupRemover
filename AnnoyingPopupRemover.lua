@@ -48,6 +48,9 @@ APR.Version = "@project-version@";
 -- Create the frame to hold our event catcher, and the list of events.
 APR.Frame, APR.Events = CreateFrame("Frame"), {};
 
+-- Create a holder to store dialogs we're removing, in case the user wants to restore them.
+APR.StoredDialogs = {};
+
 -- Get a local reference to these functions to speed up execution.
 local rawset = rawset
 local tostring = tostring
@@ -60,9 +63,25 @@ APR.locale = GetLocale();
 
 
 --#########################################
---# Saved Variables
+--# Localization
 --#########################################
 
+-- This bit of meta-magic makes it so that if we call L with a key that doesn't yet exist, a key is created automatically, and its value is the name of the key.  For example, if L["MyAddon"] doesn't exist, and I run print (L["MyAddon"]), the __index command causes the L table to automatically create a new key called MyAddon, and its value is set to tostring("MyAddon") -- same as the key name.
+L = setmetatable({ }, {__index = function(t, k)
+	local v = tostring(k);
+	rawset(t, k, v);
+	return v;
+end})
+
+-- The above system effectively makes it so that we don't have to define the default, English-language values.  Just set the key name as the English value.
+-- Set the default strings used here.  Other languages can override these as needed.
+-- Not going to localize debug strings for now.
+
+-- In another file, you can override these strings like:
+--		if APR.locale == "deDE" then
+--			L["APR"] = "German name of APR here";
+--		end
+-- That way, it preserves the default English strings in case of a missed translation.
 
 
 --#########################################
@@ -226,9 +245,9 @@ function APR:TogglePopup(popup, state)
 	if "bind" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupBind()
+				APR:ShowPopupBind(true);
 			elseif "hide" == state then
-				APR:HidePopupBind()
+				APR:HidePopupBind(true);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -237,18 +256,18 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideBind then
-				APR:ShowPopupBind()
+				APR:ShowPopupBind(true);
 			else
-				APR:HidePopupBind()
+				APR:HidePopupBind(true);
 			end
 		end
 
 	elseif "roll" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupRoll()
+				APR:ShowPopupRoll(true);
 			elseif "hide" == state then
-				APR:HidePopupRoll()
+				APR:HidePopupRoll(true);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -257,18 +276,18 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideRoll then
-				APR:ShowPopupRoll()
+				APR:ShowPopupRoll(true);
 			else
-				APR:HidePopupRoll()
+				APR:HidePopupRoll(true);
 			end
 		end
 
 	elseif "void" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupVoid()
+				APR:ShowPopupVoid(true);
 			elseif "hide" == state then
-				APR:HidePopupVoid()
+				APR:HidePopupVoid(true);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -277,9 +296,9 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideVoid then
-				APR:ShowPopupVoid()
+				APR:ShowPopupVoid(true);
 			else
-				APR:HidePopupVoid()
+				APR:HidePopupVoid(true);
 			end
 		end
 
@@ -292,55 +311,112 @@ end -- APR:TogglePopup()
 
 
 --#########################################
---# State toggling functions
+--# Dialog toggling functions
 --#########################################
 
 -- Show and hide functions for each of the supported types
-function APR:ShowPopupBind()
+-- not documenting individually, as it should be clear what they do.
+
+function APR:ShowPopupBind(printconfirm)
 	APR:DebugPrint ("in APR:ShowPopupBind");
+	if APR.DB.HideBind then
+		-- Re-enable the dialog that pops to confirm looting BoP gear yourself.
+		StaticPopupDialogs["LOOT_BIND"] = APR.StoredDialogs["LOOT_BIND"];
+		APR.StoredDialogs["LOOT_BIND"] = nil;
+
+		-- Mark that the dialog is shown.
+		APR.DB.HideBind = false;
+
+	-- else already shown, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("bind") end;
 end -- APR:ShowPopupBind()
 
-function APR:ShowPopupRoll()
+
+function APR:ShowPopupRoll(printconfirm)
 	APR:DebugPrint ("in APR:ShowPopupRoll");
+	if APR.DB.HideRoll then
+		-- Re-enable the dialog for the event that triggers when rolling on BOP items.
+		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = APR.StoredDialogs["CONFIRM_LOOT_ROLL"];
+		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = nil;
+
+		-- Mark that the dialog is shown.
+		APR.DB.HideRoll = false;
+
+	-- else already shown, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("roll") end;
 end -- APR:ShowPopupRoll()
 
-function APR:ShowPopupVoid()
+
+function APR:ShowPopupVoid(printconfirm)
 	APR:DebugPrint ("in APR:ShowPopupVoid");
+	if APR.DB.HideVoid then
+		-- Re-enable the dialog for putting tradable or modified items into void storage.
+		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"];
+		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
+
+		-- Mark that the dialog is shown.
+		APR.DB.HideVoid = false;
+
+	-- else already shown, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("void") end;
 end -- APR:ShowPopupVoid()
+
 
 function APR:HidePopupBind()
 	APR:DebugPrint ("in APR:HidePopupBind");
+	if not APR.DB.HideBind then
+		-- Disable the dialog that pops to confirm looting BoP gear yourself.
+		APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"];
+		StaticPopupDialogs["LOOT_BIND"] = nil;
+
+		-- Mark that the dialog is hidden.
+		APR.DB.HideBind = true;
+
+	-- else already hidden, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("bind") end;
 end -- APR:HidePopupBind()
+
 
 function APR:HidePopupRoll()
 	APR:DebugPrint ("in APR:HidePopupRoll");
+	if not APR.DB.HideRoll then
+		-- Disable the dialog for the event that triggers when rolling on BOP items.
+		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"];
+		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
+
+		-- Mark that the dialog is hidden.
+		APR.DB.HideRoll = true;
+
+	-- else already hidden, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("roll") end;
 end -- APR:HidePopupRoll()
+
 
 function APR:HidePopupVoid()
 	APR:DebugPrint ("in APR:HidePopupVoid");
+	if not APR.DB.HideVoid then
+		-- Disable the dialog for putting tradable or modified items into void storage.
+		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
+		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
+
+		-- Mark that the dialog is hidden.
+		APR.DB.HideVoid = true;
+
+	-- else already hidden, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("void") end;
 end -- APR:HidePopupVoid()
-
-
---#########################################
---# Localization
---#########################################
-
--- This bit of meta-magic makes it so that if we call L with a key that doesn't yet exist, a key is created automatically, and its value is the name of the key.  For example, if L["MyAddon"] doesn't exist, and I run print (L["MyAddon"]), the __index command causes the L table to automatically create a new key called MyAddon, and its value is set to tostring("MyAddon") -- same as the key name.
-L = setmetatable({ }, {__index = function(t, k)
-	local v = tostring(k);
-	rawset(t, k, v);
-	return v;
-end})
-
--- The above system effectively makes it so that we don't have to define the default, English-language values.  Just set the key name as the English value.
--- Set the default strings used here.  Other languages can override these as needed.
--- Not going to localize debug strings for now.
-
--- In another file, you can override these strings like:
---		if APR.locale == "deDE" then
---			L["APR"] = "German name of APR here";
---		end
--- That way, it preserves the default English strings in case of a missed translation.
 
 
 --#########################################
@@ -422,7 +498,7 @@ function APR.Events:ADDON_LOADED(addon)
 	APR:DebugPrint ("Got ADDON_LOADED for " .. addon);
 	if addon == "AnnoyingPopupRemover" then
 		-- Load the saved variables, or initialize if they don't exist yet.
-		if APR_DB and APR_DB.HideBind then
+		if APR_DB and APR_DB.HideBind ~= nil and APR_DB.HideRoll ~= nil and APR_DB.HideVoid ~= nil then
 			APR:DebugPrint ("Loading existing saved var.");
 			APR.DB = APR_DB
 		else
@@ -438,16 +514,25 @@ function APR.Events:ADDON_LOADED(addon)
 		APR:DebugPrint ("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"));
 		APR:DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"));
 
+		-- Hide the dialogs the user has selected.
+		if APR.DB.HideBind then APR:HidePopupBind() end;
+		if APR.DB.HideRoll then APR:HidePopupRoll() end;
+		if APR.DB.HideVoid then APR:HidePopupVoid() end;
+
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:PLAYER_LOGIN()
 
 
 -- Save the db on logout.
 function APR.Events:PLAYER_LOGOUT(...)
+	APR:DebugPrint ("In PLAYER_LOGOUT, saving DB.");
 	APR_DB = APR.DB;
 end -- APR.Events:PLAYER_LOGOUT()
 
 
+--#########################################
+--# Implement the event handlers
+--#########################################
 
 -- Create the event handler function.
 APR.Frame:SetScript("OnEvent", function(self, event, ...)
@@ -461,24 +546,6 @@ for k, v in pairs(APR.Events) do
 end
 
 
---#########################################
---# Dialog management
---#########################################
-
--- Create a holder to store dialogs we're removing, in case I ever want to implement a per-dialog toggle (which means I'd have to restore the dialogs).
-APR.StoredDialogs = {};
-
--- Disable the dialog that pops to confirm looting BoP gear yourself.
-APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"];
-StaticPopupDialogs["LOOT_BIND"] = nil;
-
--- Disable the dialog for the event that triggers when rolling on BOP items.
-APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"];
-StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
-
--- Disable the dialog for putting tradable or modified items into void storage.
-APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"];
-StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 
 
 --@do-not-package@
