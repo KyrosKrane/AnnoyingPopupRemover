@@ -202,13 +202,13 @@ end -- APR:PrintHelp()
 -- popup is optional
 function APR:PrintStatus(popup)
 	if not popup or "bind" == popup then
-		APR:ChatPrint (L["Confirmation pop-up when looting bind-on-pickup items will be "] .. (APR.DB.HideBind and L["shown"] or L["hidden"]) .. ".");
+		APR:ChatPrint (L["Confirmation pop-up when looting bind-on-pickup items will be "] .. (APR.DB.HideBind and L["hidden"] or L["shown"]) .. ".");
 	end
 	if not popup or "roll" == popup then
-		APR:ChatPrint (L["Confirmation pop-up when rolling on bind-on-pickup items will be "] .. (APR.DB.HideRoll and L["shown"] or L["hidden"]) .. ".");
+		APR:ChatPrint (L["Confirmation pop-up when rolling on bind-on-pickup items will be "] .. (APR.DB.HideRoll and L["hidden"] or L["shown"]) .. ".");
 	end
 	if not popup or "void" == popup then
-		APR:ChatPrint (L["Confirmation pop-up when depositing modified items into void storage will be "] .. (APR.DB.HideVoid and L["shown"] or L["hidden"]) .. ".");
+		APR:ChatPrint (L["Confirmation pop-up when depositing modified items into void storage will be "] .. (APR.DB.HideVoid and L["hidden"] or L["shown"]) .. ".");
 	end
 end -- APR:PrintStatus()
 
