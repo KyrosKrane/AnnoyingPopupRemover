@@ -368,7 +368,7 @@ function APR:ShowPopupVoid(printconfirm)
 end -- APR:ShowPopupVoid()
 
 
-function APR:HidePopupBind(ForceHide)
+function APR:HidePopupBind(printconfirm, ForceHide)
 	APR:DebugPrint ("in APR:HidePopupBind");
 	if not APR.DB.HideBind or ForceHide then
 		-- Disable the dialog that pops to confirm looting BoP gear yourself.
@@ -385,7 +385,7 @@ function APR:HidePopupBind(ForceHide)
 end -- APR:HidePopupBind()
 
 
-function APR:HidePopupRoll(ForceHide)
+function APR:HidePopupRoll(printconfirm, ForceHide)
 	APR:DebugPrint ("in APR:HidePopupRoll");
 	if not APR.DB.HideRoll or ForceHide then
 		-- Disable the dialog for the event that triggers when rolling on BOP items.
@@ -402,7 +402,7 @@ function APR:HidePopupRoll(ForceHide)
 end -- APR:HidePopupRoll()
 
 
-function APR:HidePopupVoid(ForceHide)
+function APR:HidePopupVoid(printconfirm, ForceHide)
 	APR:DebugPrint ("in APR:HidePopupVoid");
 	if not APR.DB.HideVoid or ForceHide then
 		-- Disable the dialog for putting tradable or modified items into void storage.
@@ -485,7 +485,7 @@ end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
-	APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ". For help and options, type /apr help.");
+	APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ". For help and options, type /apr help");
 
 	-- Force the default Void Storage frame to load so we can override it.
 	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
@@ -516,9 +516,9 @@ function APR.Events:ADDON_LOADED(addon)
 
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass true to forcibly hide the dialogs.
-		if APR.DB.HideBind then APR:HidePopupBind(true) end;
-		if APR.DB.HideRoll then APR:HidePopupRoll(true) end;
-		if APR.DB.HideVoid then APR:HidePopupVoid(true) end;
+		if APR.DB.HideBind then APR:HidePopupBind(false, true) end;
+		if APR.DB.HideRoll then APR:HidePopupRoll(false, true) end;
+		if APR.DB.HideVoid then APR:HidePopupVoid(false, true) end;
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:PLAYER_LOGIN()
