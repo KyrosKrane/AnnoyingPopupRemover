@@ -45,9 +45,15 @@ APR.DebugMode = false;
 -- Set the current version so we can display it.
 APR.Version = "@project-version@";
 
+-- Create the frame to hold our event catcher, and the list of events.
+APR.Frame, APR.Events = CreateFrame("Frame"), {};
+
 -- Get a local reference to these functions to speed up execution.
 local rawset = rawset
 local tostring = tostring
+local select = select
+local pairs = pairs
+local type = type
 
 -- Get the language used by the client.
 APR.locale = GetLocale();
@@ -78,7 +84,7 @@ end -- APR:ChatPrint()
 
 
 -- Debugging code to see what the hell is being passed in...
-function PrintVarArgs(...)
+function APR:PrintVarArgs(...)
 	local n = select('#', ...)
 	APR:DebugPrint ("There are ", n, " items in varargs.")
 	local msg
@@ -86,16 +92,8 @@ function PrintVarArgs(...)
 		msg = select(i, ...)
 		APR:DebugPrint ("Item ", i, " is ", msg);
 	end
-end -- PrintVarArgs()
+end -- APR:PrintVarArgs()
 
-
---#########################################
---# Slash command handling
---#########################################
-
--- Set the default slash command.
-SLASH_APR1 = "/apr"
-SlashCmdList.APR = function (...) APR:HandleCommandLine(...) end
 
 -- Dumps a table into chat. Not intended for production use.
 function APR:DumpTable(tab, indent)
@@ -153,6 +151,15 @@ function APR:strsplit(delimiter, text)
 	end
 	return list
 end
+
+
+--#########################################
+--# Slash command handling
+--#########################################
+
+-- Set the default slash command.
+SLASH_APR1 = "/apr"
+SlashCmdList.APR = function (...) APR:HandleCommandLine(...) end
 
 
 -- Respond to user chat-line commands.
@@ -284,6 +291,10 @@ function APR:TogglePopup(popup, state)
 end -- APR:TogglePopup()
 
 
+--#########################################
+--# State toggling functions
+--#########################################
+
 -- Show and hide functions for each of the supported types
 function APR:ShowPopupBind()
 	APR:DebugPrint ("in APR:ShowPopupBind");
@@ -326,9 +337,9 @@ end})
 -- Not going to localize debug strings for now.
 
 -- In another file, you can override these strings like:
--- if APR.locale == "deDE" then
---		L["APR"] = "German name of APR here";
--- end
+--		if APR.locale == "deDE" then
+--			L["APR"] = "German name of APR here";
+--		end
 -- That way, it preserves the default English strings in case of a missed translation.
 
 
@@ -336,17 +347,12 @@ end})
 --# Event hooks
 --#########################################
 
-
--- Create the frame to hold our event catcher, and the list of events.
-APR.Frame, APR.Events = CreateFrame("Frame"), {};
-
-
 -- Looting a BOP item triggers this event.
 function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	if (APR.DebugMode) then
 		APR:DebugPrint ("In APR.Events:LOOT_BIND_CONFIRM");
 		APR:DebugPrint ("Frame is ", Frame);
-		PrintVarArgs(...);
+		APR:PrintVarArgs(...);
 	end -- if APR.DebugMode
 
 	local id = ...;
@@ -358,7 +364,7 @@ end -- APR.Events:LOOT_BIND_CONFIRM()
 function APR.Events:CONFIRM_LOOT_ROLL(...)
 	if (APR.DebugMode) then
 		APR:DebugPrint ("In APR.Events:CONFIRM_LOOT_ROLL");
-		PrintVarArgs(...);
+		APR:PrintVarArgs(...);
 	end -- if APR.DebugMode
 
 	local id, rollType = ...;
@@ -374,15 +380,15 @@ end -- APR.Events:CONFIRM_LOOT_ROLL()
 function APR.Events:VOID_DEPOSIT_WARNING(...)
 	if (APR.DebugMode) then
 		APR:DebugPrint ("In APR.Events:VOID_DEPOSIT_WARNING");
-		PrintVarArgs(...);
+		APR:PrintVarArgs(...);
 	end -- if APR.DebugMode
 
 	-- Document the incoming parameters.
 	-- local slot, itemLink = ...;
 
+	-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
+	-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
 	VoidStorage_UpdateTransferButton(nil);
-		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
-		-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
 end -- APR.Events:VOID_DEPOSIT_WARNING()
 
 
@@ -392,7 +398,7 @@ function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
 	if (not APR.DebugMode) then return end;
 
 	APR:DebugPrint ("In APR.Events:VOID_STORAGE_DEPOSIT_UPDATE");
-	PrintVarArgs(...);
+	APR:PrintVarArgs(...);
 
 	-- Document the incoming parameters.
 	-- local slot = ...;
