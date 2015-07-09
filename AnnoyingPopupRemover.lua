@@ -169,7 +169,7 @@ function APR:strsplit(delimiter, text)
 		end
 	end
 	return list
-end
+end -- APR:strsplit()
 
 
 --#########################################
@@ -191,7 +191,7 @@ function APR:HandleCommandLine(msg, editbox)
 
 	-- Validate parameters. Only 1 and 2 are checked; rest are ignored.
 	if Line[2] then
-		if "bind" == Line[2] or "roll" == Line[2] or "void" == Line[2] then
+		if "bind" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] then
 			if "show" == Line[1] or "hide" == Line[1] then
 				APR:TogglePopup(Line[2], Line[1])
 				return;
@@ -263,6 +263,9 @@ end -- APR:PrintStatus()
 -- Dispatcher function to call the correct show or hide function for the appropriate popup window.
 -- popup is required, state is optional
 function APR:TogglePopup(popup, state)
+	-- The status message highlighting highlights the word "looting" for looting bind on pickup items. So, the user might use the keyword "loot" instead of "bind". Handle that here.
+	if "loot" == popup then popup = "bind" end;
+
 	if "bind" == popup then
 		if state then
 			if "show" == state then
