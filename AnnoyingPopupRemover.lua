@@ -199,10 +199,10 @@ function APR:HandleCommandLine(msg, editbox)
 		-- Undocumented command to toggle the debug state from the command line.
 		elseif "debug" == Line[1] then
 			if "on" == Line[2] then
-				APR.DebugMode = true;
+				SetDebug(true);
 				return;
 			elseif "off" == Line[2] then
-				APR.DebugMode = false;
+				SetDebug(false);
 				return;
 			end
 		end
@@ -317,6 +317,17 @@ function APR:TogglePopup(popup, state)
 		return false
 	end
 end -- APR:TogglePopup()
+
+
+function APR:SetDebug(mode)
+	if mode then
+		APR.DebugMode = true;
+		APR:ChatPrint ("Debug mode is now on.")
+	else
+		APR.DebugMode = false;
+		APR:ChatPrint ("Debug mode is now off.")
+	end
+end -- APR:SetDebug()
 
 
 --#########################################
@@ -434,13 +445,20 @@ end -- APR:HidePopupVoid()
 
 -- Looting a BOP item triggers this event.
 function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
+	local id = ...;
+
 	if (APR.DebugMode) then
 		APR:DebugPrint ("In APR.Events:LOOT_BIND_CONFIRM");
 		APR:DebugPrint ("Frame is ", Frame);
 		APR:PrintVarArgs(...);
 	end -- if APR.DebugMode
 
-	local id = ...;
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR_DB.HideBind then
+		AOR:DebugPrint ("Hidebind off, not auto confirming");
+		return
+	end;
+
 	ConfirmLootSlot(id);
 end -- APR.Events:LOOT_BIND_CONFIRM()
 
@@ -457,6 +475,12 @@ function APR.Events:CONFIRM_LOOT_ROLL(...)
 	APR:DebugPrint ("id is ", id);
 	APR:DebugPrint ("rollType is ", rollType);
 
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR_DB.HideRoll then
+		AOR:DebugPrint ("Hidebind off, not auto confirming");
+		return
+	end;
+
 	ConfirmLootRoll(id, rollType);
 end -- APR.Events:CONFIRM_LOOT_ROLL()
 
@@ -469,7 +493,14 @@ function APR.Events:VOID_DEPOSIT_WARNING(...)
 	end -- if APR.DebugMode
 
 	-- Document the incoming parameters.
-	-- local slot, itemLink = ...;
+	local slot, itemLink = ...;
+	APR:DebugPrint ("slot is ", slot);
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR_DB.HideVoid then
+		AOR:DebugPrint ("Hidebind off, not auto confirming");
+		return
+	end;
 
 	-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
 	-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
