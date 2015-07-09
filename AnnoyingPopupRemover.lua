@@ -199,10 +199,10 @@ function APR:HandleCommandLine(msg, editbox)
 		-- Undocumented command to toggle the debug state from the command line.
 		elseif "debug" == Line[1] then
 			if "on" == Line[2] then
-				SetDebug(true);
+				APR:SetDebug(true);
 				return;
 			elseif "off" == Line[2] then
-				SetDebug(false);
+				APR:SetDebug(false);
 				return;
 			end
 		end
