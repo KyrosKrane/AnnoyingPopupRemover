@@ -602,8 +602,6 @@ for k, v in pairs(APR.Events) do
 end
 
 
-
-
 --@do-not-package@
 -- Curse-specific command to exclude this section from appearing for end users.
 
