@@ -37,7 +37,7 @@
 --#########################################
 
 -- Define a global for our namespace
-local APR = { };
+APR = { };
 
 -- Define whether we're in debug mode or production mode. True means debug; false means production.
 APR.DebugMode = false;
@@ -469,7 +469,7 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	end -- if APR.DebugMode
 
 	-- If the user didn't ask us to hide this popup, just return.
-	if not APR_DB.HideBind then
+	if not APR.DB.HideBind then
 		AOR:DebugPrint ("Hidebind off, not auto confirming");
 		return
 	end;
@@ -491,7 +491,7 @@ function APR.Events:CONFIRM_LOOT_ROLL(...)
 	APR:DebugPrint ("rollType is ", rollType);
 
 	-- If the user didn't ask us to hide this popup, just return.
-	if not APR_DB.HideRoll then
+	if not APR.DB.HideRoll then
 		AOR:DebugPrint ("Hidebind off, not auto confirming");
 		return
 	end;
@@ -512,7 +512,7 @@ function APR.Events:VOID_DEPOSIT_WARNING(...)
 	APR:DebugPrint ("slot is ", slot);
 
 	-- If the user didn't ask us to hide this popup, just return.
-	if not APR_DB.HideVoid then
+	if not APR.DB.HideVoid then
 		AOR:DebugPrint ("Hidebind off, not auto confirming");
 		return
 	end;
@@ -535,6 +535,42 @@ function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
 	-- local slot = ...;
 
 end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
+
+
+-- Disenchanting an item using garrison DE font.
+local HideDEFont = true;
+APR.SecureEvents = {};
+
+--function APR.Events:SPELL_CONFIRMATION_PROMPT(spellID, confirmType, text, duration, currencyID )
+function APR.SecureEvents:SPELL_CONFIRMATION_PROMPT(spellID, confirmType, text, duration, currencyID )
+	--local spellID, confirmType, text, duration, currencyID = ...;
+	if (APR.DebugMode) then
+		APR:DebugPrint ("In APR.Events:SPELL_CONFIRMATION_PROMPT");
+		--APR:PrintVarArgs(...);
+		APR:DebugPrint ("spellID is ", spellID);
+		APR:DebugPrint ("confirmType is ", confirmType);
+		APR:DebugPrint ("text is ", text);
+		APR:DebugPrint ("duration is ", duration);
+		APR:DebugPrint ("currencyID is ", currencyID);
+	end -- if APR.DebugMode
+
+	-- If the user didn't ask us to hide this popup, just return.
+	--if not APR.DB.HideDEFont then
+	if not HideDEFont then
+		APR:DebugPrint ("HideDEFont off, not auto confirming");
+		return
+	end;
+
+	-- The spell ID for the font disenchant is 161736. If we get another spell ID, then the user is doing something else we shouldn't mess with.
+	if 161736 ~= spellID then
+		APR:DebugPrint("Not DE font spell ID, exiting.");
+		return;
+	end;
+
+	-- Accept the prompt
+	AcceptSpellConfirmationPrompt(spellID);
+end
+--hooksecurefunc("AcceptSpellConfirmationPrompt", APR.SecureEvents:SPELL_CONFIRMATION_PROMPT())
 
 
 -- On-load handler for addon initialization.
