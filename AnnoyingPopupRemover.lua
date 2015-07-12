@@ -67,7 +67,7 @@ APR.locale = GetLocale();
 --#########################################
 
 -- This bit of meta-magic makes it so that if we call L with a key that doesn't yet exist, a key is created automatically, and its value is the name of the key.  For example, if L["MyAddon"] doesn't exist, and I run print (L["MyAddon"]), the __index command causes the L table to automatically create a new key called MyAddon, and its value is set to tostring("MyAddon") -- same as the key name.
-L = setmetatable({ }, {__index = function(t, k)
+local L = setmetatable({ }, {__index = function(t, k)
 	local v = tostring(k);
 	rawset(t, k, v);
 	return v;
