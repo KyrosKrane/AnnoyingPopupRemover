@@ -470,7 +470,7 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideBind then
-		AOR:DebugPrint ("Hidebind off, not auto confirming");
+		APR:DebugPrint ("HideBind off, not auto confirming");
 		return
 	end;
 
@@ -492,7 +492,7 @@ function APR.Events:CONFIRM_LOOT_ROLL(...)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideRoll then
-		AOR:DebugPrint ("Hidebind off, not auto confirming");
+		APR:DebugPrint ("HideRoll off, not auto confirming");
 		return
 	end;
 
@@ -513,7 +513,7 @@ function APR.Events:VOID_DEPOSIT_WARNING(...)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideVoid then
-		AOR:DebugPrint ("Hidebind off, not auto confirming");
+		APR:DebugPrint ("HideVoid off, not auto confirming");
 		return
 	end;
 
