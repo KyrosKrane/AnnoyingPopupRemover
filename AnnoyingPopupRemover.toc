@@ -1,5 +1,6 @@
 ## Interface: 60200
 ## Title: Annoying Popup Remover
+## Version: @project-version@
 ## Notes: Removes the annoying confirmation popup that appears when looting or rolling on bind-on-pickup items, or depositing modified items into void storage.
 ## Author: KyrosKrane Sylvanblade
 ## SavedVariablesPerCharacter: APR_DB
