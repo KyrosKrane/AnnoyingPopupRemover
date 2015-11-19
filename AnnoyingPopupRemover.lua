@@ -1,13 +1,22 @@
 -- AnnoyingPopupRemover.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Licensed under the MIT License, as below.
---
 -- Copyright (c) 2015 KyrosKrane Sylvanblade
---
+-- Licensed under the MIT License, as below.
+
+--#########################################
+--# Description
+--#########################################
+
+-- This add-on file removes a number of annoying pop-ups.
+--	It removes the popup confirmation dialog when looting a bind-on-pickup item.
+--	It removes the popup confirmation dialog when rolling on a bind-on-pickup item.
+--	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
+
+
 --#########################################
 --# License: MIT License
 --#########################################
-
+--
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
 -- in the Software without restriction, including without limitation the rights
@@ -25,11 +34,6 @@
 -- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
-
--- This add-on file removes a number of annoying pop-ups.
---	It removes the popup confirmation dialog when looting a bind-on-pickup item.
---	It removes the popup confirmation dialog when rolling on a bind-on-pickup item.
---	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
 
 
 --#########################################
