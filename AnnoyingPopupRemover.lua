@@ -274,7 +274,7 @@ function APR:PrintStatus(popup)
 		end
 	end
 	if not popup or "vendor" == popup then
-		if APR.DB.HideVoid then
+		if APR.DB.HideVendor then
 			APR:ChatPrint (L["Confirmation pop-up when selling group-looted items to a |cff00ff00vendor|r will be |cff00ff00hidden|r."]);
 		else
 			APR:ChatPrint (L["Confirmation pop-up when selling group-looted items to a |cff00ff00vendor|r will be |cffff0000shown|r."]);
