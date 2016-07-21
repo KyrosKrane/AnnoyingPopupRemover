@@ -633,7 +633,7 @@ function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
 	end -- if APR.DebugMode
 
 	-- Document the incoming parameters.
-	local item = ...;
+	local item = ...; -- this is an item link.
 	APR:DebugPrint ("item is ", item);
 
 	-- If the user didn't ask us to hide this popup, just return.
