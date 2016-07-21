@@ -207,7 +207,7 @@ function APR:HandleCommandLine(msg, editbox)
 
 	-- Validate parameters. Only 1 and 2 are checked; rest are ignored.
 	if Line[2] then
-		if "bind" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] or "vendor" == Line[2] then
+		if "loot" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] or "vendor" == Line[2] then
 			if "show" == Line[1] or "hide" == Line[1] then
 				APR:TogglePopup(Line[2], Line[1])
 				return;
@@ -243,7 +243,7 @@ end -- APR:HandleCommandLine()
 -- Print the instructions for the user.
 function APR:PrintHelp()
 	APR:ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
-	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   bind |cffFFCC00OR|r roll |cffFFCC00OR|r void |cffFFCC00OR|r vendor"); -- not localized on purpose
+	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   loot |cffFFCC00OR|r roll |cffFFCC00OR|r void |cffFFCC00OR|r vendor"); -- not localized on purpose
 	APR:ChatPrint("/apr status"); -- not localized on purpose
 	APR:ChatPrint("/apr help"); -- not localized on purpose
 end -- APR:PrintHelp()
@@ -252,7 +252,7 @@ end -- APR:PrintHelp()
 -- Print the status for a given popup type, or for all if not specified.
 -- popup is optional
 function APR:PrintStatus(popup)
-	if not popup or "bind" == popup then
+	if not popup or "loot" == popup then
 		if APR.DB.HideBind then
 			APR:ChatPrint (L["Confirmation pop-up when |cff00ff00looting|r bind-on-pickup items will be |cff00ff00hidden|r."]);
 		else
@@ -286,10 +286,10 @@ end -- APR:PrintStatus()
 -- Dispatcher function to call the correct show or hide function for the appropriate popup window.
 -- popup is required, state is optional
 function APR:TogglePopup(popup, state)
-	-- The status message highlighting highlights the word "looting" for looting bind on pickup items. So, the user might use the keyword "loot" instead of "bind". Handle that here.
-	if "loot" == popup then popup = "bind" end;
+	-- Older versions of the addon used the keyword "bind" instead of "loot". Handle the case where a user tries to use the old keyword.
+	if "bind" == popup then popup = "loot" end;
 
-	if "bind" == popup then
+	if "loot" == popup then
 		if state then
 			if "show" == state then
 				APR:ShowPopupBind(PRINT_CONFIRMATION);
@@ -408,7 +408,7 @@ function APR:ShowPopupBind(printconfirm)
 	-- else already shown, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("bind") end;
+	if printconfirm then APR:PrintStatus("loot") end;
 end -- APR:ShowPopupBind()
 
 
@@ -476,7 +476,7 @@ function APR:HidePopupBind(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("bind") end;
+	if printconfirm then APR:PrintStatus("loot") end;
 end -- APR:HidePopupBind()
 
 
