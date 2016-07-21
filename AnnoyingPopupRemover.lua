@@ -186,6 +186,8 @@ local PRINT_CONFIRMATION = true;
 local NO_CONFIRMATION = false;
 local HIDE_DIALOG = true;
 local SHOW_DIALOG = false;
+local PRINT_STARTUP = true;
+local HIDE_STARTUP = false;
 
 
 --#########################################
@@ -207,9 +209,16 @@ function APR:HandleCommandLine(msg, editbox)
 
 	-- Validate parameters. Only 1 and 2 are checked; rest are ignored.
 	if Line[2] then
-		if "loot" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] or "vendor" == Line[2] then
+		-- Check for toggling a pop-up off or on
+		if "bind" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] or "vendor" == Line[2] then
 			if "show" == Line[1] or "hide" == Line[1] then
 				APR:TogglePopup(Line[2], Line[1])
+				return;
+			end
+		-- Check whether to announce ourself at startup
+		elseif "startup" == Line[2] then
+			if "show" == Line[1] or "hide" == Line[1] then
+				APR:ToggleStartupMessage(Line[1])
 				return;
 			end
 		-- Undocumented command to toggle the debug state from the command line.
@@ -244,6 +253,7 @@ end -- APR:HandleCommandLine()
 function APR:PrintHelp()
 	APR:ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
 	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   loot |cffFFCC00OR|r roll |cffFFCC00OR|r void |cffFFCC00OR|r vendor"); -- not localized on purpose
+	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   startup"); -- not localized on purpose
 	APR:ChatPrint("/apr status"); -- not localized on purpose
 	APR:ChatPrint("/apr help"); -- not localized on purpose
 end -- APR:PrintHelp()
@@ -297,7 +307,7 @@ function APR:TogglePopup(popup, state)
 				APR:HidePopupBind(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
-				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
 				return false
 			end
 		else
@@ -317,7 +327,7 @@ function APR:TogglePopup(popup, state)
 				APR:HidePopupRoll(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
-				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
 				return false
 			end
 		else
@@ -337,7 +347,7 @@ function APR:TogglePopup(popup, state)
 				APR:HidePopupVoid(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
-				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
 				return false
 			end
 		else
@@ -357,7 +367,7 @@ function APR:TogglePopup(popup, state)
 				APR:HidePopupVendor(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
-				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
 				return false
 			end
 		else
@@ -371,7 +381,7 @@ function APR:TogglePopup(popup, state)
 
 	else
 		-- error, bad programmer, no cookie!
-		DebugPrint("Error in APR:TogglePopup: unknown popup type " .. popup .. " passed in.");
+		APR:DebugPrint("Error in APR:TogglePopup: unknown popup type " .. popup .. " passed in.");
 		return false
 	end
 end -- APR:TogglePopup()
@@ -380,12 +390,27 @@ end -- APR:TogglePopup()
 function APR:SetDebug(mode)
 	if mode then
 		APR.DebugMode = true;
-		APR:ChatPrint ("Debug mode is now on.")
+		APR:ChatPrint (L["Debug mode is now on."])
 	else
 		APR.DebugMode = false;
-		APR:ChatPrint ("Debug mode is now off.")
+		APR:ChatPrint (L["Debug mode is now off."])
 	end
 end -- APR:SetDebug()
+
+
+function APR:ToggleStartupMessage(mode)
+	if "show" == mode then
+		APR.DB.PrintStartupMessage = PRINT_STARTUP;
+		APR:ChatPrint (L["Startup announcement message will printed in your chat frame at login."])
+	elseif "hide" == mode then
+		APR.DB.PrintStartupMessage = HIDE_STARTUP;
+		APR:ChatPrint (L["Startup announcement message will NOT printed in your chat frame at login."])
+	else
+		-- error, bad programmer, no cookie!
+		APR:DebugPrint("Error in APR:ToggleStartupMessage: unknown mode " .. mode .. " passed in.");
+		return false
+	end
+end -- APR:ToggleStartupMessage()
 
 
 --#########################################
@@ -639,10 +664,12 @@ end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
-	APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ". For help and options, type /apr help");
+	if APR.DB.PrintStartupMessage then
+		APR:ChatPrint (L["Annoying Pop-up Remover"] .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr help"]);
+	end
 
 	-- Force the default Void Storage frame to load so we can override it.
-	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
+	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI");
 	APR:DebugPrint ("Blizzard_VoidStorageUI isloaded is ", isloaded);
 	APR:DebugPrint ("Blizzard_VoidStorageUI reason is ", reason);
 end -- APR.Events:PLAYER_LOGIN()
@@ -654,21 +681,25 @@ function APR.Events:ADDON_LOADED(addon)
 		-- Load the saved variables, or initialize if they don't exist yet.
 		if APR_DB then
 			APR:DebugPrint ("Loading existing saved var.");
-			if APR_DB.HideBind = nil then
+			if nil == APR_DB.HideBind then
 				APR_DB.HideBind = SHOW_DIALOG;
 				APR:DebugPrint ("HideBind initialized to false.");
 			end;
-			if APR_DB.HideRoll = nil then
+			if nil == APR_DB.HideRoll then
 				APR_DB.HideRoll = SHOW_DIALOG;
 				APR:DebugPrint ("HideRoll initialized to false.");
 			end;
-			if APR_DB.HideVoid = nil then
+			if nil == APR_DB.HideVoid then
 				APR_DB.HideVoid = SHOW_DIALOG;
 				APR:DebugPrint ("HideVoid initialized to false.");
 			end;
-			if APR_DB.HideVendor = nil then
+			if nil == APR_DB.HideVendor then
 				APR_DB.HideVendor = SHOW_DIALOG;
 				APR:DebugPrint ("HideVendor initialized to false.");
+			end;
+			if nil == APR_DB.PrintStartupMessage then
+				APR_DB.PrintStartupMessage = PRINT_STARTUP;
+				APR:DebugPrint ("PrintStartupMessage initialized to true.");
 			end;
 			APR:DebugPrint ("Applying saved settings.");
 			APR.DB = APR_DB
@@ -679,6 +710,7 @@ function APR.Events:ADDON_LOADED(addon)
 				HideRoll = true,
 				HideVoid = true,
 				HideVendor = true,
+				PrintStartupMessage = true,
 			} ;
 		end
 
