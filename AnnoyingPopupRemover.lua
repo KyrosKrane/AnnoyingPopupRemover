@@ -195,7 +195,7 @@ function APR:HandleCommandLine(msg, editbox)
 
 	-- Validate parameters. Only 1 and 2 are checked; rest are ignored.
 	if Line[2] then
-		if "bind" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] then
+		if "bind" == Line[2] or "loot" == Line[2] or "roll" == Line[2] or "void" == Line[2] or "vendor" == Line[2] then
 			if "show" == Line[1] or "hide" == Line[1] then
 				APR:TogglePopup(Line[2], Line[1])
 				return;
@@ -231,7 +231,7 @@ end -- APR:HandleCommandLine()
 -- Print the instructions for the user.
 function APR:PrintHelp()
 	APR:ChatPrint (L["Allowed commands for"] .. " " .. L["Annoying Pop-up Remover"] .. ":");
-	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   bind |cffFFCC00OR|r roll |cffFFCC00OR|r void"); -- not localized on purpose
+	APR:ChatPrint("/apr   show |cffFFCC00OR|r hide   bind |cffFFCC00OR|r roll |cffFFCC00OR|r void |cffFFCC00OR|r vendor"); -- not localized on purpose
 	APR:ChatPrint("/apr status"); -- not localized on purpose
 	APR:ChatPrint("/apr help"); -- not localized on purpose
 end -- APR:PrintHelp()
@@ -259,6 +259,13 @@ function APR:PrintStatus(popup)
 			APR:ChatPrint (L["Confirmation pop-up when depositing modified items into |cff00ff00void storage|r will be |cff00ff00hidden|r."]);
 		else
 			APR:ChatPrint (L["Confirmation pop-up when depositing modified items into |cffff0000void storage|r will be |cffff0000shown|r."]);
+		end
+	end
+	if not popup or "vendor" == popup then
+		if APR.DB.HideVoid then
+			APR:ChatPrint (L["Confirmation pop-up when selling group-looted items to a |cff00ff00vendor|r will be |cff00ff00hidden|r."]);
+		else
+			APR:ChatPrint (L["Confirmation pop-up when selling group-looted items to a |cff00ff00vendor|r will be |cffff0000shown|r."]);
 		end
 	end
 end -- APR:PrintStatus()
@@ -327,6 +334,26 @@ function APR:TogglePopup(popup, state)
 				APR:ShowPopupVoid(true);
 			else
 				APR:HidePopupVoid(true);
+			end
+		end
+
+	elseif "vendor" == popup then
+		if state then
+			if "show" == state then
+				APR:ShowPopupVendor(true);
+			elseif "hide" == state then
+				APR:HidePopupVendor(true);
+			else
+				-- error, bad programmer, no cookie!
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
+				return false
+			end
+		else
+			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
+			if APR.DB.HideVendor then
+				APR:ShowPopupVendor(true);
+			else
+				APR:HidePopupVendor(true);
 			end
 		end
 
@@ -407,6 +434,23 @@ function APR:ShowPopupVoid(printconfirm)
 end -- APR:ShowPopupVoid()
 
 
+function APR:ShowPopupVendor(printconfirm)
+	APR:DebugPrint ("in APR:ShowPopupVendor");
+	if APR.DB.HideVendor then
+		-- Re-enable the dialog for selling group-looted items to a vendor while still tradable.
+		StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"];
+		APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = nil;
+
+		-- Mark that the dialog is shown.
+		APR.DB.HideVendor = false;
+
+	-- else already shown, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("vendor") end;
+end -- APR:ShowPopupVendor()
+
+
 function APR:HidePopupBind(printconfirm, ForceHide)
 	APR:DebugPrint ("in APR:HidePopupBind");
 	if not APR.DB.HideBind or ForceHide then
@@ -456,6 +500,23 @@ function APR:HidePopupVoid(printconfirm, ForceHide)
 
 	if printconfirm then APR:PrintStatus("void") end;
 end -- APR:HidePopupVoid()
+
+
+function APR:HidePopupVendor(printconfirm, ForceHide)
+	APR:DebugPrint ("in APR:HidePopupVendor");
+	if not APR.DB.HideVendor or ForceHide then
+		-- Disable the dialog for selling group-looted items to a vendor while still tradable.
+		APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"];
+		StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = nil;
+
+		-- Mark that the dialog is hidden.
+		APR.DB.HideVendor = true;
+
+	-- else already hidden, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("vendor") end;
+end -- APR:HidePopupVendor()
 
 
 --#########################################
@@ -527,6 +588,28 @@ function APR.Events:VOID_DEPOSIT_WARNING(...)
 end -- APR.Events:VOID_DEPOSIT_WARNING()
 
 
+-- Vendoring an item that was group-looted and is still tradable in the group triggers this.
+function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
+	if (APR.DebugMode) then
+		APR:DebugPrint ("In APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL");
+		APR:PrintVarArgs(...);
+	end -- if APR.DebugMode
+
+	-- Document the incoming parameters.
+	local item = ...;
+	APR:DebugPrint ("item is ", item);
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideVendor then
+		APR:DebugPrint ("HideVendor off, not auto confirming");
+		return
+	end;
+
+	-- Sell the item.
+	SellCursorItem();
+end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
+
+
 -- For debugging only.
 function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
 	-- We don't actually do anything in this function; it's just for debugging.
@@ -566,18 +649,21 @@ function APR.Events:ADDON_LOADED(addon)
 				HideBind = true,
 				HideRoll = true,
 				HideVoid = true,
+				HideVendor = true,
 			} ;
 		end
 
 		APR:DebugPrint ("HideBind is " .. (APR.DB.HideBind and "true" or "false"));
 		APR:DebugPrint ("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"));
 		APR:DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"));
+		APR:DebugPrint ("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"));
 
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass true to forcibly hide the dialogs.
 		if APR.DB.HideBind then APR:HidePopupBind(false, true) end;
 		if APR.DB.HideRoll then APR:HidePopupRoll(false, true) end;
 		if APR.DB.HideVoid then APR:HidePopupVoid(false, true) end;
+		if APR.DB.HideVendor then APR:HidePopupVendor(false, true) end;
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:PLAYER_LOGIN()
