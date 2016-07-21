@@ -177,6 +177,18 @@ end -- APR:strsplit()
 
 
 --#########################################
+--# Constants (for more readable code)
+--#########################################
+
+-- These are NOT settings; don't change these!
+local FORCE_HIDE_DIALOG = true;
+local PRINT_CONFIRMATION = true;
+local NO_CONFIRMATION = false;
+local HIDE_DIALOG = true;
+local SHOW_DIALOG = false;
+
+
+--#########################################
 --# Slash command handling
 --#########################################
 
@@ -280,9 +292,9 @@ function APR:TogglePopup(popup, state)
 	if "bind" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupBind(true);
+				APR:ShowPopupBind(PRINT_CONFIRMATION);
 			elseif "hide" == state then
-				APR:HidePopupBind(true);
+				APR:HidePopupBind(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -291,18 +303,18 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideBind then
-				APR:ShowPopupBind(true);
+				APR:ShowPopupBind(PRINT_CONFIRMATION);
 			else
-				APR:HidePopupBind(true);
+				APR:HidePopupBind(PRINT_CONFIRMATION);
 			end
 		end
 
 	elseif "roll" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupRoll(true);
+				APR:ShowPopupRoll(PRINT_CONFIRMATION);
 			elseif "hide" == state then
-				APR:HidePopupRoll(true);
+				APR:HidePopupRoll(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -311,18 +323,18 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideRoll then
-				APR:ShowPopupRoll(true);
+				APR:ShowPopupRoll(PRINT_CONFIRMATION);
 			else
-				APR:HidePopupRoll(true);
+				APR:HidePopupRoll(PRINT_CONFIRMATION);
 			end
 		end
 
 	elseif "void" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupVoid(true);
+				APR:ShowPopupVoid(PRINT_CONFIRMATION);
 			elseif "hide" == state then
-				APR:HidePopupVoid(true);
+				APR:HidePopupVoid(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -331,18 +343,18 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideVoid then
-				APR:ShowPopupVoid(true);
+				APR:ShowPopupVoid(PRINT_CONFIRMATION);
 			else
-				APR:HidePopupVoid(true);
+				APR:HidePopupVoid(PRINT_CONFIRMATION);
 			end
 		end
 
 	elseif "vendor" == popup then
 		if state then
 			if "show" == state then
-				APR:ShowPopupVendor(true);
+				APR:ShowPopupVendor(PRINT_CONFIRMATION);
 			elseif "hide" == state then
-				APR:HidePopupVendor(true);
+				APR:HidePopupVendor(PRINT_CONFIRMATION);
 			else
 				-- error, bad programmer, no cookie!
 				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.");
@@ -351,9 +363,9 @@ function APR:TogglePopup(popup, state)
 		else
 			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
 			if APR.DB.HideVendor then
-				APR:ShowPopupVendor(true);
+				APR:ShowPopupVendor(PRINT_CONFIRMATION);
 			else
-				APR:HidePopupVendor(true);
+				APR:HidePopupVendor(PRINT_CONFIRMATION);
 			end
 		end
 
@@ -391,7 +403,7 @@ function APR:ShowPopupBind(printconfirm)
 		APR.StoredDialogs["LOOT_BIND"] = nil;
 
 		-- Mark that the dialog is shown.
-		APR.DB.HideBind = false;
+		APR.DB.HideBind = SHOW_DIALOG;
 
 	-- else already shown, nothing to do.
 	end
@@ -408,7 +420,7 @@ function APR:ShowPopupRoll(printconfirm)
 		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = nil;
 
 		-- Mark that the dialog is shown.
-		APR.DB.HideRoll = false;
+		APR.DB.HideRoll = SHOW_DIALOG;
 
 	-- else already shown, nothing to do.
 	end
@@ -425,7 +437,7 @@ function APR:ShowPopupVoid(printconfirm)
 		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 
 		-- Mark that the dialog is shown.
-		APR.DB.HideVoid = false;
+		APR.DB.HideVoid = SHOW_DIALOG;
 
 	-- else already shown, nothing to do.
 	end
@@ -442,7 +454,7 @@ function APR:ShowPopupVendor(printconfirm)
 		APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = nil;
 
 		-- Mark that the dialog is shown.
-		APR.DB.HideVendor = false;
+		APR.DB.HideVendor = SHOW_DIALOG;
 
 	-- else already shown, nothing to do.
 	end
@@ -459,7 +471,7 @@ function APR:HidePopupBind(printconfirm, ForceHide)
 		StaticPopupDialogs["LOOT_BIND"] = nil;
 
 		-- Mark that the dialog is hidden.
-		APR.DB.HideBind = true;
+		APR.DB.HideBind = HIDE_DIALOG;
 
 	-- else already hidden, nothing to do.
 	end
@@ -476,7 +488,7 @@ function APR:HidePopupRoll(printconfirm, ForceHide)
 		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = nil;
 
 		-- Mark that the dialog is hidden.
-		APR.DB.HideRoll = true;
+		APR.DB.HideRoll = HIDE_DIALOG;
 
 	-- else already hidden, nothing to do.
 	end
@@ -493,7 +505,7 @@ function APR:HidePopupVoid(printconfirm, ForceHide)
 		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil;
 
 		-- Mark that the dialog is hidden.
-		APR.DB.HideVoid = true;
+		APR.DB.HideVoid = HIDE_DIALOG;
 
 	-- else already hidden, nothing to do.
 	end
@@ -510,7 +522,7 @@ function APR:HidePopupVendor(printconfirm, ForceHide)
 		StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = nil;
 
 		-- Mark that the dialog is hidden.
-		APR.DB.HideVendor = true;
+		APR.DB.HideVendor = HIDE_DIALOG;
 
 	-- else already hidden, nothing to do.
 	end
@@ -640,8 +652,25 @@ function APR.Events:ADDON_LOADED(addon)
 	APR:DebugPrint ("Got ADDON_LOADED for " .. addon);
 	if addon == "AnnoyingPopupRemover" then
 		-- Load the saved variables, or initialize if they don't exist yet.
-		if APR_DB and APR_DB.HideBind ~= nil and APR_DB.HideRoll ~= nil and APR_DB.HideVoid ~= nil then
+		if APR_DB then
 			APR:DebugPrint ("Loading existing saved var.");
+			if APR_DB.HideBind = nil then
+				APR_DB.HideBind = SHOW_DIALOG;
+				APR:DebugPrint ("HideBind initialized to false.");
+			end;
+			if APR_DB.HideRoll = nil then
+				APR_DB.HideRoll = SHOW_DIALOG;
+				APR:DebugPrint ("HideRoll initialized to false.");
+			end;
+			if APR_DB.HideVoid = nil then
+				APR_DB.HideVoid = SHOW_DIALOG;
+				APR:DebugPrint ("HideVoid initialized to false.");
+			end;
+			if APR_DB.HideVendor = nil then
+				APR_DB.HideVendor = SHOW_DIALOG;
+				APR:DebugPrint ("HideVendor initialized to false.");
+			end;
+			APR:DebugPrint ("Applying saved settings.");
 			APR.DB = APR_DB
 		else
 			APR:DebugPrint ("No saved var, setting defaults.");
@@ -660,10 +689,10 @@ function APR.Events:ADDON_LOADED(addon)
 
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass true to forcibly hide the dialogs.
-		if APR.DB.HideBind then APR:HidePopupBind(false, true) end;
-		if APR.DB.HideRoll then APR:HidePopupRoll(false, true) end;
-		if APR.DB.HideVoid then APR:HidePopupVoid(false, true) end;
-		if APR.DB.HideVendor then APR:HidePopupVendor(false, true) end;
+		if APR.DB.HideBind then APR:HidePopupBind(false, FORCE_HIDE_DIALOG) end;
+		if APR.DB.HideRoll then APR:HidePopupRoll(false, FORCE_HIDE_DIALOG) end;
+		if APR.DB.HideVoid then APR:HidePopupVoid(false, FORCE_HIDE_DIALOG) end;
+		if APR.DB.HideVendor then APR:HidePopupVendor(false, FORCE_HIDE_DIALOG) end;
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:PLAYER_LOGIN()
