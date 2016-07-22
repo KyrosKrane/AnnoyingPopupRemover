@@ -1,6 +1,6 @@
 -- AnnoyingPopupRemover.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2016 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as below.
 
 --#########################################
@@ -11,6 +11,7 @@
 --	It removes the popup confirmation dialog when looting a bind-on-pickup item.
 --	It removes the popup confirmation dialog when rolling on a bind-on-pickup item.
 --	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
+--	It removes the popup confirmation dialog when selling a BOP item to a vendor that was looted while grouped, and can still be traded to other group members.
 
 
 --#########################################
@@ -577,10 +578,10 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 		return
 	end;
 
-	-- When harvesting (mining, herbing, or skinning) in WoD, you can get a Primal Spirit. This is a BoP item that will trigger this event when found on a mob corpse. Prior to patch 7.0.3, getting a Primal Spirit while harvesting would not trigger this event (since there was never a scenario where someone else in the group could get the PS). For some reason, with 7.0.3, looting a PS on a harvest WILL trigger this event; worse, there are several problems.
-	-- 1: The parameters passed in will be wrong; It doesn't pass in the Frame; instead, the id is the first parameter.
+	-- When harvesting (mining, herbing, or skinning) in WoD, you can get a Primal Spirit. This is a BoP item that will trigger this event when found on a mob corpse. Prior to patch 7.0.3, getting a PS while harvesting would not trigger this event (since there was never a scenario where someone else in the group could get the PS). For some reason, with 7.0.3, looting a PS on a harvest WILL trigger this event, even if you're solo. Worse, there are several problems.
+	-- 1: The parameters passed in will be wrong; it doesn't pass in the Frame; instead, the id is passed in as the first parameter.
 	-- 2: The ConfirmLootSlot() call is ignored. Effectively, it requires the user to click on the PS in the loot window to pick it up. If the user doesn't have autoloot turned on, it requires two total clicks to loot the PS.
-	-- The real fix here that this event should never trigger on a harvest; only on an actual loot. In the meantime, I've put in the elseif below to handle this odd scenario.
+	-- The real fix here that this event should never trigger on a harvest; only on a kill loot. This is a Blizzard bug that has to be fixed from their end. In the meantime, I've put in the if/elseif below to handle this odd scenario.
 
 	if id then
 		APR:DebugPrint ("id is valid.");
@@ -588,10 +589,12 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	elseif Frame then
 		APR:DebugPrint ("id is null, confirming with Frame.");
 		ConfirmLootSlot(Frame);
+
+--		-- Testing whether double-Confirming would help. It didn't.
 --		APR:DebugPrint ("Verifying if slot is empty.");
 --		if LootSlotHasItem(Frame) then
 --			APR:DebugPrint ("Loot slot still has item; attempting to re-loot.");
---			-- LootSlot(Frame); -- don't do this! This retriggers the same event, leading to a stack overflow.
+--			-- LootSlot(Frame); -- don't do this! This retriggers the same event recursively and infinitely, leading to a stack overflow.
 --			ConfirmLootSlot(Frame);
 --		else
 --			APR:DebugPrint ("Loot slot is empty.");
