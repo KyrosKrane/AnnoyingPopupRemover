@@ -590,7 +590,7 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 		APR:DebugPrint ("id is null, confirming with Frame.");
 		ConfirmLootSlot(Frame);
 
---		-- Testing whether double-Confirming would help. It didn't.
+--		-- Testing whether double-Confirming would help. It didn't. :(
 --		APR:DebugPrint ("Verifying if slot is empty.");
 --		if LootSlotHasItem(Frame) then
 --			APR:DebugPrint ("Loot slot still has item; attempting to re-loot.");
