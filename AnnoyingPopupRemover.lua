@@ -567,6 +567,7 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	if (APR.DebugMode) then
 		APR:DebugPrint ("In APR.Events:LOOT_BIND_CONFIRM");
 		APR:DebugPrint ("Frame is ", Frame);
+		APR:DebugPrint ("id is ", id);
 		APR:PrintVarArgs(...);
 	end -- if APR.DebugMode
 
@@ -576,7 +577,26 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 		return
 	end;
 
-	ConfirmLootSlot(id);
+	-- When harvesting (mining, herbing, or skinning) in WoD, you can get a Primal Spirit. This is a BoP item that will trigger this event when found on a mob corpse. Prior to patch 7.0.3, getting a Primal Spirit while harvesting would not trigger this event (since there was never a scenario where someone else in the group could get the PS). For some reason, with 7.0.3, looting a PS on a harvest WILL trigger this event; worse, there are several problems.
+	-- 1: The parameters passed in will be wrong; It doesn't pass in the Frame; instead, the id is the first parameter.
+	-- 2: The ConfirmLootSlot() call is ignored. Effectively, it requires the user to click on the PS in the loot window to pick it up. If the user doesn't have autoloot turned on, it requires two total clicks to loot the PS.
+	-- The real fix here that this event should never trigger on a harvest; only on an actual loot. In the meantime, I've put in the elseif below to handle this odd scenario.
+
+	if id then
+		APR:DebugPrint ("id is valid.");
+		ConfirmLootSlot(id);
+	elseif Frame then
+		APR:DebugPrint ("id is null, confirming with Frame.");
+		ConfirmLootSlot(Frame);
+--		APR:DebugPrint ("Verifying if slot is empty.");
+--		if LootSlotHasItem(Frame) then
+--			APR:DebugPrint ("Loot slot still has item; attempting to re-loot.");
+--			-- LootSlot(Frame); -- don't do this! This retriggers the same event, leading to a stack overflow.
+--			ConfirmLootSlot(Frame);
+--		else
+--			APR:DebugPrint ("Loot slot is empty.");
+--		end
+	end;
 end -- APR.Events:LOOT_BIND_CONFIRM()
 
 
