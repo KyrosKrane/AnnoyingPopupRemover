@@ -1,6 +1,6 @@
 -- AnnoyingPopupRemover.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2016 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2018 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as below.
 
 --#########################################
