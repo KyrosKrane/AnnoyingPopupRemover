@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
-## Notes: Removes the annoying confirmation popup that appears when looting or rolling on bind-on-pickup items, or depositing modified items into void storage.
+## Notes: Removes the annoying confirmation popup that appears when looting or rolling on bind-on-pickup items, or depositing modified items into void storage, or deleting "good" items.
 ## Author: KyrosKrane Sylvanblade
 ## SavedVariablesPerCharacter: APR_DB
 ## OptionalDeps: Blizzard_VoidStorageUI
