@@ -49,7 +49,7 @@ local APR = { }
 APR.DebugMode = false
 
 -- Set the current version so we can display it.
-APR.Version = "@project-version@"
+APR.Version = "4.01-release"
 
 -- Create the frame to hold our event catcher, and the list of events.
 APR.Frame, APR.Events = CreateFrame("Frame"), {}
@@ -849,13 +849,3 @@ for k, v in pairs(APR.Events) do
 	APR.Frame:RegisterEvent(k)
 end
 
-
---@do-not-package@
--- Curse-specific command to exclude this section from appearing for end users.
-
---#########################################
---# Local settings for debugging
---#########################################
-
-APR.DebugMode = true
---@end-do-not-package@
