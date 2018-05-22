@@ -49,7 +49,7 @@ local APR = { }
 APR.DebugMode = false
 
 -- Set the current version so we can display it.
-APR.Version = "4.01-release"
+APR.Version = "4.03-release"
 
 -- Create the frame to hold our event catcher, and the list of events.
 APR.Frame, APR.Events = CreateFrame("Frame"), {}
@@ -296,7 +296,7 @@ function APR:PrintStatus(popup)
 		if APR.DB.HideDelete then
 			APR:ChatPrint (L["|cff00ff00Deleting \"good\" items|r will |cff00ff00not require|r typing the word \"delete\"."])
 		else
-			APR:ChatPrint (L["|cff00ff00Deleting \"good\" items|r will |cff00ff00require|r typing the word \"delete\"."])
+			APR:ChatPrint (L["|cff00ff00Deleting \"good\" items|r will |cffff0000require|r typing the word \"delete\"."])
 		end
 	end
 end -- APR:PrintStatus()
@@ -535,7 +535,7 @@ function APR:ShowPopupDelete(printconfirm)
 	end
 
 	if printconfirm then APR:PrintStatus("delete") end
-end -- APR:ShowPopupVendor()
+end -- APR:ShowPopupDelete()
 
 
 function APR:HidePopupBind(printconfirm, ForceHide)
@@ -624,7 +624,7 @@ end -- APR:HidePopupVendor()
 
 
 --#########################################
---# Event hooks
+--# Event hooks - Processing
 --#########################################
 
 -- Looting a BOP item triggers this event.
@@ -765,6 +765,10 @@ function APR.Events:PLAYER_LOGIN(...)
 end -- APR.Events:PLAYER_LOGIN()
 
 
+--#########################################
+--# Event hooks - Addon setup
+--#########################################
+
 function APR.Events:ADDON_LOADED(addon)
 	APR:DebugPrint ("Got ADDON_LOADED for " .. addon)
 	if addon == "AnnoyingPopupRemover" then
@@ -824,7 +828,7 @@ function APR.Events:ADDON_LOADED(addon)
 		if APR.DB.HideDelete then APR:HidePopupDelete(false, FORCE_HIDE_DIALOG) end
 
 	end -- if AnnoyingPopupRemover
-end -- APR.Events:PLAYER_LOGIN()
+end -- APR.Events:ADDON_LOADED()
 
 
 -- Save the db on logout.
