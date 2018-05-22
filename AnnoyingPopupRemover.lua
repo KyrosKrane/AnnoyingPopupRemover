@@ -49,7 +49,7 @@ local APR = { }
 APR.DebugMode = false
 
 -- Set the current version so we can display it.
-APR.Version = "4.03-release"
+APR.Version = "@project-version@"
 
 -- Create the frame to hold our event catcher, and the list of events.
 APR.Frame, APR.Events = CreateFrame("Frame"), {}
