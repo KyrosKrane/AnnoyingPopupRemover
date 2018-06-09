@@ -44,3 +44,7 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# Local extra files
+Extras/
