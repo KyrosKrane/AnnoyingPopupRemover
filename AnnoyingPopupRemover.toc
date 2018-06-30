@@ -10,4 +10,17 @@
 ## X-Curse-Project-ID: 93154
 ## X-WoWI-ID: 23631
 
+# Linked from externals
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+Libs\AceConsole-3.0\AceConsole-3.0.lua
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfigRegistry-3.0\AceConfigRegistry-3.0.lua
+Libs\AceConfigDialog-3.0\AceConfigDialog-3.0.lua
+Libs\AceConfigCmd-3.0\AceConfigCmd-3.0.lua
+
+
+# In this add-on
 AnnoyingPopupRemover.lua

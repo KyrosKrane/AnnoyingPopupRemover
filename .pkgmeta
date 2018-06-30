@@ -4,3 +4,18 @@ enable-nolib-creation: no
 ignore: # Files and directories beginning with a dot (such as .git) are automatically ignored, as is the pgkmeta file itself.
     - README.md
 
+externals:
+    # Prereqs
+    Libs/LibStub: https://repos.wowace.com/wow/libstub/trunk
+    Libs/CallbackHandler-1.0: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+
+    # AceConfig subs
+    Libs/AceConfigCmd-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0/AceConfigCmd-3.0
+    Libs/AceConfigDialog-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0/AceConfigDialog-3.0
+    Libs/AceConfigRegistry-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0/AceConfigRegistry-3.0
+
+    # AceConsole
+    Libs/AceConsole-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConsole-3.0
+
+    # AceGui
+    Libs/AceGUI-3.0: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
