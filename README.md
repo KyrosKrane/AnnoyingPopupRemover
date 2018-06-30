@@ -6,7 +6,7 @@ Written by KyrosKrane Sylvanblade (kyros@kyros.info)
 Copyright (c) 2015-2018 KyrosKrane Sylvanblade. Licensed under the MIT License.
 
 # Description
-This add-on file removes a number of annoying pop-ups.
+This add-on removes a number of annoying pop-ups.
 *	It removes the popup confirmation dialog when looting a bind-on-pickup item.
 *	It removes the popup confirmation dialog when rolling on a bind-on-pickup item.
 *	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
