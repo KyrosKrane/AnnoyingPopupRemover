@@ -3,6 +3,8 @@ enable-nolib-creation: no
 
 ignore: # Files and directories beginning with a dot (such as .git) are automatically ignored, as is the pgkmeta file itself.
     - README.md
+    - Libs/LibStub/tests
+    - Libs/LibStub/LibStub.toc
 
 externals:
     # Prereqs
