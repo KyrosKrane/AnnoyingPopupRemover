@@ -849,7 +849,7 @@ end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
 function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
 	if APR.DB.PrintStartupMessage then
-		APR:ChatPrint (APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr help"])
+		APR:ChatPrint (APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
 	end
 
 	-- Force the default Void Storage frame to load so we can override it.

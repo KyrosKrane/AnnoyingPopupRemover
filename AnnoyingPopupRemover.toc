@@ -1,4 +1,4 @@
-## Interface: 70300
+## Interface: 80000
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
 ## Author: KyrosKrane Sylvanblade
@@ -13,7 +13,6 @@
 # Linked from externals
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 Libs\AceConsole-3.0\AceConsole-3.0.lua
 Libs\AceGUI-3.0\AceGUI-3.0.xml
