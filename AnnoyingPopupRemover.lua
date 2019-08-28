@@ -52,7 +52,6 @@ APR.DebugMode = true
 --@end-alpha@
 
 -- Set the internal and human-readable names for the addon.
---APR.ADDON_NAME = L["Annoying Pop-up Remover"]
 APR.ADDON_NAME = "AnnoyingPopupRemover" -- Don't localize this
 APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
 
@@ -139,6 +138,15 @@ APR.OptionsTable = {
 			width = "full",
 			order = 140,
 		}, -- vendor
+		mail = {
+			name = L["Hide the confirmation pop-up when mailing refundable items"],
+			type = "toggle",
+			set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
+			get = function(info) return APR.DB.HideMail end,
+			descStyle = "inline",
+			width = "full",
+			order = 140,
+		}, -- mail
 		delete = {
 			name = L["When deleting \"good\" items, don't require typing the word \"delete\""],
 			type = "toggle",
@@ -309,8 +317,16 @@ function APR:HandleAceSettingsChange(value, AceInfo)
 	local TextAction = value and "hide" or "show"
 
 	-- Check for toggling a pop-up off or on
-	if "bind" == option or "loot" == option or "roll" == option or "void" == option or "vendor" == option or "destroy" == option or "delete" == option then
-		APR:TogglePopup(option, TextAction, ShowConf)
+	if	   "bind" == option
+		or "loot" == option
+		or "roll" == option
+		or "void" == option
+		or "vendor" == option
+		or "destroy" == option
+		or "delete" == option
+		or "mail" == option
+		then
+			APR:TogglePopup(option, TextAction, ShowConf)
 
 	-- Check whether to announce ourself at startup
 	elseif "startup" == option then
@@ -370,6 +386,13 @@ function APR:PrintStatus(popup)
 			APR:ChatPrint (L["|cff00ff00Deleting \"good\" items|r will |cff00ff00not require|r typing the word \"delete\"."])
 		else
 			APR:ChatPrint (L["|cff00ff00Deleting \"good\" items|r will |cffff0000require|r typing the word \"delete\"."])
+		end
+	end
+	if not popup or "mail" == popup then
+		if APR.DB.HideVendor then
+			APR:ChatPrint (L["Confirmation pop-up when |cff00ff00mail|ring refundable items will be |cff00ff00hidden|r."])
+		else
+			APR:ChatPrint (L["Confirmation pop-up when |cff00ff00mail|ring refundable items will be |cffff0000shown|r."])
 		end
 	end
 end -- APR:PrintStatus()
@@ -495,6 +518,26 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:ShowPopupDelete(ShowConf)
 			else
 				APR:HidePopupDelete(ShowConf)
+			end
+		end
+
+	elseif "mail" == popup then
+		if state then
+			if "show" == state then
+				APR:ShowPopupMail(ShowConf)
+			elseif "hide" == state then
+				APR:HidePopupMail(ShowConf)
+			else
+				-- error, bad programmer, no cookie!
+				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				return false
+			end
+		else
+			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
+			if APR.DB.HideMail then
+				APR:ShowPopupMail(ShowConf)
+			else
+				APR:HidePopupMail(ShowConf)
 			end
 		end
 
@@ -632,6 +675,23 @@ function APR:ShowPopupDelete(printconfirm)
 end -- APR:ShowPopupDelete()
 
 
+function APR:ShowPopupMail(printconfirm)
+	APR:DebugPrint ("in APR:ShowPopupMail, printconfirm is " .. (printconfirm and "true" or "false"))
+	if APR.DB.HideMail then
+		-- Re-enable the dialog for mailing refundable items while still tradable.
+		StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
+		APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = nil
+
+		-- Mark that the dialog is shown.
+		APR.DB.HideMail = SHOW_DIALOG
+
+	-- else already shown, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("mail") end
+end -- APR:ShowPopupMail()
+
+
 function APR:HidePopupBind(printconfirm, ForceHide)
 	APR:DebugPrint ("in APR:HidePopupBind, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if not APR.DB.HideBind or ForceHide then
@@ -714,7 +774,24 @@ function APR:HidePopupDelete(printconfirm, ForceHide)
 	end
 
 	if printconfirm then APR:PrintStatus("delete") end
-end -- APR:HidePopupVendor()
+end -- APR:HidePopupDelete()
+
+
+function APR:HidePopupMail(printconfirm, ForceHide)
+	APR:DebugPrint ("in APR:HidePopupMail, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	if not APR.DB.HideMail or ForceHide then
+		-- Disable the dialog for mailing refundable items while still tradable.
+		APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
+		StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = nil
+
+		-- Mark that the dialog is hidden.
+		APR.DB.HideMail = HIDE_DIALOG
+
+	-- else already hidden, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("vendor") end
+end -- APR:HidePopupMail()
 
 
 --#########################################
@@ -831,6 +908,28 @@ function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
 end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
 
 
+-- Mailing an item that was vendor-bought and is still refundable triggers this.
+function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
+	if (APR.DebugMode) then
+		APR:DebugPrint ("In APR.Events:MAIL_LOCK_SEND_ITEMS")
+		APR:PrintVarArgs(...)
+	end -- if APR.DebugMode
+
+	-- Document the incoming parameters.
+	local mailSlot, itemLink = ...
+	APR:DebugPrint ("mailSlot is ", mailSlot, ", itemLink is ", itemLink)
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideMail then
+		APR:DebugPrint ("HideMail off, not auto confirming")
+		return
+	end
+
+	-- Confirm the mail.
+	RespondMailLockSendItem(mailSlot, true)
+end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
+
+
 -- For debugging only.
 function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
 	-- We don't actually do anything in this function; it's just for debugging.
@@ -889,6 +988,10 @@ function APR.Events:ADDON_LOADED(addon)
 				APR_DB.HideDelete = SHOW_DIALOG
 				APR:DebugPrint ("HideDelete initialized to false.")
 			end
+			if nil == APR_DB.HideMail then
+				APR_DB.HideMail = SHOW_DIALOG
+				APR:DebugPrint ("HideMail initialized to false.")
+			end
 			if nil == APR_DB.PrintStartupMessage then
 				APR_DB.PrintStartupMessage = PRINT_STARTUP
 				APR:DebugPrint ("PrintStartupMessage initialized to true.")
@@ -903,6 +1006,7 @@ function APR.Events:ADDON_LOADED(addon)
 				HideVoid = true,
 				HideVendor = true,
 				HideDelete = true,
+				HideMail = true,
 				PrintStartupMessage = true,
 			}
 		end
@@ -912,6 +1016,7 @@ function APR.Events:ADDON_LOADED(addon)
 		APR:DebugPrint ("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
 		APR:DebugPrint ("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
 		APR:DebugPrint ("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
+		APR:DebugPrint ("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
 
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass true to forcibly hide the dialogs.
@@ -920,6 +1025,7 @@ function APR.Events:ADDON_LOADED(addon)
 		if APR.DB.HideVoid then APR:HidePopupVoid(false, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideVendor then APR:HidePopupVendor(false, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideDelete then APR:HidePopupDelete(false, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideMail then APR:HidePopupMail(false, FORCE_HIDE_DIALOG) end
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:ADDON_LOADED()
