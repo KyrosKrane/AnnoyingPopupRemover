@@ -1,6 +1,6 @@
 -- AnnoyingPopupRemover.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2018 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2019 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 
 --#########################################
@@ -12,6 +12,7 @@
 --	It removes the popup confirmation dialog when rolling on a bind-on-pickup item.
 --	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
 --	It removes the popup confirmation dialog when selling a BOP item to a vendor that was looted while grouped, and can still be traded to other group members.
+--	It removes the popup confirmation dialog when mailing a BOA item that can still be sold back for a refund of the original purchase price.
 --	It changes the popup confirmation dialog when deleting a "good" item from requiring you to type the word "delete" to just yes/no.
 
 
@@ -1019,7 +1020,7 @@ function APR.Events:ADDON_LOADED(addon)
 		APR:DebugPrint ("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
 
 		-- Hide the dialogs the user has selected.
-		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass true to forcibly hide the dialogs.
+		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass FORCE_HIDE_DIALOG to forcibly hide the dialogs.
 		if APR.DB.HideBind then APR:HidePopupBind(false, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideRoll then APR:HidePopupRoll(false, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideVoid then APR:HidePopupVoid(false, FORCE_HIDE_DIALOG) end
