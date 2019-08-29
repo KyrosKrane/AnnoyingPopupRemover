@@ -305,10 +305,10 @@ end -- APR:strsplit()
 function APR:HandleAceSettingsChange(value, AceInfo)
 
 	-- Check whether a slash command was used, which determines whether a confirmation message is needed
-	local ShowConf = false
+	local ShowConf = NO_CONFIRMATION
 	if AceInfo[0] and AceInfo[0] ~= "" then
 		-- This was a slash command. Print a confirmation.
-		ShowConf = true
+		ShowConf = PRINT_CONFIRMATION
 	end
 
 	-- Check which option the user toggled
@@ -970,28 +970,28 @@ function APR.Events:ADDON_LOADED(addon)
 		if APR_DB then
 			APR:DebugPrint ("Loading existing saved var.")
 			if nil == APR_DB.HideBind then
-				APR_DB.HideBind = SHOW_DIALOG
-				APR:DebugPrint ("HideBind initialized to false.")
+				APR_DB.HideBind = HIDE_DIALOG
+				APR:DebugPrint ("HideBind initialized to true.")
 			end
 			if nil == APR_DB.HideRoll then
-				APR_DB.HideRoll = SHOW_DIALOG
-				APR:DebugPrint ("HideRoll initialized to false.")
+				APR_DB.HideRoll = HIDE_DIALOG
+				APR:DebugPrint ("HideRoll initialized to true.")
 			end
 			if nil == APR_DB.HideVoid then
-				APR_DB.HideVoid = SHOW_DIALOG
-				APR:DebugPrint ("HideVoid initialized to false.")
+				APR_DB.HideVoid = HIDE_DIALOG
+				APR:DebugPrint ("HideVoid initialized to true.")
 			end
 			if nil == APR_DB.HideVendor then
-				APR_DB.HideVendor = SHOW_DIALOG
-				APR:DebugPrint ("HideVendor initialized to false.")
+				APR_DB.HideVendor = HIDE_DIALOG
+				APR:DebugPrint ("HideVendor initialized to true.")
 			end
 			if nil == APR_DB.HideDelete then
-				APR_DB.HideDelete = SHOW_DIALOG
-				APR:DebugPrint ("HideDelete initialized to false.")
+				APR_DB.HideDelete = HIDE_DIALOG
+				APR:DebugPrint ("HideDelete initialized to true.")
 			end
 			if nil == APR_DB.HideMail then
-				APR_DB.HideMail = SHOW_DIALOG
-				APR:DebugPrint ("HideMail initialized to false.")
+				APR_DB.HideMail = HIDE_DIALOG
+				APR:DebugPrint ("HideMail initialized to true.")
 			end
 			if nil == APR_DB.PrintStartupMessage then
 				APR_DB.PrintStartupMessage = PRINT_STARTUP
@@ -1002,13 +1002,13 @@ function APR.Events:ADDON_LOADED(addon)
 		else
 			APR:DebugPrint ("No saved var, setting defaults.")
 			APR.DB = {
-				HideBind = true,
-				HideRoll = true,
-				HideVoid = true,
-				HideVendor = true,
-				HideDelete = true,
-				HideMail = true,
-				PrintStartupMessage = true,
+				HideBind = HIDE_DIALOG,
+				HideRoll = HIDE_DIALOG,
+				HideVoid = HIDE_DIALOG,
+				HideVendor = HIDE_DIALOG,
+				HideDelete = HIDE_DIALOG,
+				HideMail = HIDE_DIALOG,
+				PrintStartupMessage = PRINT_STARTUP,
 			}
 		end
 
@@ -1021,12 +1021,12 @@ function APR.Events:ADDON_LOADED(addon)
 
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass FORCE_HIDE_DIALOG to forcibly hide the dialogs.
-		if APR.DB.HideBind then APR:HidePopupBind(false, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideRoll then APR:HidePopupRoll(false, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideVoid then APR:HidePopupVoid(false, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideVendor then APR:HidePopupVendor(false, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideDelete then APR:HidePopupDelete(false, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideMail then APR:HidePopupMail(false, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideBind then APR:HidePopupBind(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideRoll then APR:HidePopupRoll(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideDelete then APR:HidePopupDelete(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideMail then APR:HidePopupMail(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:ADDON_LOADED()
