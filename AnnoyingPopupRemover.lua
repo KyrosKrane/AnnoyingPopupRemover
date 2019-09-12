@@ -75,6 +75,11 @@ local type = type
 -- Get the language used by the client.
 APR.locale = GetLocale()
 
+-- Determine whether we're running Classic or normal
+-- Note that we don't save this to the APR holder
+local IsClassic = select(4, GetBuildInfo()) < 20000
+
+
 
 --#########################################
 --# Constants (for more readable code)
@@ -193,6 +198,11 @@ APR.OptionsTable = {
 	} -- args
 } -- APR.OptionsTable
 
+-- Delete the options that don't apply to Classic
+if (IsClassic) then
+	APR.OptionsTable.args.remove(void)
+	APR.OptionsTable.args.remove(vendor)
+end
 
 -- Process the options and create the AceConfig options table
 APR.AceConfigReg = LibStub("AceConfigRegistry-3.0")
@@ -368,14 +378,14 @@ function APR:PrintStatus(popup)
 			APR:ChatPrint (L["Confirmation pop-up when |cffff0000rolling|r on bind-on-pickup items will be |cffff0000shown|r."])
 		end
 	end
-	if not popup or "void" == popup then
+	if not IsClassic and (not popup or "void" == popup) then
 		if APR.DB.HideVoid then
 			APR:ChatPrint (L["Confirmation pop-up when depositing modified items into |cff00ff00void storage|r will be |cff00ff00hidden|r."])
 		else
 			APR:ChatPrint (L["Confirmation pop-up when depositing modified items into |cffff0000void storage|r will be |cffff0000shown|r."])
 		end
 	end
-	if not popup or "vendor" == popup then
+	if not IsClassic and (not popup or "vendor" == popup) then
 		if APR.DB.HideVendor then
 			APR:ChatPrint (L["Confirmation pop-up when selling group-looted items to a |cff00ff00vendor|r will be |cff00ff00hidden|r."])
 		else
@@ -421,6 +431,11 @@ function APR:TogglePopup(popup, state, ConfState)
 	-- The words "delete" and "destroy" are synonymous for our purposes. The in-game dialog says "delete", but players refer to it as destroying an item.
 	-- We'll follow the game protocol of using the word "delete", but accept "destroy" as well.
 	if "destroy" == popup then popup = "delete" end
+
+	-- Some options don't apply to Classic
+	if IsClassic and ("void" == popup or "vendor" == popup) then
+		return
+	end
 
 	if "loot" == popup then
 		if state then
