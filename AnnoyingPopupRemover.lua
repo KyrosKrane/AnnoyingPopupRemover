@@ -226,8 +226,8 @@ APR.OptionsTable = {
 
 -- Delete the options that don't apply to Classic
 if IsClassic then
-	APR.OptionsTable.args.remove(void)
-	APR.OptionsTable.args.remove(vendor)
+	APR.OptionsTable.args.void = nil
+	APR.OptionsTable.args.vendor = nil
 end
 
 -- Process the options and create the AceConfig options table
@@ -920,34 +920,31 @@ function APR.Events:CONFIRM_LOOT_ROLL(...)
 	ConfirmLootRoll(id, rollType)
 end -- APR.Events:CONFIRM_LOOT_ROLL()
 
+if not IsClassic then
+	-- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
+	function APR.Events:VOID_DEPOSIT_WARNING(...)
+		if APR.DebugMode then
+			APR:DebugPrint("In APR.Events:VOID_DEPOSIT_WARNING")
+			APR:PrintVarArgs(...)
+		end -- if APR.DebugMode
 
--- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
-function APR.Events:VOID_DEPOSIT_WARNING(...)
-	if APR.DebugMode then
-		APR:DebugPrint("In APR.Events:VOID_DEPOSIT_WARNING")
-		APR:PrintVarArgs(...)
-	end -- if APR.DebugMode
+		-- Document the incoming parameters.
+		local slot, itemLink = ...
+		APR:DebugPrint("slot is " .. slot)
 
-	if IsClassic then
-		APR:DebugPrint("in APR.Events:VOID_DEPOSIT_WARNING, Classic detected, aborting")
-		return
-	end
+		-- If the user didn't ask us to hide this popup, just return.
+		if not APR.DB.HideVoid then
+			APR:DebugPrint("HideVoid off, not auto confirming")
+			return
+		end
 
-	-- Document the incoming parameters.
-	local slot, itemLink = ...
-	APR:DebugPrint("slot is " .. slot)
-
-	-- If the user didn't ask us to hide this popup, just return.
-	if not APR.DB.HideVoid then
-		APR:DebugPrint("HideVoid off, not auto confirming")
-		return
-	end
-
-	-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
-	-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
-	VoidStorage_UpdateTransferButton(nil)
-end -- APR.Events:VOID_DEPOSIT_WARNING()
-
+		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and pops up the dialog.
+		-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
+		VoidStorage_UpdateTransferButton(nil)
+	end -- APR.Events:VOID_DEPOSIT_WARNING()
+else
+	APR:DebugPrint("Classic detected, not registering APR.Events:VOID_DEPOSIT_WARNING")
+end -- if not IsClassic
 
 -- Vendoring an item that was group-looted and is still tradable in the group triggers this.
 function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
@@ -978,7 +975,7 @@ end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
 
 -- Mailing an item that was vendor-bought and is still refundable triggers this.
 function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
-	if (APR.DebugMode) then
+	if APR.DebugMode then
 		APR:DebugPrint("In APR.Events:MAIL_LOCK_SEND_ITEMS")
 		APR:PrintVarArgs(...)
 	end -- if APR.DebugMode
@@ -1006,66 +1003,65 @@ end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 function APR.Events:PLAYER_LOGIN(...)
 	APR:DebugPrint("In PLAYER_LOGIN")
 
-		-- Load the saved variables, or initialize if they don't exist yet.
-		if APR_DB then
-			APR:DebugPrint("Loading existing saved var.")
-			if nil == APR_DB.HideBind then
-				APR_DB.HideBind = HIDE_DIALOG
-				APR:DebugPrint("HideBind initialized to true.")
-			end
-			if nil == APR_DB.HideRoll then
-				APR_DB.HideRoll = HIDE_DIALOG
-				APR:DebugPrint("HideRoll initialized to true.")
-			end
-			if nil == APR_DB.HideDelete then
-				APR_DB.HideDelete = HIDE_DIALOG
-				APR:DebugPrint("HideDelete initialized to true.")
-			end
-			if nil == APR_DB.HideMail then
-				APR_DB.HideMail = HIDE_DIALOG
-				APR:DebugPrint("HideMail initialized to true.")
-			end
-			if nil == APR_DB.PrintStartupMessage then
-				APR_DB.PrintStartupMessage = PRINT_STARTUP
-				APR:DebugPrint("PrintStartupMessage initialized to true.")
-			end
-			if not IsClassic then
-				if nil == APR_DB.HideVoid then
-					APR_DB.HideVoid = HIDE_DIALOG
-					APR:DebugPrint("HideVoid initialized to true.")
-				end
-				if nil == APR_DB.HideVendor then
-					APR_DB.HideVendor = HIDE_DIALOG
-					APR:DebugPrint("HideVendor initialized to true.")
-				end
-			end
-			APR:DebugPrint("Applying saved settings.")
-			APR.DB = APR_DB
-		else
-			APR:DebugPrint("No saved var, setting defaults.")
-			APR.DB = {
-				HideBind = HIDE_DIALOG,
-				HideRoll = HIDE_DIALOG,
-				HideDelete = HIDE_DIALOG,
-				HideMail = HIDE_DIALOG,
-				PrintStartupMessage = PRINT_STARTUP,
-			}
-			if not IsClassic then
-				APR.DB.HideVendor = HIDE_DIALOG
-				APR.DB.HideVoid = HIDE_DIALOG
-			end
+	-- Load the saved variables, or initialize if they don't exist yet.
+	if APR_DB then
+		APR:DebugPrint("Loading existing saved var.")
+		if nil == APR_DB.HideBind then
+			APR_DB.HideBind = HIDE_DIALOG
+			APR:DebugPrint("HideBind initialized to true.")
 		end
-
-		APR:DebugPrint("HideBind is " .. (APR.DB.HideBind and "true" or "false"))
-		APR:DebugPrint("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"))
-		APR:DebugPrint("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
-		APR:DebugPrint("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
-
+		if nil == APR_DB.HideRoll then
+			APR_DB.HideRoll = HIDE_DIALOG
+			APR:DebugPrint("HideRoll initialized to true.")
+		end
+		if nil == APR_DB.HideDelete then
+			APR_DB.HideDelete = HIDE_DIALOG
+			APR:DebugPrint("HideDelete initialized to true.")
+		end
+		if nil == APR_DB.HideMail then
+			APR_DB.HideMail = HIDE_DIALOG
+			APR:DebugPrint("HideMail initialized to true.")
+		end
+		if nil == APR_DB.PrintStartupMessage then
+			APR_DB.PrintStartupMessage = PRINT_STARTUP
+			APR:DebugPrint("PrintStartupMessage initialized to true.")
+		end
 		if not IsClassic then
-			APR:DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
-			APR:DebugPrint("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
+			if nil == APR_DB.HideVoid then
+				APR_DB.HideVoid = HIDE_DIALOG
+				APR:DebugPrint("HideVoid initialized to true.")
+			end
+			if nil == APR_DB.HideVendor then
+				APR_DB.HideVendor = HIDE_DIALOG
+				APR:DebugPrint("HideVendor initialized to true.")
+			end
 		end
+		APR:DebugPrint("Applying saved settings.")
+		APR.DB = APR_DB
+	else
+		APR:DebugPrint("No saved var, setting defaults.")
+		APR.DB = {
+			HideBind = HIDE_DIALOG,
+			HideRoll = HIDE_DIALOG,
+			HideDelete = HIDE_DIALOG,
+			HideMail = HIDE_DIALOG,
+			PrintStartupMessage = PRINT_STARTUP,
+		}
+		if not IsClassic then
+			APR.DB.HideVendor = HIDE_DIALOG
+			APR.DB.HideVoid = HIDE_DIALOG
+		end
+	end
 
+	APR:DebugPrint("HideBind is " .. (APR.DB.HideBind and "true" or "false"))
+	APR:DebugPrint("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"))
+	APR:DebugPrint("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
+	APR:DebugPrint("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
+
+	if not IsClassic then
+		APR:DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
+		APR:DebugPrint("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
+	end
 
 	-- Announce our load.
 	APR:DebugPrint("APR.DB.PrintStartupMessage is " .. (APR.DB.PrintStartupMessage and "true" or "false"))
@@ -1073,24 +1069,23 @@ function APR.Events:PLAYER_LOGIN(...)
 		APR:ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
 	end
 
-		-- Hide the dialogs the user has selected.
-		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass FORCE_HIDE_DIALOG to forcibly hide the dialogs.
-		if APR.DB.HideBind then APR:HidePopupBind(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideRoll then APR:HidePopupRoll(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideDelete then APR:HidePopupDelete(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideMail then APR:HidePopupMail(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+	-- Hide the dialogs the user has selected.
+	-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass FORCE_HIDE_DIALOG to forcibly hide the dialogs.
+	if APR.DB.HideBind then APR:HidePopupBind(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+	if APR.DB.HideRoll then APR:HidePopupRoll(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+	if APR.DB.HideDelete then APR:HidePopupDelete(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+	if APR.DB.HideMail then APR:HidePopupMail(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 
-		if not IsClassic then
-		-- Force the default Void Storage frame to load so we can override it, but only if it's NOT Classic
+	if not IsClassic then
+		-- Force the default Void Storage frame to load so we can override it
 		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
 		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. (isloaded and "true" or "false"))
 		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. (reason and reason or "nil"))
 
 		-- Hide the non-Classic dialogs
-			if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-			if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-		end
-
+		if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+	end
 end -- APR.Events:PLAYER_LOGIN()
 
 
