@@ -225,7 +225,7 @@ APR.OptionsTable = {
 } -- APR.OptionsTable
 
 -- Delete the options that don't apply to Classic
-if (IsClassic) then
+if IsClassic then
 	APR.OptionsTable.args.remove(void)
 	APR.OptionsTable.args.remove(vendor)
 end
@@ -503,7 +503,7 @@ function APR:TogglePopup(popup, state, ConfState)
 			end
 		end
 
-	elseif "void" == popup then
+	elseif "void" == popup and not IsClassic then
 		if state then
 			if "show" == state then
 				APR:ShowPopupVoid(ShowConf)
@@ -523,7 +523,7 @@ function APR:TogglePopup(popup, state, ConfState)
 			end
 		end
 
-	elseif "vendor" == popup then
+	elseif "vendor" == popup and not IsClassic then
 		if state then
 			if "show" == state then
 				APR:ShowPopupVendor(ShowConf)
@@ -668,6 +668,10 @@ end -- APR:ShowPopupRoll()
 
 function APR:ShowPopupVoid(printconfirm)
 	APR:DebugPrint("in APR:ShowPopupVoid, printconfirm is " .. (printconfirm and "true" or "false"))
+	if IsClassic then
+		APR:DebugPrint("in APR:ShowPopupVoid, Classic detected, aborting")
+		return
+	end
 	if APR.DB.HideVoid then
 		-- Re-enable the dialog for putting tradable or modified items into void storage.
 		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"]
@@ -685,6 +689,10 @@ end -- APR:ShowPopupVoid()
 
 function APR:ShowPopupVendor(printconfirm)
 	APR:DebugPrint("in APR:ShowPopupVendor, printconfirm is " .. (printconfirm and "true" or "false"))
+	if IsClassic then
+		APR:DebugPrint("in APR:ShowPopupVendor, Classic detected, aborting")
+		return
+	end
 	if APR.DB.HideVendor then
 		-- Re-enable the dialog for selling group-looted items to a vendor while still tradable.
 		StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"]
@@ -770,6 +778,10 @@ end -- APR:HidePopupRoll()
 
 function APR:HidePopupVoid(printconfirm, ForceHide)
 	APR:DebugPrint("in APR:HidePopupVoid, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	if IsClassic then
+		APR:DebugPrint("in APR:HidePopupVoid, Classic detected, aborting")
+		return
+	end
 	if not APR.DB.HideVoid or ForceHide then
 		-- Disable the dialog for putting tradable or modified items into void storage.
 		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"]
@@ -787,6 +799,10 @@ end -- APR:HidePopupVoid()
 
 function APR:HidePopupVendor(printconfirm, ForceHide)
 	APR:DebugPrint("in APR:HidePopupVendor, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	if IsClassic then
+		APR:DebugPrint("in APR:HidePopupVendor, Classic detected, aborting")
+		return
+	end
 	if not APR.DB.HideVendor or ForceHide then
 		-- Disable the dialog for selling group-looted items to a vendor while still tradable.
 		APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"]
@@ -844,7 +860,7 @@ end -- APR:HidePopupMail()
 function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	local id = ...
 
-	if (APR.DebugMode) then
+	if APR.DebugMode then
 		APR:DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
 		APR:DebugPrint("Frame is " .. Frame)
 		APR:DebugPrint("id is " .. id)
@@ -885,7 +901,7 @@ end -- APR.Events:LOOT_BIND_CONFIRM()
 
 -- Rolling on a BOP item triggers this event.
 function APR.Events:CONFIRM_LOOT_ROLL(...)
-	if (APR.DebugMode) then
+	if APR.DebugMode then
 		APR:DebugPrint("In APR.Events:CONFIRM_LOOT_ROLL")
 		APR:PrintVarArgs(...)
 	end -- if APR.DebugMode
@@ -907,10 +923,15 @@ end -- APR.Events:CONFIRM_LOOT_ROLL()
 
 -- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
 function APR.Events:VOID_DEPOSIT_WARNING(...)
-	if (APR.DebugMode) then
+	if APR.DebugMode then
 		APR:DebugPrint("In APR.Events:VOID_DEPOSIT_WARNING")
 		APR:PrintVarArgs(...)
 	end -- if APR.DebugMode
+
+	if IsClassic then
+		APR:DebugPrint("in APR.Events:VOID_DEPOSIT_WARNING, Classic detected, aborting")
+		return
+	end
 
 	-- Document the incoming parameters.
 	local slot, itemLink = ...
@@ -930,10 +951,15 @@ end -- APR.Events:VOID_DEPOSIT_WARNING()
 
 -- Vendoring an item that was group-looted and is still tradable in the group triggers this.
 function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
-	if (APR.DebugMode) then
+	if APR.DebugMode then
 		APR:DebugPrint("In APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL")
 		APR:PrintVarArgs(...)
 	end -- if APR.DebugMode
+
+	if IsClassic then
+		APR:DebugPrint("in APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL, Classic detected, aborting")
+		return
+	end
 
 	-- Document the incoming parameters.
 	local item = ... -- this is an item link.
@@ -972,20 +998,6 @@ function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
 end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 
 
--- For debugging only.
-function APR.Events:VOID_STORAGE_DEPOSIT_UPDATE(...)
-	-- We don't actually do anything in this function; it's just for debugging.
-	if (not APR.DebugMode) then return end
-
-	APR:DebugPrint("In APR.Events:VOID_STORAGE_DEPOSIT_UPDATE")
-	APR:PrintVarArgs(...)
-
-	-- Document the incoming parameters.
-	-- local slot = ...
-
-end -- APR.Events:VOID_STORAGE_DEPOSIT_UPDATE()
-
-
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
@@ -993,10 +1005,12 @@ function APR.Events:PLAYER_LOGIN(...)
 		APR:ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
 	end
 
-	-- Force the default Void Storage frame to load so we can override it.
-	local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
-	APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. isloaded)
-	APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. reason)
+	-- Force the default Void Storage frame to load so we can override it, but only if it's NOT Classic
+	if not IsClassic then
+		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
+		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. isloaded)
+		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. reason)
+	end
 end -- APR.Events:PLAYER_LOGIN()
 
 
@@ -1018,14 +1032,6 @@ function APR.Events:ADDON_LOADED(addon)
 				APR_DB.HideRoll = HIDE_DIALOG
 				APR:DebugPrint("HideRoll initialized to true.")
 			end
-			if nil == APR_DB.HideVoid then
-				APR_DB.HideVoid = HIDE_DIALOG
-				APR:DebugPrint("HideVoid initialized to true.")
-			end
-			if nil == APR_DB.HideVendor then
-				APR_DB.HideVendor = HIDE_DIALOG
-				APR:DebugPrint("HideVendor initialized to true.")
-			end
 			if nil == APR_DB.HideDelete then
 				APR_DB.HideDelete = HIDE_DIALOG
 				APR:DebugPrint("HideDelete initialized to true.")
@@ -1038,6 +1044,16 @@ function APR.Events:ADDON_LOADED(addon)
 				APR_DB.PrintStartupMessage = PRINT_STARTUP
 				APR:DebugPrint("PrintStartupMessage initialized to true.")
 			end
+			if not IsClassic then
+				if nil == APR_DB.HideVoid then
+					APR_DB.HideVoid = HIDE_DIALOG
+					APR:DebugPrint("HideVoid initialized to true.")
+				end
+				if nil == APR_DB.HideVendor then
+					APR_DB.HideVendor = HIDE_DIALOG
+					APR:DebugPrint("HideVendor initialized to true.")
+				end
+			end
 			APR:DebugPrint("Applying saved settings.")
 			APR.DB = APR_DB
 		else
@@ -1045,29 +1061,38 @@ function APR.Events:ADDON_LOADED(addon)
 			APR.DB = {
 				HideBind = HIDE_DIALOG,
 				HideRoll = HIDE_DIALOG,
-				HideVoid = HIDE_DIALOG,
-				HideVendor = HIDE_DIALOG,
 				HideDelete = HIDE_DIALOG,
 				HideMail = HIDE_DIALOG,
 				PrintStartupMessage = PRINT_STARTUP,
 			}
+			if not IsClassic then
+				APR.DB.HideVendor = HIDE_DIALOG
+				APR.DB.HideVoid = HIDE_DIALOG
+			end
 		end
 
 		APR:DebugPrint("HideBind is " .. (APR.DB.HideBind and "true" or "false"))
 		APR:DebugPrint("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"))
-		APR:DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
-		APR:DebugPrint("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
 		APR:DebugPrint("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
 		APR:DebugPrint("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
+
+		if not IsClassic then
+			APR:DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
+			APR:DebugPrint("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
+		end
+
 
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass FORCE_HIDE_DIALOG to forcibly hide the dialogs.
 		if APR.DB.HideBind then APR:HidePopupBind(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideRoll then APR:HidePopupRoll(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
-		if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideDelete then APR:HidePopupDelete(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideMail then APR:HidePopupMail(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		if not IsClassic then
+			if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+			if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+		end
+
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:ADDON_LOADED()
