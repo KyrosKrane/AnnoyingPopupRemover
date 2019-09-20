@@ -394,7 +394,7 @@ function APR:PrintStatus(popup)
 		if APR.DB.HideBind then
 			APR:ChatPrint(L["loot_hidden"])
 		else
-			APR:ChatPrint(L["loot_shown])
+			APR:ChatPrint(L["loot_shown"])
 		end
 	end
 	if not popup or "roll" == popup then
@@ -886,15 +886,15 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 		APR:DebugPrint("id is null, confirming with Frame.")
 		ConfirmLootSlot(Frame)
 
---		-- Testing whether double-Confirming would help. It didn't. :(
---		APR:DebugPrint("Verifying if slot is empty.")
---		if LootSlotHasItem(Frame) then
---			APR:DebugPrint("Loot slot still has item; attempting to re-loot.")
---			-- LootSlot(Frame) -- don't do this! This retriggers the same event recursively and infinitely, leading to a stack overflow.
---			ConfirmLootSlot(Frame)
---		else
---			APR:DebugPrint("Loot slot is empty.")
---		end
+	--		-- Testing whether double-Confirming would help. It didn't. :(
+	--		APR:DebugPrint("Verifying if slot is empty.")
+	--		if LootSlotHasItem(Frame) then
+	--			APR:DebugPrint("Loot slot still has item; attempting to re-loot.")
+	--			-- LootSlot(Frame) -- don't do this! This retriggers the same event recursively and infinitely, leading to a stack overflow.
+	--			ConfirmLootSlot(Frame)
+	--		else
+	--			APR:DebugPrint("Loot slot is empty.")
+	--		end
 	end
 end -- APR.Events:LOOT_BIND_CONFIRM()
 
@@ -1000,6 +1000,7 @@ end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
+	APR:DebugPrint("In PLAYER_LOGIN")
 	-- Announce our load.
 	if APR.DB.PrintStartupMessage then
 		APR:ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
@@ -1008,8 +1009,8 @@ function APR.Events:PLAYER_LOGIN(...)
 	-- Force the default Void Storage frame to load so we can override it, but only if it's NOT Classic
 	if not IsClassic then
 		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
-		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. isloaded)
-		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. reason)
+		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. (isloaded and "true" or "false"))
+		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. (reason and reason or "nil"))
 	end
 end -- APR.Events:PLAYER_LOGIN()
 
@@ -1092,7 +1093,6 @@ function APR.Events:ADDON_LOADED(addon)
 			if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 			if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		end
-
 
 	end -- if AnnoyingPopupRemover
 end -- APR.Events:ADDON_LOADED()
