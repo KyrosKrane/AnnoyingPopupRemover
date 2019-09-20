@@ -998,30 +998,14 @@ function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
 end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 
 
--- On-load handler for addon initialization.
-function APR.Events:PLAYER_LOGIN(...)
-	APR:DebugPrint("In PLAYER_LOGIN")
-	-- Announce our load.
-	if APR.DB.PrintStartupMessage then
-		APR:ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
-	end
-
-	-- Force the default Void Storage frame to load so we can override it, but only if it's NOT Classic
-	if not IsClassic then
-		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
-		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. (isloaded and "true" or "false"))
-		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. (reason and reason or "nil"))
-	end
-end -- APR.Events:PLAYER_LOGIN()
-
-
 --#########################################
 --# Event hooks - Addon setup
 --#########################################
 
-function APR.Events:ADDON_LOADED(addon)
-	APR:DebugPrint("Got ADDON_LOADED for " .. addon)
-	if addon == "AnnoyingPopupRemover" then
+-- On-load handler for addon initialization.
+function APR.Events:PLAYER_LOGIN(...)
+	APR:DebugPrint("In PLAYER_LOGIN")
+
 		-- Load the saved variables, or initialize if they don't exist yet.
 		if APR_DB then
 			APR:DebugPrint("Loading existing saved var.")
@@ -1083,19 +1067,31 @@ function APR.Events:ADDON_LOADED(addon)
 		end
 
 
+	-- Announce our load.
+	APR:DebugPrint("APR.DB.PrintStartupMessage is " .. (APR.DB.PrintStartupMessage and "true" or "false"))
+	if APR.DB.PrintStartupMessage then
+		APR:ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
+	end
+
 		-- Hide the dialogs the user has selected.
 		-- In this scenario, the DB variable is already true, but the dialog has not yet been hidden. So, we pass FORCE_HIDE_DIALOG to forcibly hide the dialogs.
 		if APR.DB.HideBind then APR:HidePopupBind(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideRoll then APR:HidePopupRoll(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideDelete then APR:HidePopupDelete(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		if APR.DB.HideMail then APR:HidePopupMail(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+
 		if not IsClassic then
+		-- Force the default Void Storage frame to load so we can override it, but only if it's NOT Classic
+		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
+		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. (isloaded and "true" or "false"))
+		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. (reason and reason or "nil"))
+
+		-- Hide the non-Classic dialogs
 			if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 			if APR.DB.HideVendor then APR:HidePopupVendor(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 		end
 
-	end -- if AnnoyingPopupRemover
-end -- APR.Events:ADDON_LOADED()
+end -- APR.Events:PLAYER_LOGIN()
 
 
 -- Save the db on logout.
