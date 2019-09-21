@@ -19,14 +19,16 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 6 adds the option to hide the popup when mailing a refundable item bought from a vendor.
+Version 7 adds compatibility with WoW Classic.
 
-Version 5 adds the configuration panel in the Blizzard options screen.
+Version 6 adds the option to hide the popup when mailing a refundable item bought from a vendor.
 
 So far, I've tested this add-on in a variety of groups, and it seems to work well for all loot scenarios I've encountered. If you encounter any errors, PLEASE open a ticket [here](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) including the FULL error message. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
 ## Known errors
 None!
+
+I don't have a toon high enough to test thoroughly on WoW Classic, so if you find any errors, please report them in the comments here, or (preferably) [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github.
 
 ## Future update plans
 None! Let me know what you'd like to see in the comments section. Or for live support, [visit my Discord server](https://discord.gg/YRBDrxQ)!
