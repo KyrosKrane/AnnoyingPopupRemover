@@ -426,7 +426,7 @@ function APR:PrintStatus(popup)
 		end
 	end
 	if not popup or "mail" == popup then
-		if APR.DB.HideVendor then
+		if APR.DB.HideMail then
 			APR:ChatPrint(L["mail_hidden"])
 		else
 			APR:ChatPrint(L["mail_shown"])
@@ -848,7 +848,7 @@ function APR:HidePopupMail(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("vendor") end
+	if printconfirm then APR:PrintStatus("mail") end
 end -- APR:HidePopupMail()
 
 
