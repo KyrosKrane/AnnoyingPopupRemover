@@ -77,6 +77,8 @@ L["delete_shown"] = CHAT_RED .. "Deleting \"good\" items" .. FONT_COLOR_CODE_CLO
 L["mail_hidden"] = "Confirmation pop-up when " .. CHAT_GREEN .. "mailing" .. FONT_COLOR_CODE_CLOSE .. " refundable items will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["mail_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "mailing" .. FONT_COLOR_CODE_CLOSE .. " refundable items will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
+L["trade_hidden"] = "Confirmation pop-up when " .. CHAT_GREEN .. "trading" .. FONT_COLOR_CODE_CLOSE .. " will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["trade_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "trading" .. FONT_COLOR_CODE_CLOSE .. " will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 
 --#########################################
@@ -188,6 +190,15 @@ APR.OptionsTable = {
 			width = "full",
 			order = 150,
 		}, -- delete
+		trade = {
+			name = L["Hide the confirmation pop-up when trading items"],
+			type = "toggle",
+			set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
+			get = function(info) return APR.DB.HideTrade end,
+			descStyle = "inline",
+			width = "full",
+			order = 160,
+		}, -- trade
 		AddonOptionsHeader = {
 			name = L["Addon Options"],
 			type = "header",
@@ -362,6 +373,7 @@ function APR:HandleAceSettingsChange(value, AceInfo)
 		or "destroy" == option
 		or "delete" == option
 		or "mail" == option
+		or "trade" == option
 		then
 			APR:TogglePopup(option, TextAction, ShowConf)
 
@@ -430,6 +442,13 @@ function APR:PrintStatus(popup)
 			APR:ChatPrint(L["mail_hidden"])
 		else
 			APR:ChatPrint(L["mail_shown"])
+		end
+	end
+	if not popup or "trade" == popup then
+		if APR.DB.HideTrade then
+			APR:ChatPrint(L["trade_hidden"])
+		else
+			APR:ChatPrint(L["trade_shown"])
 		end
 	end
 end -- APR:PrintStatus()
@@ -580,6 +599,26 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:ShowPopupMail(ShowConf)
 			else
 				APR:HidePopupMail(ShowConf)
+			end
+		end
+
+	elseif "trade" == popup then
+		if state then
+			if "show" == state then
+				APR:ShowPopupTrade(ShowConf)
+			elseif "hide" == state then
+				APR:HidePopupTrade(ShowConf)
+			else
+				-- error, bad programmer, no cookie!
+				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				return false
+			end
+		else
+			-- no state specified, so reverse the state. If Hide was on, then show it, and vice versa.
+			if APR.DB.Hidetrade then
+				APR:ShowPopupTrade(ShowConf)
+			else
+				APR:HidePopupTrade(ShowConf)
 			end
 		end
 
@@ -742,6 +781,23 @@ function APR:ShowPopupMail(printconfirm)
 end -- APR:ShowPopupMail()
 
 
+function APR:ShowPopupTrade(printconfirm)
+	APR:DebugPrint("in APR:ShowPopupTrade, printconfirm is " .. (printconfirm and "true" or "false"))
+	if APR.DB.HideTrade then
+		-- Re-enable the dialog for mailing refundable items while still tradable.
+		StaticPopupDialogs["TRADE"] = APR.StoredDialogs["TRADE"]
+		APR.StoredDialogs["TRADE"] = nil
+
+		-- Mark that the dialog is shown.
+		APR.DB.HideTrade = SHOW_DIALOG
+
+	-- else already shown, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("trade") end
+end -- APR:ShowPopupTrade()
+
+
 function APR:HidePopupBind(printconfirm, ForceHide)
 	APR:DebugPrint("in APR:HidePopupBind, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if not APR.DB.HideBind or ForceHide then
@@ -850,6 +906,23 @@ function APR:HidePopupMail(printconfirm, ForceHide)
 
 	if printconfirm then APR:PrintStatus("mail") end
 end -- APR:HidePopupMail()
+
+
+function APR:HidePopupTrade(printconfirm, ForceHide)
+	APR:DebugPrint("in APR:HidePopupTrade, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	if not APR.DB.HideTrade or ForceHide then
+		-- Disable the dialog for mailing refundable items while still tradable.
+		APR.StoredDialogs["TRADE"] = StaticPopupDialogs["TRADE"]
+		StaticPopupDialogs["TRADE"] = nil
+
+		-- Mark that the dialog is hidden.
+		APR.DB.HideTrade = HIDE_DIALOG
+
+	-- else already hidden, nothing to do.
+	end
+
+	if printconfirm then APR:PrintStatus("trade") end
+end -- APR:HidePopupTrade()
 
 
 --#########################################
@@ -995,6 +1068,24 @@ function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
 end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 
 
+-- Clicking Trade on a trading dialog triggers this.
+function APR.Events:SECURE_TRANSFER_CONFIRM_TRADE_ACCEPT(...)
+	if APR.DebugMode then
+		APR:DebugPrint("In APR.Events:SECURE_TRANSFER_CONFIRM_TRADE_ACCEPT")
+		APR:PrintVarArgs(...)
+	end -- if APR.DebugMode
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideTrade then
+		APR:DebugPrint("HideTrade off, not auto confirming")
+		return
+	end
+
+	-- Confirm the trade.
+	BeginTrade();
+end -- APR.Events:SECURE_TRANSFER_CONFIRM_TRADE_ACCEPT()
+
+
 --#########################################
 --# Event hooks - Addon setup
 --#########################################
@@ -1022,6 +1113,10 @@ function APR.Events:PLAYER_LOGIN(...)
 			APR_DB.HideMail = HIDE_DIALOG
 			APR:DebugPrint("HideMail initialized to true.")
 		end
+		if nil == APR_DB.HideTrade then
+			APR_DB.HideTrade = HIDE_DIALOG
+			APR:DebugPrint("HideTrade initialized to true.")
+		end
 		if nil == APR_DB.PrintStartupMessage then
 			APR_DB.PrintStartupMessage = PRINT_STARTUP
 			APR:DebugPrint("PrintStartupMessage initialized to true.")
@@ -1045,6 +1140,7 @@ function APR.Events:PLAYER_LOGIN(...)
 			HideRoll = HIDE_DIALOG,
 			HideDelete = HIDE_DIALOG,
 			HideMail = HIDE_DIALOG,
+			HideTrade = HIDE_DIALOG,
 			PrintStartupMessage = PRINT_STARTUP,
 		}
 		if not IsClassic then
@@ -1057,6 +1153,7 @@ function APR.Events:PLAYER_LOGIN(...)
 	APR:DebugPrint("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"))
 	APR:DebugPrint("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
 	APR:DebugPrint("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
+	APR:DebugPrint("HideTrade is " .. (APR.DB.HideTrade and "true" or "false"))
 
 	if not IsClassic then
 		APR:DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
@@ -1075,6 +1172,7 @@ function APR.Events:PLAYER_LOGIN(...)
 	if APR.DB.HideRoll then APR:HidePopupRoll(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 	if APR.DB.HideDelete then APR:HidePopupDelete(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 	if APR.DB.HideMail then APR:HidePopupMail(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
+	if APR.DB.HideTrade then APR:HidePopupTrade(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
 
 	if not IsClassic then
 		-- Force the default Void Storage frame to load so we can override it
