@@ -6,6 +6,7 @@ ignore: # Files and directories beginning with a dot (such as .git) are automati
     - Libs/LibStub/tests
     - Libs/LibStub/LibStub.toc
     - Curse description in markup.txt
+    - module_template.lua
 
 externals:
     # Prereqs
