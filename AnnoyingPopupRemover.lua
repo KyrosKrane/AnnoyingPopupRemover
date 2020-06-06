@@ -83,8 +83,8 @@ L["mail_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "mailing" .. FONT_C
 --# Global Variables
 --#########################################
 
--- Define a global for our namespace
-local APR = { }
+-- Grab the WoW-defined addon folder name and storage table for our addon
+local addonName, APR = ...
 
 -- Define whether we're in debug mode or production mode. True means debug; false means production.
 APR.DebugMode = false
@@ -93,8 +93,7 @@ APR.DebugMode = false
 APR.DebugMode = true
 --@end-alpha@
 
--- Set the internal and human-readable names for the addon.
-APR.ADDON_NAME = "AnnoyingPopupRemover" -- Don't localize this
+-- Set the human-readable name for the addon.
 APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
 
 -- Set the current version so we can display it.
@@ -232,14 +231,14 @@ end
 
 -- Process the options and create the AceConfig options table
 APR.AceConfigReg = LibStub("AceConfigRegistry-3.0")
-APR.AceConfigReg:RegisterOptionsTable(APR.ADDON_NAME, APR.OptionsTable)
+APR.AceConfigReg:RegisterOptionsTable(addonName, APR.OptionsTable)
 
 -- Create the slash command handler
 APR.AceConfigCmd = LibStub("AceConfigCmd-3.0")
-APR.AceConfigCmd:CreateChatCommand("apr", APR.ADDON_NAME)
+APR.AceConfigCmd:CreateChatCommand("apr", addonName)
 
 -- Create the frame to set the options and add it to the Blizzard settings
-APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(APR.ADDON_NAME, APR.USER_ADDON_NAME)
+APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, APR.USER_ADDON_NAME)
 
 
 --#########################################
