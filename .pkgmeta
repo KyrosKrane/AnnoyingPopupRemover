@@ -22,3 +22,6 @@ externals:
 
     # AceGui
     Libs/AceGUI-3.0: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
+
+    # My utilities
+    Libs/AddonUtilities: https://github.com/KyrosKrane/AddonUtilities

@@ -30,10 +30,12 @@ local PRINT_STARTUP = true
 local HIDE_STARTUP = false
 
 
--- Colors for printing in chat. These can be changed as needed.
-local CHAT_GREEN = "|cff00ff00"
-local CHAT_BLUE = "|cff0066ff"
-local CHAT_RED = "|cffa00000"
+--#########################################
+--# Local references (for readability)
+--#########################################
+
+local DebugPrint = APR.Utilities.DebugPrint
+local ChatPrint = APR.Utilities.ChatPrint
 
 
 --#########################################
@@ -59,23 +61,23 @@ end})
 
 
 -- These strings are a little complicated, so better to put them in a dedicated section here rather than define them implicitly.
-L["loot_hidden"] = "Confirmation pop-up when " .. CHAT_GREEN .. "looting" .. FONT_COLOR_CODE_CLOSE .. " bind-on-pickup items will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["loot_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "looting" .. FONT_COLOR_CODE_CLOSE .. " bind-on-pickup items will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["loot_hidden"] = "Confirmation pop-up when " .. addon.Utilities.CHAT_GREEN .. "looting" .. FONT_COLOR_CODE_CLOSE .. " bind-on-pickup items will be " .. addon.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["loot_shown"] = "Confirmation pop-up when " .. addon.Utilities.CHAT_RED .. "looting" .. FONT_COLOR_CODE_CLOSE .. " bind-on-pickup items will be " .. addon.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
-L["roll_hidden"] = "Confirmation pop-up when " .. CHAT_GREEN .. "rolling" .. FONT_COLOR_CODE_CLOSE .. " on bind-on-pickup items will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["roll_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "rolling" .. FONT_COLOR_CODE_CLOSE .. " on bind-on-pickup items will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["roll_hidden"] = "Confirmation pop-up when " .. addon.Utilities.CHAT_GREEN .. "rolling" .. FONT_COLOR_CODE_CLOSE .. " on bind-on-pickup items will be " .. addon.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["roll_shown"] = "Confirmation pop-up when " .. addon.Utilities.CHAT_RED .. "rolling" .. FONT_COLOR_CODE_CLOSE .. " on bind-on-pickup items will be " .. addon.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
-L["void_hidden"] = "Confirmation pop-up when depositing modified items into " .. CHAT_GREEN .. "void storage" .. FONT_COLOR_CODE_CLOSE .. " will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["void_shown"] = "Confirmation pop-up when depositing modified items into " .. CHAT_RED .. "void storage" .. FONT_COLOR_CODE_CLOSE .. " will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["void_hidden"] = "Confirmation pop-up when depositing modified items into " .. addon.Utilities.CHAT_GREEN .. "void storage" .. FONT_COLOR_CODE_CLOSE .. " will be " .. addon.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["void_shown"] = "Confirmation pop-up when depositing modified items into " .. addon.Utilities.CHAT_RED .. "void storage" .. FONT_COLOR_CODE_CLOSE .. " will be " .. addon.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
-L["vendor_hidden"] = "Confirmation pop-up when selling group-looted items to a " .. CHAT_GREEN .. "vendor" .. FONT_COLOR_CODE_CLOSE .. " will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["vendor_shown"] = "Confirmation pop-up when selling group-looted items to a " .. CHAT_RED .. "vendor" .. FONT_COLOR_CODE_CLOSE .. " will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["vendor_hidden"] = "Confirmation pop-up when selling group-looted items to a " .. addon.Utilities.CHAT_GREEN .. "vendor" .. FONT_COLOR_CODE_CLOSE .. " will be " .. addon.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["vendor_shown"] = "Confirmation pop-up when selling group-looted items to a " .. addon.Utilities.CHAT_RED .. "vendor" .. FONT_COLOR_CODE_CLOSE .. " will be " .. addon.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
-L["delete_hidden"] = CHAT_GREEN .. "Deleting \"good\" items" .. FONT_COLOR_CODE_CLOSE .. " will " .. CHAT_GREEN .. "not require" .. FONT_COLOR_CODE_CLOSE .. " typing the word \"delete\"."
-L["delete_shown"] = CHAT_RED .. "Deleting \"good\" items" .. FONT_COLOR_CODE_CLOSE .. " will " .. CHAT_RED .. "require" .. FONT_COLOR_CODE_CLOSE .. " typing the word \"delete\"."
+L["delete_hidden"] = addon.Utilities.CHAT_GREEN .. "Deleting \"good\" items" .. FONT_COLOR_CODE_CLOSE .. " will " .. addon.Utilities.CHAT_GREEN .. "not require" .. FONT_COLOR_CODE_CLOSE .. " typing the word \"delete\"."
+L["delete_shown"] = addon.Utilities.CHAT_RED .. "Deleting \"good\" items" .. FONT_COLOR_CODE_CLOSE .. " will " .. addon.Utilities.CHAT_RED .. "require" .. FONT_COLOR_CODE_CLOSE .. " typing the word \"delete\"."
 
-L["mail_hidden"] = "Confirmation pop-up when " .. CHAT_GREEN .. "mailing" .. FONT_COLOR_CODE_CLOSE .. " refundable items will be " .. CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["mail_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "mailing" .. FONT_COLOR_CODE_CLOSE .. " refundable items will be " .. CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["mail_hidden"] = "Confirmation pop-up when " .. addon.Utilities.CHAT_GREEN .. "mailing" .. FONT_COLOR_CODE_CLOSE .. " refundable items will be " .. addon.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["mail_shown"] = "Confirmation pop-up when " .. addon.Utilities.CHAT_RED .. "mailing" .. FONT_COLOR_CODE_CLOSE .. " refundable items will be " .. addon.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 
 
@@ -85,13 +87,6 @@ L["mail_shown"] = "Confirmation pop-up when " .. CHAT_RED .. "mailing" .. FONT_C
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
-
--- Define whether we're in debug mode or production mode. True means debug; false means production.
-APR.DebugMode = false
-
---@alpha@
-APR.DebugMode = true
---@end-alpha@
 
 -- Set the human-readable name for the addon.
 APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
@@ -242,94 +237,6 @@ APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, APR
 
 
 --#########################################
---# Utility Functions
---#########################################
-
--- Print debug output to the chat frame.
-function APR:DebugPrint(msg)
-	if (APR.DebugMode) then
-		DEFAULT_CHAT_FRAME:AddMessage(CHAT_RED .. L["APR"] .. " " .. L["Debug"] .. ": " .. FONT_COLOR_CODE_CLOSE .. msg)
-	end
-end -- APR:DebugPrint
-
-
--- Print standard output to the chat frame.
-function APR:ChatPrint(msg)
-	DEFAULT_CHAT_FRAME:AddMessage(CHAT_BLUE .. L["APR"] .. ": " .. FONT_COLOR_CODE_CLOSE .. msg)
-end -- APR:ChatPrint()
-
-
--- Debugging code to see what the hell is being passed in...
-function APR:PrintVarArgs(...)
-	local n = select('#', ...)
-	APR:DebugPrint("There are " .. n .. " items in varargs.")
-	local msg
-	for i = 1, n do
-		msg = select(i, ...)
-		APR:DebugPrint("Item " .. i .. " is " .. msg)
-	end
-end -- APR:PrintVarArgs()
-
-
--- Dumps a table into chat. Not intended for production use.
-function APR:DumpTable(tab, indent)
-	if not indent then indent = 0 end
-	if indent > 10 then
-		APR:DebugPrint("Recursion is at 11 already; aborting.")
-		return
-	end
-	for k, v in pairs(tab) do
-		local s = ""
-		if indent > 0 then
-			for i = 0, indent do
-				s = s .. "    "
-			end
-		end
-		if "table" == type(v) then
-			s = s .. "Item " .. k .. " is sub-table."
-			APR:DebugPrint(s)
-			indent = indent + 1
-			APR:DumpTable(v, indent)
-			indent = indent - 1
-		else
-			s = s .. "Item " .. k .. " is " .. tostring(v)
-			APR:DebugPrint(s)
-		end
-	end
-end -- APR:DumpTable()
-
-
--- Splits a string into sections, based on a specified separator.
--- Split text into a list consisting of the strings in text,
--- separated by strings matching delimiter (which may be a pattern).
--- example: APR:strsplit(",%s*", "Anna, Bob, Charlie,Dolores")
--- Adapted from Lua manual: http://lua-users.org/wiki/SplitJoin
-function APR:strsplit(delimiter, text)
-	local list = {}
-	local pos = 1
-	if strfind("", delimiter, 1) then
-		-- this would result in endless loops
-		-- error("delimiter matches empty string!")
-
-		-- return the entire string instead.
-		tinsert(list, text)
-		return list
-	end
-	while 1 do
-		local first, last = strfind(text, delimiter, pos)
-		if first then -- found?
-			tinsert(list, strsub(text, pos, first-1))
-			pos = last+1
-		else
-			tinsert(list, strsub(text, pos))
-			break
-		end
-	end
-	return list
-end -- APR:strsplit()
-
-
---#########################################
 --# Slash command handling
 --#########################################
 
@@ -391,44 +298,44 @@ end -- APR:HandleAceSettingsChange()
 function APR:PrintStatus(popup)
 	if not popup or "loot" == popup then
 		if APR.DB.HideBind then
-			APR:ChatPrint(L["loot_hidden"])
+			ChatPrint(L["loot_hidden"])
 		else
-			APR:ChatPrint(L["loot_shown"])
+			ChatPrint(L["loot_shown"])
 		end
 	end
 	if not popup or "roll" == popup then
 		if APR.DB.HideRoll then
-			APR:ChatPrint(L["roll_hidden"])
+			ChatPrint(L["roll_hidden"])
 		else
-			APR:ChatPrint(L["roll_shown"])
+			ChatPrint(L["roll_shown"])
 		end
 	end
 	if not IsClassic and (not popup or "void" == popup) then
 		if APR.DB.HideVoid then
-			APR:ChatPrint(L["void_hidden"])
+			ChatPrint(L["void_hidden"])
 		else
-			APR:ChatPrint(L["void_shown"])
+			ChatPrint(L["void_shown"])
 		end
 	end
 	if not IsClassic and (not popup or "vendor" == popup) then
 		if APR.DB.HideVendor then
-			APR:ChatPrint(L["vendor_hidden"])
+			ChatPrint(L["vendor_hidden"])
 		else
-			APR:ChatPrint(L["vendor_shown"])
+			ChatPrint(L["vendor_shown"])
 		end
 	end
 	if not popup or "delete" == popup then
 		if APR.DB.HideDelete then
-			APR:ChatPrint(L["delete_hidden"])
+			ChatPrint(L["delete_hidden"])
 		else
-			APR:ChatPrint(L["delete_shown"])
+			ChatPrint(L["delete_shown"])
 		end
 	end
 	if not popup or "mail" == popup then
 		if APR.DB.HideMail then
-			APR:ChatPrint(L["mail_hidden"])
+			ChatPrint(L["mail_hidden"])
 		else
-			APR:ChatPrint(L["mail_shown"])
+			ChatPrint(L["mail_shown"])
 		end
 	end
 end -- APR:PrintStatus()
@@ -442,7 +349,7 @@ end -- APR:PrintStatus()
 -- popup is required, state and ConfState are optional
 function APR:TogglePopup(popup, state, ConfState)
 
-	APR:DebugPrint("in TogglePopup, popup = " .. popup .. ", state is " .. (state and state or "nil") .. ", ConfState is " .. (ConfState == nil and "nil" or (ConfState and "true" or "false")))
+	DebugPrint("in TogglePopup, popup = " .. popup .. ", state is " .. (state and state or "nil") .. ", ConfState is " .. (ConfState == nil and "nil" or (ConfState and "true" or "false")))
 
 	-- Check if a confirmation message should be printed. This is only needed when a change is made from the command line, not from the config UI.
 	local ShowConf = PRINT_CONFIRMATION
@@ -470,7 +377,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:HidePopupBind(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
 				return false
 			end
 		else
@@ -490,7 +397,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:HidePopupRoll(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
 				return false
 			end
 		else
@@ -510,7 +417,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:HidePopupVoid(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
 				return false
 			end
 		else
@@ -530,7 +437,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:HidePopupVendor(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
 				return false
 			end
 		else
@@ -550,7 +457,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:HidePopupDelete(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
 				return false
 			end
 		else
@@ -570,7 +477,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				APR:HidePopupMail(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				APR:DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. popup .. " passed in.")
 				return false
 			end
 		else
@@ -584,7 +491,7 @@ function APR:TogglePopup(popup, state, ConfState)
 
 	else
 		-- error, bad programmer, no cookie!
-		APR:DebugPrint("Error in APR:TogglePopup: unknown popup type " .. popup .. " passed in.")
+		DebugPrint("Error in APR:TogglePopup: unknown popup type " .. popup .. " passed in.")
 		return false
 	end
 end -- APR:TogglePopup()
@@ -593,16 +500,16 @@ end -- APR:TogglePopup()
 function APR:SetDebug(mode)
 	if mode then
 		APR.DebugMode = true
-		APR:ChatPrint(L["Debug mode is now on."])
+		ChatPrint(L["Debug mode is now on."])
 	else
 		APR.DebugMode = false
-		APR:ChatPrint(L["Debug mode is now off."])
+		ChatPrint(L["Debug mode is now off."])
 	end
 end -- APR:SetDebug()
 
 
 function APR:ToggleStartupMessage(mode, ConfState)
-	APR:DebugPrint("in ToggleStartupMessage, mode = " .. mode .. ", ConfState is " .. (ConfState == nil and "nil" or (ConfState and "true" or "false")))
+	DebugPrint("in ToggleStartupMessage, mode = " .. mode .. ", ConfState is " .. (ConfState == nil and "nil" or (ConfState and "true" or "false")))
 
 	-- Check if a confirmation message should be printed. This is only needed when a change is made from the command line, not from the config UI.
 	local ShowConf = PRINT_CONFIRMATION
@@ -612,13 +519,13 @@ function APR:ToggleStartupMessage(mode, ConfState)
 
 	if "show" == mode then
 		APR.DB.PrintStartupMessage = PRINT_STARTUP
-		if ShowConf then APR:ChatPrint(L["Startup announcement message will printed in your chat frame at login."]) end
+		if ShowConf then ChatPrint(L["Startup announcement message will printed in your chat frame at login."]) end
 	elseif "hide" == mode then
 		APR.DB.PrintStartupMessage = HIDE_STARTUP
-		if ShowConf then APR:ChatPrint(L["Startup announcement message will NOT printed in your chat frame at login."]) end
+		if ShowConf then ChatPrint(L["Startup announcement message will NOT printed in your chat frame at login."]) end
 	else
 		-- error, bad programmer, no cookie!
-		APR:DebugPrint("Error in APR:ToggleStartupMessage: unknown mode " .. mode .. " passed in.")
+		DebugPrint("Error in APR:ToggleStartupMessage: unknown mode " .. mode .. " passed in.")
 		return false
 	end
 end -- APR:ToggleStartupMessage()
@@ -632,7 +539,7 @@ end -- APR:ToggleStartupMessage()
 -- not documenting individually, as it should be clear what they do.
 
 function APR:ShowPopupBind(printconfirm)
-	APR:DebugPrint("in APR:ShowPopupBind, printconfirm is " .. (printconfirm and "true" or "false"))
+	DebugPrint("in APR:ShowPopupBind, printconfirm is " .. (printconfirm and "true" or "false"))
 	if APR.DB.HideBind then
 		-- Re-enable the dialog that pops to confirm looting BoP gear yourself.
 		StaticPopupDialogs["LOOT_BIND"] = APR.StoredDialogs["LOOT_BIND"]
@@ -649,7 +556,7 @@ end -- APR:ShowPopupBind()
 
 
 function APR:ShowPopupRoll(printconfirm)
-	APR:DebugPrint("in APR:ShowPopupRoll, printconfirm is " .. (printconfirm and "true" or "false"))
+	DebugPrint("in APR:ShowPopupRoll, printconfirm is " .. (printconfirm and "true" or "false"))
 	if APR.DB.HideRoll then
 		-- Re-enable the dialog for the event that triggers when rolling on BOP items.
 		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = APR.StoredDialogs["CONFIRM_LOOT_ROLL"]
@@ -666,9 +573,9 @@ end -- APR:ShowPopupRoll()
 
 
 function APR:ShowPopupVoid(printconfirm)
-	APR:DebugPrint("in APR:ShowPopupVoid, printconfirm is " .. (printconfirm and "true" or "false"))
+	DebugPrint("in APR:ShowPopupVoid, printconfirm is " .. (printconfirm and "true" or "false"))
 	if IsClassic then
-		APR:DebugPrint("in APR:ShowPopupVoid, Classic detected, aborting")
+		DebugPrint("in APR:ShowPopupVoid, Classic detected, aborting")
 		return
 	end
 	if APR.DB.HideVoid then
@@ -687,9 +594,9 @@ end -- APR:ShowPopupVoid()
 
 
 function APR:ShowPopupVendor(printconfirm)
-	APR:DebugPrint("in APR:ShowPopupVendor, printconfirm is " .. (printconfirm and "true" or "false"))
+	DebugPrint("in APR:ShowPopupVendor, printconfirm is " .. (printconfirm and "true" or "false"))
 	if IsClassic then
-		APR:DebugPrint("in APR:ShowPopupVendor, Classic detected, aborting")
+		DebugPrint("in APR:ShowPopupVendor, Classic detected, aborting")
 		return
 	end
 	if APR.DB.HideVendor then
@@ -708,7 +615,7 @@ end -- APR:ShowPopupVendor()
 
 
 function APR:ShowPopupDelete(printconfirm)
-	APR:DebugPrint("in APR:ShowPopupDelete, printconfirm is " .. (printconfirm and "true" or "false"))
+	DebugPrint("in APR:ShowPopupDelete, printconfirm is " .. (printconfirm and "true" or "false"))
 	if APR.DB.HideDelete then
 		-- Re-enable typing the word "delete" when deleting good items.
 		StaticPopupDialogs["DELETE_GOOD_ITEM"] = APR.StoredDialogs["DELETE_GOOD_ITEM"]
@@ -725,7 +632,7 @@ end -- APR:ShowPopupDelete()
 
 
 function APR:ShowPopupMail(printconfirm)
-	APR:DebugPrint("in APR:ShowPopupMail, printconfirm is " .. (printconfirm and "true" or "false"))
+	DebugPrint("in APR:ShowPopupMail, printconfirm is " .. (printconfirm and "true" or "false"))
 	if APR.DB.HideMail then
 		-- Re-enable the dialog for mailing refundable items while still tradable.
 		StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
@@ -742,7 +649,7 @@ end -- APR:ShowPopupMail()
 
 
 function APR:HidePopupBind(printconfirm, ForceHide)
-	APR:DebugPrint("in APR:HidePopupBind, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	DebugPrint("in APR:HidePopupBind, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if not APR.DB.HideBind or ForceHide then
 		-- Disable the dialog that pops to confirm looting BoP gear yourself.
 		APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"]
@@ -759,7 +666,7 @@ end -- APR:HidePopupBind()
 
 
 function APR:HidePopupRoll(printconfirm, ForceHide)
-	APR:DebugPrint("in APR:HidePopupRoll, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	DebugPrint("in APR:HidePopupRoll, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if not APR.DB.HideRoll or ForceHide then
 		-- Disable the dialog for the event that triggers when rolling on BOP items.
 		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"]
@@ -776,9 +683,9 @@ end -- APR:HidePopupRoll()
 
 
 function APR:HidePopupVoid(printconfirm, ForceHide)
-	APR:DebugPrint("in APR:HidePopupVoid, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	DebugPrint("in APR:HidePopupVoid, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if IsClassic then
-		APR:DebugPrint("in APR:HidePopupVoid, Classic detected, aborting")
+		DebugPrint("in APR:HidePopupVoid, Classic detected, aborting")
 		return
 	end
 	if not APR.DB.HideVoid or ForceHide then
@@ -797,9 +704,9 @@ end -- APR:HidePopupVoid()
 
 
 function APR:HidePopupVendor(printconfirm, ForceHide)
-	APR:DebugPrint("in APR:HidePopupVendor, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	DebugPrint("in APR:HidePopupVendor, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if IsClassic then
-		APR:DebugPrint("in APR:HidePopupVendor, Classic detected, aborting")
+		DebugPrint("in APR:HidePopupVendor, Classic detected, aborting")
 		return
 	end
 	if not APR.DB.HideVendor or ForceHide then
@@ -818,7 +725,7 @@ end -- APR:HidePopupVendor()
 
 
 function APR:HidePopupDelete(printconfirm, ForceHide)
-	APR:DebugPrint("in APR:HidePopupDelete, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	DebugPrint("in APR:HidePopupDelete, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if not APR.DB.HideDelete or ForceHide then
 		-- When deleting a good item, get a yes/no dialog instead of typing the word "delete"
 		APR.StoredDialogs["DELETE_GOOD_ITEM"] = StaticPopupDialogs["DELETE_GOOD_ITEM"]
@@ -835,7 +742,7 @@ end -- APR:HidePopupDelete()
 
 
 function APR:HidePopupMail(printconfirm, ForceHide)
-	APR:DebugPrint("in APR:HidePopupMail, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
+	DebugPrint("in APR:HidePopupMail, printconfirm is " .. (printconfirm and "true" or "false") .. ", ForceHide is " .. (ForceHide == nil and "nil" or (ForceHide and "true" or "false")))
 	if not APR.DB.HideMail or ForceHide then
 		-- Disable the dialog for mailing refundable items while still tradable.
 		APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
@@ -860,15 +767,15 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	local id = ...
 
 	if APR.DebugMode then
-		APR:DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
-		APR:DebugPrint("Frame is " .. Frame)
-		APR:DebugPrint("id is " .. id)
-		APR:PrintVarArgs(...)
+		DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
+		DebugPrint("Frame is " .. Frame)
+		DebugPrint("id is " .. id)
+		APR.Utilities.PrintVarArgs(...)
 	end -- if APR.DebugMode
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideBind then
-		APR:DebugPrint("HideBind off, not auto confirming")
+		DebugPrint("HideBind off, not auto confirming")
 		return
 	end
 
@@ -879,20 +786,20 @@ function APR.Events:LOOT_BIND_CONFIRM(Frame, ...)
 	-- The bug noted above was fixed some time during or after the patch 7.0.3 era.
 
 	if id then
-		APR:DebugPrint("id is valid.")
+		DebugPrint("id is valid.")
 		ConfirmLootSlot(id)
 	elseif Frame then
-		APR:DebugPrint("id is null, confirming with Frame.")
+		DebugPrint("id is null, confirming with Frame.")
 		ConfirmLootSlot(Frame)
 
 	--		-- Testing whether double-Confirming would help. It didn't. :(
-	--		APR:DebugPrint("Verifying if slot is empty.")
+	--		DebugPrint("Verifying if slot is empty.")
 	--		if LootSlotHasItem(Frame) then
-	--			APR:DebugPrint("Loot slot still has item; attempting to re-loot.")
+	--			DebugPrint("Loot slot still has item; attempting to re-loot.")
 	--			-- LootSlot(Frame) -- don't do this! This retriggers the same event recursively and infinitely, leading to a stack overflow.
 	--			ConfirmLootSlot(Frame)
 	--		else
-	--			APR:DebugPrint("Loot slot is empty.")
+	--			DebugPrint("Loot slot is empty.")
 	--		end
 	end
 end -- APR.Events:LOOT_BIND_CONFIRM()
@@ -901,18 +808,18 @@ end -- APR.Events:LOOT_BIND_CONFIRM()
 -- Rolling on a BOP item triggers this event.
 function APR.Events:CONFIRM_LOOT_ROLL(...)
 	if APR.DebugMode then
-		APR:DebugPrint("In APR.Events:CONFIRM_LOOT_ROLL")
-		APR:PrintVarArgs(...)
+		DebugPrint("In APR.Events:CONFIRM_LOOT_ROLL")
+		APR.Utilities.PrintVarArgs(...)
 	end -- if APR.DebugMode
 
 	local id, rollType = ...
 
-	APR:DebugPrint("id is " .. id)
-	APR:DebugPrint("rollType is " .. rollType)
+	DebugPrint("id is " .. id)
+	DebugPrint("rollType is " .. rollType)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideRoll then
-		APR:DebugPrint("HideRoll off, not auto confirming")
+		DebugPrint("HideRoll off, not auto confirming")
 		return
 	end
 
@@ -923,17 +830,17 @@ if not IsClassic then
 	-- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
 	function APR.Events:VOID_DEPOSIT_WARNING(...)
 		if APR.DebugMode then
-			APR:DebugPrint("In APR.Events:VOID_DEPOSIT_WARNING")
-			APR:PrintVarArgs(...)
+			DebugPrint("In APR.Events:VOID_DEPOSIT_WARNING")
+			APR.Utilities.PrintVarArgs(...)
 		end -- if APR.DebugMode
 
 		-- Document the incoming parameters.
 		local slot, itemLink = ...
-		APR:DebugPrint("slot is " .. slot)
+		DebugPrint("slot is " .. slot)
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideVoid then
-			APR:DebugPrint("HideVoid off, not auto confirming")
+			DebugPrint("HideVoid off, not auto confirming")
 			return
 		end
 
@@ -942,28 +849,28 @@ if not IsClassic then
 		VoidStorage_UpdateTransferButton(nil)
 	end -- APR.Events:VOID_DEPOSIT_WARNING()
 else
-	APR:DebugPrint("Classic detected, not registering APR.Events:VOID_DEPOSIT_WARNING")
+	DebugPrint("Classic detected, not registering APR.Events:VOID_DEPOSIT_WARNING")
 end -- if not IsClassic
 
 -- Vendoring an item that was group-looted and is still tradable in the group triggers this.
 function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
 	if APR.DebugMode then
-		APR:DebugPrint("In APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL")
-		APR:PrintVarArgs(...)
+		DebugPrint("In APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL")
+		APR.Utilities.PrintVarArgs(...)
 	end -- if APR.DebugMode
 
 	if IsClassic then
-		APR:DebugPrint("in APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL, Classic detected, aborting")
+		DebugPrint("in APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL, Classic detected, aborting")
 		return
 	end
 
 	-- Document the incoming parameters.
 	local item = ... -- this is an item link.
-	APR:DebugPrint("item is " .. item)
+	DebugPrint("item is " .. item)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideVendor then
-		APR:DebugPrint("HideVendor off, not auto confirming")
+		DebugPrint("HideVendor off, not auto confirming")
 		return
 	end
 
@@ -975,17 +882,17 @@ end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
 -- Mailing an item that was vendor-bought and is still refundable triggers this.
 function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
 	if APR.DebugMode then
-		APR:DebugPrint("In APR.Events:MAIL_LOCK_SEND_ITEMS")
-		APR:PrintVarArgs(...)
+		DebugPrint("In APR.Events:MAIL_LOCK_SEND_ITEMS")
+		APR.Utilities.PrintVarArgs(...)
 	end -- if APR.DebugMode
 
 	-- Document the incoming parameters.
 	local mailSlot, itemLink = ...
-	APR:DebugPrint("mailSlot is " .. mailSlot .. ", itemLink is " .. itemLink)
+	DebugPrint("mailSlot is " .. mailSlot .. ", itemLink is " .. itemLink)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideMail then
-		APR:DebugPrint("HideMail off, not auto confirming")
+		DebugPrint("HideMail off, not auto confirming")
 		return
 	end
 
@@ -1000,45 +907,45 @@ end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
-	APR:DebugPrint("In PLAYER_LOGIN")
+	DebugPrint("In PLAYER_LOGIN")
 
 	-- Load the saved variables, or initialize if they don't exist yet.
 	if APR_DB then
-		APR:DebugPrint("Loading existing saved var.")
+		DebugPrint("Loading existing saved var.")
 		if nil == APR_DB.HideBind then
 			APR_DB.HideBind = HIDE_DIALOG
-			APR:DebugPrint("HideBind initialized to true.")
+			DebugPrint("HideBind initialized to true.")
 		end
 		if nil == APR_DB.HideRoll then
 			APR_DB.HideRoll = HIDE_DIALOG
-			APR:DebugPrint("HideRoll initialized to true.")
+			DebugPrint("HideRoll initialized to true.")
 		end
 		if nil == APR_DB.HideDelete then
 			APR_DB.HideDelete = HIDE_DIALOG
-			APR:DebugPrint("HideDelete initialized to true.")
+			DebugPrint("HideDelete initialized to true.")
 		end
 		if nil == APR_DB.HideMail then
 			APR_DB.HideMail = HIDE_DIALOG
-			APR:DebugPrint("HideMail initialized to true.")
+			DebugPrint("HideMail initialized to true.")
 		end
 		if nil == APR_DB.PrintStartupMessage then
 			APR_DB.PrintStartupMessage = PRINT_STARTUP
-			APR:DebugPrint("PrintStartupMessage initialized to true.")
+			DebugPrint("PrintStartupMessage initialized to true.")
 		end
 		if not IsClassic then
 			if nil == APR_DB.HideVoid then
 				APR_DB.HideVoid = HIDE_DIALOG
-				APR:DebugPrint("HideVoid initialized to true.")
+				DebugPrint("HideVoid initialized to true.")
 			end
 			if nil == APR_DB.HideVendor then
 				APR_DB.HideVendor = HIDE_DIALOG
-				APR:DebugPrint("HideVendor initialized to true.")
+				DebugPrint("HideVendor initialized to true.")
 			end
 		end
-		APR:DebugPrint("Applying saved settings.")
+		DebugPrint("Applying saved settings.")
 		APR.DB = APR_DB
 	else
-		APR:DebugPrint("No saved var, setting defaults.")
+		DebugPrint("No saved var, setting defaults.")
 		APR.DB = {
 			HideBind = HIDE_DIALOG,
 			HideRoll = HIDE_DIALOG,
@@ -1052,20 +959,20 @@ function APR.Events:PLAYER_LOGIN(...)
 		end
 	end
 
-	APR:DebugPrint("HideBind is " .. (APR.DB.HideBind and "true" or "false"))
-	APR:DebugPrint("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"))
-	APR:DebugPrint("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
-	APR:DebugPrint("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
+	DebugPrint("HideBind is " .. (APR.DB.HideBind and "true" or "false"))
+	DebugPrint("HideRoll is " .. (APR.DB.HideRoll and "true" or "false"))
+	DebugPrint("HideDelete is " .. (APR.DB.HideDelete and "true" or "false"))
+	DebugPrint("HideMail is " .. (APR.DB.HideMail and "true" or "false"))
 
 	if not IsClassic then
-		APR:DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
-		APR:DebugPrint("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
+		DebugPrint("HideVoid is " .. (APR.DB.HideVoid and "true" or "false"))
+		DebugPrint("HideVendor is " .. (APR.DB.HideVendor and "true" or "false"))
 	end
 
 	-- Announce our load.
-	APR:DebugPrint("APR.DB.PrintStartupMessage is " .. (APR.DB.PrintStartupMessage and "true" or "false"))
+	DebugPrint("APR.DB.PrintStartupMessage is " .. (APR.DB.PrintStartupMessage and "true" or "false"))
 	if APR.DB.PrintStartupMessage then
-		APR:ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
+		ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
 	end
 
 	-- Hide the dialogs the user has selected.
@@ -1078,8 +985,8 @@ function APR.Events:PLAYER_LOGIN(...)
 	if not IsClassic then
 		-- Force the default Void Storage frame to load so we can override it
 		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
-		APR:DebugPrint("Blizzard_VoidStorageUI isloaded is " .. (isloaded and "true" or "false"))
-		APR:DebugPrint("Blizzard_VoidStorageUI reason is " .. (reason and reason or "nil"))
+		DebugPrint("Blizzard_VoidStorageUI isloaded is " .. (isloaded and "true" or "false"))
+		DebugPrint("Blizzard_VoidStorageUI reason is " .. (reason and reason or "nil"))
 
 		-- Hide the non-Classic dialogs
 		if APR.DB.HideVoid then APR:HidePopupVoid(NO_CONFIRMATION, FORCE_HIDE_DIALOG) end
@@ -1090,7 +997,7 @@ end -- APR.Events:PLAYER_LOGIN()
 
 -- Save the db on logout.
 function APR.Events:PLAYER_LOGOUT(...)
-	APR:DebugPrint("In PLAYER_LOGOUT, saving DB.")
+	DebugPrint("In PLAYER_LOGOUT, saving DB.")
 	APR_DB = APR.DB
 end -- APR.Events:PLAYER_LOGOUT()
 
@@ -1106,7 +1013,7 @@ end)
 
 -- Register all events for which handlers have been defined
 for k, v in pairs(APR.Events) do
-	APR:DebugPrint("Registering event " .. k)
+	DebugPrint("Registering event " .. k)
 	APR.Frame:RegisterEvent(k)
 end
 
