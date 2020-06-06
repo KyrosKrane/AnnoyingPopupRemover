@@ -27,4 +27,5 @@ Libs\AceConfigCmd-3.0\AceConfigCmd-3.0.lua
 Libs\AddonUtilities\Utilities.lua
 
 # In this add-on
+Localization.lua
 AnnoyingPopupRemover.lua
