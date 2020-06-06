@@ -24,6 +24,7 @@ Libs\AceConfigRegistry-3.0\AceConfigRegistry-3.0.lua
 Libs\AceConfigDialog-3.0\AceConfigDialog-3.0.lua
 Libs\AceConfigCmd-3.0\AceConfigCmd-3.0.lua
 
+Libs\AddonUtilities\Utilities.lua
+
 # In this add-on
-AddonUtilities\Utilities.lua
 AnnoyingPopupRemover.lua
