@@ -98,8 +98,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
             APR.Utilities.PrintVarArgs(...)
 
             -- Document the parameters
-            local Time, InnName = ...
-            DebugPrint("Time is " .. Time)
+            local InnName = ...
             DebugPrint("InnName is " .. InnName)
         end -- if APR.DebugMode
 
@@ -109,6 +108,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			return
 		end
 
+		DebugPrint("Auto confirming Innkeeper bind request")
 		ConfirmBinder()
 	end -- APR.Events:CONFIRM_BINDER()
 end -- WoW Classic check
