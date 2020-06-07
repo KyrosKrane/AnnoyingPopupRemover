@@ -32,13 +32,13 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-    name = L["Hide the confirmation pop-up when rolling on bind-on-pickup items"],
-    type = "toggle",
-    set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-    get = function(info) return APR.DB.HideRoll end,
-    descStyle = "inline",
-    width = "full",
-    order = 120,
+	name = L["Hide the confirmation pop-up when rolling on bind-on-pickup items"],
+	type = "toggle",
+	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
+	get = function(info) return APR.DB.HideRoll end,
+	descStyle = "inline",
+	width = "full",
+	order = 120,
 } -- config
 
 -- These are the status strings that are printed to indicate whether it's off or on
@@ -50,7 +50,7 @@ APR.Modules[ThisModule].WorksInClassic = true;
 
 
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['roll''].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['roll'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideRoll then
 		-- Re-enable the dialog for the event that triggers when rolling on BOP items.
 		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = APR.StoredDialogs["CONFIRM_LOOT_ROLL"]
@@ -67,7 +67,7 @@ end -- ShowPopup()
 
 
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-    DebugPrint("in APR.Modules['roll''].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['roll''].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideRoll or ForceHide then
 		-- Disable the dialog for the event that triggers when rolling on BOP items.
 		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"]
@@ -87,25 +87,25 @@ end -- HidePopup()
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 
-    -- Rolling on a BOP item triggers this event.
-    function APR.Events:CONFIRM_LOOT_ROLL(...)
-        if APR.DebugMode then
-            DebugPrint("In APR.Events:CONFIRM_LOOT_ROLL")
-            APR.Utilities.PrintVarArgs(...)
-        end -- if APR.DebugMode
+	-- Rolling on a BOP item triggers this event.
+	function APR.Events:CONFIRM_LOOT_ROLL(...)
+		if APR.DebugMode then
+			DebugPrint("In APR.Events:CONFIRM_LOOT_ROLL")
+			APR.Utilities.PrintVarArgs(...)
+		end -- if APR.DebugMode
 
-        local id, rollType = ...
+		local id, rollType = ...
 
-        DebugPrint("id is " .. id)
-        DebugPrint("rollType is " .. rollType)
+		DebugPrint("id is " .. id)
+		DebugPrint("rollType is " .. rollType)
 
-        -- If the user didn't ask us to hide this popup, just return.
-        if not APR.DB.HideRoll then
-            DebugPrint("HideRoll off, not auto confirming")
-            return
-        end
+		-- If the user didn't ask us to hide this popup, just return.
+		if not APR.DB.HideRoll then
+			DebugPrint("HideRoll off, not auto confirming")
+			return
+		end
 
-        ConfirmLootRoll(id, rollType)
-    end -- APR.Events:CONFIRM_LOOT_ROLL()
+		ConfirmLootRoll(id, rollType)
+	end -- APR.Events:CONFIRM_LOOT_ROLL()
 
 end -- WoW Classic check

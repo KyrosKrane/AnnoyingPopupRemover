@@ -32,13 +32,13 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-    name = L["Hide the confirmation pop-up when depositing modified items into void storage"],
-    type = "toggle",
-    set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-    get = function(info) return APR.DB.HideVoid end,
-    descStyle = "inline",
-    width = "full",
-    order = 130,
+	name = L["Hide the confirmation pop-up when depositing modified items into void storage"],
+	type = "toggle",
+	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
+	get = function(info) return APR.DB.HideVoid end,
+	descStyle = "inline",
+	width = "full",
+	order = 130,
 } -- config
 
 -- These are the status strings that are printed to indicate whether it's off or on
@@ -55,7 +55,7 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 		DebugPrint("in APR.Modules['void''].ShowPopup, Classic detected, aborting")
 		return
 	end
-    DebugPrint("in APR.Modules['void''].ShowPopup, before showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	DebugPrint("in APR.Modules['void''].ShowPopup, before showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if APR.DB.HideVoid then
 		-- Re-enable the dialog for putting tradable or modified items into void storage.
 		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"]
@@ -67,8 +67,8 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	-- else already shown, nothing to do.
 	end
 
-    DebugPrint("in APR.Modules['void''].ShowPopup, after showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
-    if printconfirm then APR:PrintStatus(ThisModule) end
+	DebugPrint("in APR.Modules['void''].ShowPopup, after showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
@@ -77,8 +77,8 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	if IsClassic then
 		DebugPrint("in APR.Modules['void''].HidePopup, Classic detected, aborting")
 		return
-    end
-    DebugPrint("in APR.Modules['void''].HidePopup, before hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	end
+	DebugPrint("in APR.Modules['void''].HidePopup, before hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if not APR.DB.HideVoid or ForceHide then
 		-- Disable the dialog for putting tradable or modified items into void storage.
 		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"]
@@ -90,7 +90,7 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-    DebugPrint("in APR.Modules['void''].HidePopup, after hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	DebugPrint("in APR.Modules['void''].HidePopup, after hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
@@ -98,7 +98,7 @@ end -- HidePopup()
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
 -- This function can be safely deleted if not used.
 APR.Modules[ThisModule].PreloadFunc = function()
-    	-- Force the default Void Storage frame to load so we can override it
+		-- Force the default Void Storage frame to load so we can override it
 		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
 		DebugPrint("Blizzard_VoidStorageUI isloaded is " .. MakeString(isloaded))
 		DebugPrint("Blizzard_VoidStorageUI reason is " .. MakeString(reason))
@@ -123,9 +123,9 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		if not APR.DB.HideVoid then
 			DebugPrint("HideVoid off, not auto confirming")
 			return
-        end
-        
-        DebugPrint("HideVoid on, auto confirming")
+		end
+		
+		DebugPrint("HideVoid on, auto confirming")
 
 		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and normally pops up the dialog.
 		-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.

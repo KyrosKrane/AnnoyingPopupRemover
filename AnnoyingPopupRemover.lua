@@ -50,11 +50,7 @@ APR.Version = "@project-version@"
 
 
 -- Get a local reference to these functions to speed up execution.
-local rawset = rawset
-local tostring = tostring
-local select = select
 local pairs = pairs
-local type = type
 local MakeString = APR.Utilities.MakeString
 
 
@@ -74,7 +70,7 @@ APR.OptionsTable = {
 
 			-- Annoyances should be ordered between 101-199
 
-	
+
 		AddonOptionsHeader = {
 			name = L["Addon Options"],
 			type = "header",
@@ -257,7 +253,7 @@ function APR:TogglePopup(popup, state, ConfState)
 			DebugPrint("in TogglePopup, this popup requires Retail and we are in Classic. Aborting")
 			return
 		end
-		
+
 		if state then
 			if "show" == state then
 				Settings.ShowPopup(ShowConf)
@@ -331,7 +327,7 @@ function APR.Events:PLAYER_LOGIN(...)
 		DebugPrint("Loading existing saved var.")
 
 		for ModuleName, Settings in pairs(APR.Modules) do
-			if not APR.IsClassic or Settings.WorksInClassic then 
+			if not APR.IsClassic or Settings.WorksInClassic then
 				if nil == APR_DB[Settings.DBName] then
 					APR_DB[Settings.DBName] = Settings.DBDefaultValue
 					DebugPrint(Settings.DBName .. " in APR_DB initialized to " .. MakeString(Settings.DBDefaultValue) .. ".")
@@ -347,7 +343,7 @@ function APR.Events:PLAYER_LOGIN(...)
 		DebugPrint("No saved var, setting defaults.")
 		APR.DB = {}
 		for ModuleName, Settings in pairs(APR.Modules) do
-			if not APR.IsClassic or Settings.WorksInClassic then 
+			if not APR.IsClassic or Settings.WorksInClassic then
 				APR.DB[Settings.DBName] = Settings.DBDefaultValue
 			end
 		end
@@ -357,16 +353,16 @@ function APR.Events:PLAYER_LOGIN(...)
 
 	-- Process the loaded settings
 	for ModuleName, Settings in pairs(APR.Modules) do
-		if not APR.IsClassic or Settings.WorksInClassic then 
+		if not APR.IsClassic or Settings.WorksInClassic then
 
 			-- If this module has a pre-load function, run it now.
 			if Settings.PreloadFunc then Settings.PreloadFunc() end
-		
+
 			-- Hide the dialogs the user has selected.
 			-- In this scenario, the DB variable may already be true, but the dialog has not yet been hidden. So, we pass APR.FORCE_HIDE_DIALOG to forcibly hide the dialogs.
 			DebugPrint("At load, " .. Settings.DBName .. " is " .. MakeString(APR.DB[Settings.DBName]))
-			if APR.DB[Settings.DBName] then 
-				Settings.HidePopup(APR.NO_CONFIRMATION, APR.FORCE_HIDE_DIALOG) 
+			if APR.DB[Settings.DBName] then
+				Settings.HidePopup(APR.NO_CONFIRMATION, APR.FORCE_HIDE_DIALOG)
 			end
 		end
 	end -- processing loaded settings

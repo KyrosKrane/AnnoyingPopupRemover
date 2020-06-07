@@ -61,5 +61,5 @@ end
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
-    -- Events go here
+	-- Events go here
 end -- WoW Classic check
