@@ -6,6 +6,8 @@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
+-- This module changes the popup when deleting a "good" item from requiring you to type the word "delete" to just clicking Yes.
+
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local _, APR = ...
 

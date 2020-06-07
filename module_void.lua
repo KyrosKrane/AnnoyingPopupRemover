@@ -6,6 +6,8 @@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
+-- This module removes the popup when depositing a gemmed or enchanted item into Void storage.
+
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local _, APR = ...
 
