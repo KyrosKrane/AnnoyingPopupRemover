@@ -2,12 +2,12 @@
 ## Interface: 80300
 #@end-retail@
 #@non-retail@
-# ## Interface: 11302
+# ## Interface: 11304
 #@end-non-retail@
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
 ## Author: KyrosKrane Sylvanblade
-## Notes: Removes the annoying confirmation popup that appears when looting or rolling on bind-on-pickup items, or depositing modified items into void storage, or deleting "good" items.
+## Notes: Removes multiple annoying confirmation popups throughout the game. Configurable through the standard settings dialog.
 
 ## SavedVariablesPerCharacter: APR_DB
 ## OptionalDeps: Blizzard_VoidStorageUI
@@ -29,8 +29,12 @@ Libs\AddonUtilities\Utilities.lua
 # In this add-on
 Init.lua
 Localization.lua
+
 module_loot.lua
 module_roll.lua
 module_void.lua
 module_vendor.lua
+module_delete.lua
+module_mail.lua
+
 AnnoyingPopupRemover.lua
