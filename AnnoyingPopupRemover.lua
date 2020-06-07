@@ -188,29 +188,52 @@ end -- APR:HandleAceSettingsChange()
 --# Status printing
 --#########################################
 
+-- Prints the status for a single popup type
+-- popup is required.
+function APR:PrintStatusSingle(popup)
+	if not popup then return false end
+
+	if (not APR.IsClassic or APR.Modules[popup].WorksInClassic) then
+		if APR.DB[APR.Modules[popup].DBName] then
+			ChatPrint(APR.Modules[popup].hidden_msg)
+		else
+			ChatPrint(APR.Modules[popup].shown_msg)
+		end
+	end
+end
+
 -- Print the status for a given popup type, or for all if not specified.
 -- popup is optional
 function APR:PrintStatus(popup)
 	if not popup then
 		-- No specific popup requested, so cycle through all and give status
+
+		-- The ordering of the keys inside the Modules table is arbitrary.
+		-- So, to give a consistent UX, we will create a table keyed off the ordering of the modules, sort that, and then print them in that order.
+
+		-- First, gather the relevant data into a single array, and map the ordering to the module names.
+		local OrderValues, OrderToModuleNameMapping = {}, {}
+
 		for ModuleName, Settings in pairs(APR.Modules) do
+			-- (Note that ModuleName is equivalent to the passed-in popup in this context.)
+
 			if (not APR.IsClassic or Settings.WorksInClassic) then
-				if APR.DB[Settings.DBName] then
-					ChatPrint(Settings.hidden_msg)
-				else
-					ChatPrint(Settings.shown_msg)
-				end
+				table.insert(OrderValues, Settings.config.order)
+				OrderToModuleNameMapping[Settings.config.order] = ModuleName;
 			end
-		end -- for module
+		end -- for each module
+
+		-- Next, sort the ordering values
+		table.sort(OrderValues)
+
+		-- Finally, map the ordering values (which are now sorted) back to the module names, and extract the needed data for each.
+		for _, Order in ipairs(OrderValues) do
+			APR:PrintStatusSingle(OrderToModuleNameMapping[Order])
+		end -- for each order
+
 	else
 		-- One specific popup was requested
-		if (not APR.IsClassic or APR.Modules[popup].WorksInClassic) then
-			if APR.DB[APR.Modules[popup].DBName] then
-				ChatPrint(APR.Modules[popup].hidden_msg)
-			else
-				ChatPrint(APR.Modules[popup].shown_msg)
-			end
-		end
+		APR:PrintStatusSingle(popup)
 	end
 end -- APR:PrintStatus()
 
