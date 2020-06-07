@@ -53,7 +53,7 @@ APR.Modules[ThisModule].WorksInClassic = true;
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['delete'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideDelete then
 		-- Re-enable typing the word "delete" when deleting good items.
 		StaticPopupDialogs["DELETE_GOOD_ITEM"] = APR.StoredDialogs["DELETE_GOOD_ITEM"]
@@ -65,13 +65,13 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	-- else already shown, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("delete") end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['delete'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideDelete or ForceHide then
 		-- When deleting a good item, get a yes/no dialog instead of typing the word "delete"
 		APR.StoredDialogs["DELETE_GOOD_ITEM"] = StaticPopupDialogs["DELETE_GOOD_ITEM"]
@@ -83,5 +83,5 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("delete") end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()

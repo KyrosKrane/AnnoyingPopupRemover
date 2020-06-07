@@ -52,12 +52,12 @@ APR.Modules[ThisModule].WorksInClassic = false;
 
 
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['void''].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.IsClassic then
-		DebugPrint("in APR.Modules['void''].ShowPopup, Classic detected, aborting")
+		DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, Classic detected, aborting")
 		return
 	end
-	DebugPrint("in APR.Modules['void''].ShowPopup, before showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, before showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if APR.DB.HideVoid then
 		-- Re-enable the dialog for putting tradable or modified items into void storage.
 		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"]
@@ -69,19 +69,19 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	-- else already shown, nothing to do.
 	end
 
-	DebugPrint("in APR.Modules['void''].ShowPopup, after showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, after showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['void'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if APR.IsClassic then
-		DebugPrint("in APR.Modules['void''].HidePopup, Classic detected, aborting")
+		DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, Classic detected, aborting")
 		return
 	end
 
-	DebugPrint("in APR.Modules['void''].HidePopup, before hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, before hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if not APR.DB.HideVoid or ForceHide then
 		-- Disable the dialog for putting tradable or modified items into void storage.
 		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"]
@@ -93,7 +93,7 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-	DebugPrint("in APR.Modules['void''].HidePopup, after hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, after hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 

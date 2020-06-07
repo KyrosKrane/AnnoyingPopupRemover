@@ -53,7 +53,7 @@ APR.Modules[ThisModule].WorksInClassic = true;
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['mail'].ShowPopup, printconfirm, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideMail then
 		-- Re-enable the dialog for mailing refundable items while still tradable.
 		StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
@@ -65,13 +65,13 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	-- else already shown, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("mail") end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['mail'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideMail or ForceHide then
 		-- Disable the dialog for mailing refundable items while still tradable.
 		APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
@@ -83,7 +83,7 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("mail") end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 

@@ -52,7 +52,7 @@ APR.Modules[ThisModule].WorksInClassic = true;
 
 
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['roll'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideRoll then
 		-- Re-enable the dialog for the event that triggers when rolling on BOP items.
 		StaticPopupDialogs["CONFIRM_LOOT_ROLL"] = APR.StoredDialogs["CONFIRM_LOOT_ROLL"]
@@ -69,7 +69,7 @@ end -- ShowPopup()
 
 
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['roll''].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideRoll or ForceHide then
 		-- Disable the dialog for the event that triggers when rolling on BOP items.
 		APR.StoredDialogs["CONFIRM_LOOT_ROLL"] = StaticPopupDialogs["CONFIRM_LOOT_ROLL"]

@@ -53,9 +53,9 @@ APR.Modules[ThisModule].WorksInClassic = false;
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['vendor'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.IsClassic then
-		DebugPrint("in APR.Modules['vendor'].ShowPopup, Classic detected, aborting")
+		DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, Classic detected, aborting")
 		return
 	end
 
@@ -70,15 +70,15 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	-- else already shown, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("vendor") end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['vendor'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if APR.IsClassic then
-		DebugPrint("in APR.Modules['vendor'].HidePopup, Classic detected, aborting")
+		DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, Classic detected, aborting")
 		return
 	end
 
@@ -93,7 +93,7 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	-- else already hidden, nothing to do.
 	end
 
-	if printconfirm then APR:PrintStatus("vendor") end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 

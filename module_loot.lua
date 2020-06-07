@@ -52,7 +52,7 @@ APR.Modules[ThisModule].WorksInClassic = true;
 
 
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
-	DebugPrint("in APR.Modules['loot'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideBind then
 		-- Re-enable the dialog that pops to confirm looting BoP gear yourself.
 		StaticPopupDialogs["LOOT_BIND"] = APR.StoredDialogs["LOOT_BIND"]
@@ -69,7 +69,7 @@ end -- ShowPopup()
 
 
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['loot'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideBind or ForceHide then
 		-- Disable the dialog that pops to confirm looting BoP gear yourself.
 		APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"]

@@ -49,11 +49,21 @@ APR.Modules[ThisModule].WorksInClassic = true;
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+	
+	-- code here
+	
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
+
+	-- code here
+	
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
