@@ -36,5 +36,6 @@ module_void.lua
 module_vendor.lua
 module_mail.lua
 module_delete.lua
+module_innkeeper.lua
 
 AnnoyingPopupRemover.lua
