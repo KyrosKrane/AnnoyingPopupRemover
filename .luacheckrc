@@ -1,7 +1,8 @@
 std = "lua51"
 max_line_length = false
 exclude_files = {
-	".luacheckrc"
+	".luacheckrc",
+	"module_template.lua"
 }
 ignore = {
 	"11./SLASH_.*", -- Setting an undefined (Slash handler) global variable
@@ -78,6 +79,7 @@ globals = {
 	"UIDropDownMenu_AddButton",
 	"UIDropDownMenu_Initialize",
 	"UISpecialFrames",
+	"VoidStorage_UpdateTransferButton",
 
 	-- FrameXML frames
 	"GameTooltip",

@@ -7,11 +7,10 @@
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
-local addonName, APR = ...
+local _, APR = ...
 
 -- Upvalues for readability
 local DebugPrint = APR.Utilities.DebugPrint
-local ChatPrint = APR.Utilities.ChatPrint
 local MakeString = APR.Utilities.MakeString
 local L = APR.L
 
@@ -74,10 +73,11 @@ end -- ShowPopup()
 
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['void'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-	if IsClassic then
+	if APR.IsClassic then
 		DebugPrint("in APR.Modules['void''].HidePopup, Classic detected, aborting")
 		return
 	end
+
 	DebugPrint("in APR.Modules['void''].HidePopup, before hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if not APR.DB.HideVoid or ForceHide then
 		-- Disable the dialog for putting tradable or modified items into void storage.
@@ -116,7 +116,10 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end -- if APR.DebugMode
 
 		-- Document the incoming parameters.
-		local slot, itemLink = ...
+		-- local slot, itemLink = ...
+
+		-- We only care about the slot
+		local slot = ...
 		DebugPrint("slot is " .. slot)
 
 		-- If the user didn't ask us to hide this popup, just return.
@@ -124,7 +127,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			DebugPrint("HideVoid off, not auto confirming")
 			return
 		end
-		
+
 		DebugPrint("HideVoid on, auto confirming")
 
 		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and normally pops up the dialog.

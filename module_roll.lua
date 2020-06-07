@@ -7,11 +7,10 @@
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
-local addonName, APR = ...
+local _, APR = ...
 
 -- Upvalues for readability
 local DebugPrint = APR.Utilities.DebugPrint
-local ChatPrint = APR.Utilities.ChatPrint
 local MakeString = APR.Utilities.MakeString
 local L = APR.L
 
