@@ -48,7 +48,7 @@ APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"];
 APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"];
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = true;
+APR.Modules[ThisModule].WorksInClassic = false;
 
 
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
