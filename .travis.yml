@@ -6,7 +6,7 @@ before_script:
 
 script:
   - bash release.sh -w 23631
-  - bash release.sh -g 1.13.2
+  - bash release.sh -g 1.13.4
 
 branches:
   only:
