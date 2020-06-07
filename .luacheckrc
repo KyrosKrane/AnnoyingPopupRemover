@@ -24,6 +24,9 @@ globals = {
 	"_G",
 	"bit",
 
+	-- Stored variables for this addon
+	"APR_DB",
+
 	-- misc custom
 	"LibStub",
 
