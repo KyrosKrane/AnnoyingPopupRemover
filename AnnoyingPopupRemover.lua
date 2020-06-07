@@ -68,16 +68,16 @@ APR.OptionsTable = {
 			order = 100,
 		}, -- AnnoyancesHeader
 
-			-- Annoyances should be ordered between 101-199
+			-- Annoyances should be ordered between 101-299
 
 
 		AddonOptionsHeader = {
 			name = L["Addon Options"],
 			type = "header",
-			order = 200,
+			order = 300,
 		}, -- AddonOptionsHeader
 
-			-- Addon options should be between 201 and 299
+			-- Addon options should be between 301 and 399
 
 		startup = {
 			name = L["Show a startup announcement message in your chat frame at login"],
@@ -86,11 +86,11 @@ APR.OptionsTable = {
 			get = function(info) return APR.DB.PrintStartupMessage end,
 			descStyle = "inline",
 			width = "full",
-			order = 210,
+			order = 310,
 		}, -- startup
 
 
-		-- Hidden options should be between 301 and 399
+		-- Hidden options should be between 701 and 799
 
 		debug = {
 			name = "Enable debug output",
@@ -101,7 +101,7 @@ APR.OptionsTable = {
 			descStyle = "inline",
 			width = "full",
 			hidden = true,
-			order = 301,
+			order = 710,
 		}, -- debug
 
 

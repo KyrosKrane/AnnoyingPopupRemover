@@ -37,6 +37,13 @@ APR.SHOW_DIALOG = false
 APR.PRINT_STARTUP = true
 APR.HIDE_STARTUP = false
 
+
+--#########################################
+--# Global variables
+--#########################################
+
 -- Determine whether we're running Classic or normal
--- Technically not a constant, but if this changes while we're actually running, I'll give you a dollar.
 APR.IsClassic = select(4, GetBuildInfo()) < 20000
+
+-- Get the ordering constant of the next module
+APR.NextOrdering = 110

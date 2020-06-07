@@ -37,8 +37,11 @@ APR.Modules[ThisModule].config = {
 	get = function(info) return APR.DB.HideVoid end,
 	descStyle = "inline",
 	width = "full",
-	order = 130,
 } -- config
+
+-- Set the order based on the file inclusion order in the TOC
+APR.Modules[ThisModule].config.order = APR.NextOrdering
+APR.NextOrdering = APR.NextOrdering + 10
 
 -- These are the status strings that are printed to indicate whether it's off or on
 APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"];

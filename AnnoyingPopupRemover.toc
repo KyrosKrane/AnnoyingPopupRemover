@@ -34,7 +34,7 @@ module_loot.lua
 module_roll.lua
 module_void.lua
 module_vendor.lua
-module_delete.lua
 module_mail.lua
+module_delete.lua
 
 AnnoyingPopupRemover.lua
