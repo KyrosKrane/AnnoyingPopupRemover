@@ -24,7 +24,6 @@
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
 
-
 -- Get the localization details from our external setup file
 local L = APR.L
 
@@ -46,8 +45,6 @@ APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
 
 -- Set the current version so we can display it.
 APR.Version = "@project-version@"
-
-
 
 -- Get a local reference to these functions to speed up execution.
 local pairs = pairs
@@ -142,7 +139,6 @@ APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, APR
 --#########################################
 --# Slash command handling
 --#########################################
-
 
 -- This dispatcher handles settings from the AceConfig setup.
 -- value is the true/false value (or other setting) we get from Ace
