@@ -23,6 +23,13 @@ APR.StoredDialogs = {}
 -- Set up the modules holder
 APR.Modules = {}
 
+-- Define whether we're in debug mode or production mode. True means debug; false means production.
+APR.DebugMode = false
+
+--[===[@alpha@
+APR.DebugMode = true
+--@end-alpha@]===]
+
 
 --#########################################
 --# Constants (for more readable code)
