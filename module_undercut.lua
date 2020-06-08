@@ -57,9 +57,11 @@ APR.Modules[ThisModule].WorksInClassic = false;
 local function ControlAHUndercutPopup()
 	if APR.DB.HideUndercut then
 		-- Replace with a blank function
+		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), replacing ShowHelpTip with dummy")
 		_G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip = function() end
 	else
 		-- Restore the default function
+		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), restoring default ShowHelpTip")
 		_G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip = APR.StoredDialogs["ShowHelpTip"]
 	end
 end
@@ -105,5 +107,6 @@ APR.Modules[ThisModule].PreloadFunc = function()
 	APR.StoredDialogs["ShowHelpTip"] = _G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip
 
 	-- Hook the AH to always call our function when it's shown
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking AHFrame OnShow.")
 	_G["AuctionHouseFrame"]:HookScript("OnShow", ControlAHUndercutPopup)
 end -- PreloadFunc()
