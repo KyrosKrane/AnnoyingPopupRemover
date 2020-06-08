@@ -23,11 +23,11 @@ APR.StoredDialogs = {}
 -- Set up the modules holder
 APR.Modules = {}
 
---[===[@alpha@
+--@alpha@
 -- Enable debug mode for test only
 -- It's initialized to false in the Utility library
 APR.DebugMode = true
---@end-alpha@]===]
+--@end-alpha@
 
 
 --#########################################
