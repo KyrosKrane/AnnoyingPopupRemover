@@ -29,11 +29,13 @@ local L = APR.L
 
 
 --#########################################
---# Local references (for readability)
+--# Local references (for readability and speed)
 --#########################################
 
 local DebugPrint = APR.Utilities.DebugPrint
 local ChatPrint = APR.Utilities.ChatPrint
+local MakeString = APR.Utilities.MakeString
+local pairs = pairs
 
 
 --#########################################
@@ -45,10 +47,6 @@ APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
 
 -- Set the current version so we can display it.
 APR.Version = "@project-version@"
-
--- Get a local reference to these functions to speed up execution.
-local pairs = pairs
-local MakeString = APR.Utilities.MakeString
 
 
 --#########################################
