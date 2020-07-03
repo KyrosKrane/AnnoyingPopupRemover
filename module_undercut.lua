@@ -59,10 +59,12 @@ local function ControlAHUndercutPopup()
 		-- Replace with a blank function
 		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), replacing ShowHelpTip with dummy")
 		_G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip = function() end
+		_G["AuctionHouseFrame"].ItemSellFrame.ShowHelpTip = function() end
 	else
 		-- Restore the default function
 		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), restoring default ShowHelpTip")
-		_G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip = APR.StoredDialogs["ShowHelpTip"]
+		_G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip = APR.StoredDialogs["C_ShowHelpTip"]
+		_G["AuctionHouseFrame"].ItemSellFrame.ShowHelpTip = APR.StoredDialogs["I_ShowHelpTip"]
 	end
 end
 
@@ -104,9 +106,10 @@ APR.Modules[ThisModule].PreloadFunc = function()
 	-- Store the default help tip function
 	-- Note that unlike the other dialogs, this one is always stored.
 	-- This isn't strictly a dialog, but thanks to lua's flexibility, we can stuff it in here just the same!
-	APR.StoredDialogs["ShowHelpTip"] = _G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip
+	APR.StoredDialogs["C_ShowHelpTip"] = _G["AuctionHouseFrame"].CommoditiesSellFrame.ShowHelpTip
+	APR.StoredDialogs["I_ShowHelpTip"] = _G["AuctionHouseFrame"].ItemSellFrame.ShowHelpTip
 
 	-- Hook the AH to always call our function when it's shown
-	DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking AHFrame OnShow.")
-	_G["AuctionHouseFrame"]:HookScript("OnShow", ControlAHUndercutPopup)
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking SetAmount.")
+	hooksecurefunc(_G["AuctionHouseFrame"].ItemSellFrame.PriceInput, "SetAmount", ControlAHUndercutPopup)
 end -- PreloadFunc()
