@@ -5,7 +5,7 @@ ignore: # Files and directories beginning with a dot (such as .git) are automati
     - README.md
     - Libs/LibStub/tests
     - Libs/LibStub/LibStub.toc
-    - Curse description in markup.txt
+    - Curse description in markup.md
     - WoWI description in BBCode.txt
     - module_template.lua
 
