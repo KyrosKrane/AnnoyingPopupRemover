@@ -6,7 +6,7 @@ ignore: # Files and directories beginning with a dot (such as .git) are automati
     - Libs/LibStub/tests
     - Libs/LibStub/LibStub.toc
     - Curse description in markup.md
-    - WoWI description in BBCode.txt
+    - WoWI description in BBCode.bbcode
     - module_template.lua
 
 externals:
