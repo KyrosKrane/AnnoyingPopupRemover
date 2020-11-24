@@ -8,6 +8,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Mailing an item you purchased from a vendor while it can still be returned for a refund.
 - Setting your hearthstone location at an innkeeper.
 - Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
+- Equipping a bind-on-equip item. (This is off by default; you can turn it on in the settings.)
 
 In addition, it simplifies the following dialog:
 
@@ -19,9 +20,9 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 9 adds the option to hide the undercut warning at the auction house (off by default).
+Version 10 adds the Bind-on-Equip feature, contributed by fuba (fuba82 on CurseForge).
 
-Version 8 adds the Innkeeper function and modularizes the addon for easier updates.
+Version 9 adds the option to hide the undercut warning at the auction house (off by default).
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
