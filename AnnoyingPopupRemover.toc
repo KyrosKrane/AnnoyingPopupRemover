@@ -13,6 +13,7 @@
 ## OptionalDeps: Blizzard_VoidStorageUI
 
 ## X-Curse-Project-ID: 93154
+## X-WoWI-ID: 23631
 
 # Linked from externals
 Libs\LibStub\LibStub.lua

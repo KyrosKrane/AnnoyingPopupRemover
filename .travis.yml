@@ -1,13 +1,36 @@
-sudo: false
-language: minimal
- 
-before_script:
-  - curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
+language: shell
 
-script:
-  - bash release.sh -w 23631
-  - bash release.sh -g 1.13.4
 
+# Only build tagged commits
 branches:
   only:
-    - /^[vV]?\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^[vV]?\d+\.\d+(\.\d+)?-\S*$/
+
+
+# The stages section includes the order the stages should be run, and the conditions for each.
+stages:
+  - name: alpha
+    if: branch =~ /^[vV]?\d+\.\d+(\.\d+)?-alpha(\S*)?$/
+
+  - name: beta
+    if: branch =~ /^[vV]?\d+\.\d+(\.\d+)?-beta(\S*)?$/
+
+  - name: release
+    if: branch =~ /^[vV]?\d+\.\d+(\.\d+)?-release(\S*)?$/
+
+
+# The jobs section includes the steps to run for each build type.
+jobs:
+  include:
+
+    - stage: alpha
+      before_script: curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
+      script: bash release.sh -w 0
+
+    - stage: beta
+      before_script: curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
+      script: bash release.sh -w 0
+
+    - stage: release
+      before_script: curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
+      script: bash release.sh
