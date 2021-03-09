@@ -25,12 +25,18 @@ jobs:
 
     - stage: alpha
       before_script: curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
-      script: bash release.sh -w 0
+      script: 
+        - bash release.sh -w 0
+        - bash release.sh -w 0 -g 1.13.6
 
     - stage: beta
       before_script: curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
-      script: bash release.sh -w 0
+      script: 
+        - bash release.sh -w 0
+        - bash release.sh -w 0 -g 1.13.6
 
     - stage: release
       before_script: curl -sO https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
-      script: bash release.sh
+      script: 
+        - bash release.sh
+        - bash release.sh -g 1.13.6
