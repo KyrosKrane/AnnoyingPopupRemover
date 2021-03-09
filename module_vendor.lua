@@ -1,6 +1,6 @@
 -- module_vendor.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2021 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -56,10 +56,6 @@ APR.Modules[ThisModule].WorksInClassic = true;
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-	if APR.IsClassic then
-		DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, Classic detected, aborting")
-		return
-	end
 
 	if APR.DB.HideVendor then
 		-- Re-enable the dialog for selling group-looted items to a vendor while still tradable.
@@ -79,10 +75,6 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-	if APR.IsClassic then
-		DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, Classic detected, aborting")
-		return
-	end
 
 	if not APR.DB.HideVendor or ForceHide then
 		-- Disable the dialog for selling group-looted items to a vendor while still tradable.
