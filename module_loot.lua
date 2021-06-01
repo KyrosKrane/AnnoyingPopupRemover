@@ -96,8 +96,8 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 
 		if APR.DebugMode then
 			DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
-			DebugPrint("Frame is " .. Frame)
-			DebugPrint("id is " .. id)
+			DebugPrint("Frame is " .. (Frame or "**nil**"))
+			DebugPrint("id is " .. (id or "**nil**"))
 			APR.Utilities.PrintVarArgs(...)
 		end -- if APR.DebugMode
 
