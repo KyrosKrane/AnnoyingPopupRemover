@@ -48,8 +48,8 @@ APR.HIDE_STARTUP = false
 --# Global variables
 --#########################################
 
--- Determine whether we're running Classic or normal
-APR.IsClassic = select(4, GetBuildInfo()) < 20000
+-- Determine whether we're running Classic or normal. Burning Crusade and Classic Era (vanilla) both count as Classic.
+APR.IsClassic = select(4, GetBuildInfo()) < 30000
 
 -- Get the ordering constant of the next module
 APR.NextOrdering = 110
