@@ -123,15 +123,16 @@ end
 
 
 -- Process the options and create the AceConfig options table
+local AceName = APR.USER_ADDON_NAME .. APR.Version
 APR.AceConfigReg = LibStub("AceConfigRegistry-3.0")
-APR.AceConfigReg:RegisterOptionsTable(addonName, APR.OptionsTable)
+APR.AceConfigReg:RegisterOptionsTable(AceName, APR.OptionsTable)
 
 -- Create the slash command handler
 APR.AceConfigCmd = LibStub("AceConfigCmd-3.0")
-APR.AceConfigCmd:CreateChatCommand("apr", addonName)
+APR.AceConfigCmd:CreateChatCommand("apr", AceName)
 
 -- Create the frame to set the options and add it to the Blizzard settings
-APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, APR.USER_ADDON_NAME)
+APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(AceName, APR.USER_ADDON_NAME)
 
 
 --#########################################

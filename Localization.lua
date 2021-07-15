@@ -36,9 +36,11 @@ local L = APR.L
 
 -- In another file, you can override these strings like:
 --		if APR.locale == "deDE" then
---			L["Annoying Pop-up Remover"] = "German name of APR here";
+--			L["Annoying Pop-up Remover"] = "German name of APR here"
 --		end
 -- That way, it preserves the default English strings in case of a missed translation.
+
+L["Annoying Pop-up Remover"] = "Annoying Pop-up Remover"
 
 
 --#########################################
