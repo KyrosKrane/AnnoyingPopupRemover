@@ -34,7 +34,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.SHOW_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the confirmation pop-up when equipping a vendor-bought item that can still be returned for a refund"],
+	name = L["Hide the confirmation pop-up when equipping an item that can still be returned for a refund"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideRefund end,
