@@ -23,8 +23,8 @@ jobs:
     env:
       CF_API_KEY: ${{ secrets.CF_API_KEY }}
       WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
-      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}   # "GITHUB_TOKEN" is a secret always provided to the workflow
-                                                  # for your own token, the name cannot start with "GITHUB_"
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}   # "GITHUB_TOKEN" is a secret always provided to the workflow.
+                                                  # For your own token, the name cannot start with "GITHUB_"
 
     # "steps" holds a list of all the steps needed to package and release our AddOn
     steps:
@@ -38,17 +38,19 @@ jobs:
           fetch-depth: 50
 
       # once cloned, we just run the GitHub Action for the packager project
-      - name: Package and release for Retail
-        uses: BigWigsMods/packager@master
 
-      # release for the Classic version of the game
+      # package for the Classic version of the game
       - name: Package and release for Vanilla Classic
         uses: BigWigsMods/packager@master
         with:
           args: -g classic
 
-      # release for Burning Crusade Classic
+      # relepackagease for Burning Crusade Classic
       - name: Package and release for TBC Classic
         uses: BigWigsMods/packager@master
         with:
           args: -g bcc
+
+      # package for the retail version of the game
+      - name: Package and release for Retail
+        uses: BigWigsMods/packager@master
