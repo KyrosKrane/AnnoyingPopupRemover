@@ -30,7 +30,7 @@ APR.Modules[ThisModule] = {}
 
 -- the name of the variable in APR.DB and its default value
 APR.Modules[ThisModule].DBName = "HideRefund";
-APR.Modules[ThisModule].DBDefaultValue = APR.SHOW_DIALOG
+APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
