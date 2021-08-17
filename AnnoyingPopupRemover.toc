@@ -33,6 +33,7 @@ module_loot.lua
 module_roll.lua
 module_void.lua
 module_vendor.lua
+module_buytoken.lua
 module_equip.lua
 module_equip_refund.lua
 module_mail.lua
