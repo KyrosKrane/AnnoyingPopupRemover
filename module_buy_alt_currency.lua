@@ -1,10 +1,12 @@
--- module_buytoken.lua
+-- module_buy_alt_currency.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2021 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
+
+-- This module hides the popup when the user tries to buy an item from a vendor and the item has an alternate currency cost.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -97,13 +99,13 @@ local function ForceBuyTokenItem(...)
 	end
 end
 
--- Now hook the purchase function.
 
+-- Now hook the purchase function.
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	-- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
 	APR.Modules[ThisModule].PreloadFunc = function()
 		-- Hook the function called when you try to buy an item with an alternate currency.
-		-- This function calls the static dialog with the confirm option.
+		-- This Blizz function calls the static dialog with the confirm option.
 		hooksecurefunc("MerchantFrame_ConfirmExtendedItemCost", ForceBuyTokenItem)
 	end
 end -- WoW Classic check
