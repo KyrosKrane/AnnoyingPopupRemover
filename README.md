@@ -1,17 +1,24 @@
 # Annoying Popup Remover
 World of Warcraft addon to remove some annoying popups in the game.
 
-Written by KyrosKrane Sylvanblade (kyros@kyros.info)
+Written by KyrosKrane Sylvanblade (kyros@kyros.info)  
+Copyright (c) 2015-2021 KyrosKrane Sylvanblade. Licensed under the MIT License.
 
-Copyright (c) 2015-2020 KyrosKrane Sylvanblade. Licensed under the MIT License.
+Get it from here, or on your favorite addon site: [Curse](https://www.curseforge.com/wow/addons/bop-items-quick-loot) - [WowInterface](https://www.wowinterface.com/downloads/info23631-AnnoyingPop-upRemover.html)
 
 # Description
 This add-on removes a number of annoying pop-ups.
-*	It removes the popup confirmation dialog when looting a bind-on-pickup item.
-*	It removes the popup confirmation dialog when rolling on a bind-on-pickup item.
-*	It removes the popup confirmation dialog when selling a BOP item to a vendor that was looted while grouped, and can still be traded to other group members.
-*	It changes the popup confirmation dialog when deleting a "good" item from requiring you to type the word "delete" to just yes/no.
-*	It removes the popup confirmation dialog when setting your hearthstone location at an innkeeper.
+- Looting a bind-on-pickup item.
+- Rolling on a bind-on-pickup item.
+- Depositing a modified item (one that's enchanted, gemmed, or still tradable) into void storage. 
+- Selling an item looted in a group while it is still tradable with others who were in the group.
+- Buying an item with an alternate currency cost.
+- Mailing an item you purchased from a vendor while it can still be returned for a refund.
+- Setting your hearthstone location at an innkeeper.
+- Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
+- Equipping an item you can return to a vendor for a refund.
+- Equipping a bind-on-equip item. (This is off by default; you can turn it on in the settings.)
 
-For retail only, it additionally does the following:
-*	It removes the popup confirmation dialog when adding a BOP item to void storage, and that item is modified (gemmed, enchanted, or transmogged) or still tradable with the looting group.
+In addition, it simplifies the following dialog:
+
+- Changing the dialog that requires you to type "delete" when deleting a good item into a simple yes/no box.
