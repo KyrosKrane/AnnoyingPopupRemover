@@ -5,6 +5,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Rolling on a bind-on-pickup item.
 - Depositing a modified item (one that's enchanted, gemmed, or still tradable) into void storage. 
 - Selling an item looted in a group while it is still tradable with others who were in the group.
+- Buying an item with an alternate currency cost.
 - Mailing an item you purchased from a vendor while it can still be returned for a refund.
 - Setting your hearthstone location at an innkeeper.
 - Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
