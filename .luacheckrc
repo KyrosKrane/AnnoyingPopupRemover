@@ -90,6 +90,7 @@ globals = {
 	"UIParent",
 	"WorldFrame",
 	"WorldMapFrame",
+	"MerchantFrame", -- Kyros add
 
 	-- FrameXML globals
 	"ChatFontNormal",
