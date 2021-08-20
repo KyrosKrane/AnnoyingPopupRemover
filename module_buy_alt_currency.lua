@@ -93,8 +93,8 @@ end -- HidePopup()
 
 
 -- This function force-buys an item pending in the merchant window if the option is enabled.
-local function ForceBuyTokenItem(...)
-	if APR.DB.HideBuyToken then
+local function ForceBuyTokenItem(SPU_Name, ...)
+	if APR.DB.HideBuyToken and SPU_Name == "CONFIRM_PURCHASE_TOKEN_ITEM" then
 		BuyMerchantItem(MerchantFrame.itemIndex, MerchantFrame.count)
 	end
 end
@@ -106,6 +106,6 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	APR.Modules[ThisModule].PreloadFunc = function()
 		-- Hook the function called when you try to buy an item with an alternate currency.
 		-- This Blizz function calls the static dialog with the confirm option.
-		hooksecurefunc("MerchantFrame_ConfirmExtendedItemCost", ForceBuyTokenItem)
+		hooksecurefunc("StaticPopup_Show", ForceBuyTokenItem)
 	end
 end -- WoW Classic check
