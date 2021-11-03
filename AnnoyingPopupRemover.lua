@@ -169,7 +169,7 @@ function APR:HandleAceSettingsChange(value, AceInfo)
 
 	-- Hidden command to toggle the debug state from the command line.
 	elseif "debug" == option then
-		APR:SetDebug(value, ShowConf)
+		APR:SetDebug(value)
 
 	-- Print status if requested
 	elseif "status" == option then
