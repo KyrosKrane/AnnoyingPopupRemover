@@ -1,10 +1,8 @@
 -- module_delete.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2021 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
-
--- This file defines a module that APR can handle. Each module is one setting or popup.
 
 -- This module changes the popup when deleting a "good" item from requiring you to type the word "delete" to just clicking Yes.
 
@@ -61,6 +59,10 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 		StaticPopupDialogs["DELETE_GOOD_ITEM"] = APR.StoredDialogs["DELETE_GOOD_ITEM"]
 		APR.StoredDialogs["DELETE_GOOD_ITEM"] = nil
 
+		-- Same again for quest items.
+		StaticPopupDialogs["DELETE_GOOD_QUEST_ITEM"] = APR.StoredDialogs["DELETE_GOOD_QUEST_ITEM"]
+		APR.StoredDialogs["DELETE_GOOD_QUEST_ITEM"] = nil
+
 		-- Mark that the dialog is shown.
 		APR.DB.HideDelete = APR.SHOW_DIALOG
 
@@ -78,6 +80,10 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 		-- When deleting a good item, get a yes/no dialog instead of typing the word "delete"
 		APR.StoredDialogs["DELETE_GOOD_ITEM"] = StaticPopupDialogs["DELETE_GOOD_ITEM"]
 		StaticPopupDialogs["DELETE_GOOD_ITEM"] = StaticPopupDialogs["DELETE_ITEM"]
+
+		-- Do the same for quest items
+		APR.StoredDialogs["DELETE_GOOD_QUEST_ITEM"] = StaticPopupDialogs["DELETE_GOOD_QUEST_ITEM"]
+		StaticPopupDialogs["DELETE_GOOD_QUEST_ITEM"] = StaticPopupDialogs["DELETE_ITEM"]
 
 		-- Mark that the dialog is hidden.
 		APR.DB.HideDelete = APR.HIDE_DIALOG
