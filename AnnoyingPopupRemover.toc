@@ -34,6 +34,7 @@ module_roll.lua
 module_void.lua
 module_vendor.lua
 module_buy_alt_currency.lua
+module_buy_nonrefundable.lua
 module_equip.lua
 module_equip_refund.lua
 module_mail.lua
