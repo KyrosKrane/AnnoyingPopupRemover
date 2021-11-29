@@ -13,11 +13,12 @@ This add-on removes a number of annoying pop-ups.
 - Depositing a modified item (one that's enchanted, gemmed, or still tradable) into void storage. 
 - Selling an item looted in a group while it is still tradable with others who were in the group.
 - Buying an item with an alternate currency cost.
+- Buying an item that is not refundable.
 - Mailing an item you purchased from a vendor while it can still be returned for a refund.
-- Setting your hearthstone location at an innkeeper.
-- Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
 - Equipping an item you can return to a vendor for a refund.
 - Equipping a bind-on-equip item. (This is off by default; you can turn it on in the settings.)
+- Setting your hearthstone location at an innkeeper.
+- Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
 
 In addition, it simplifies the following dialog:
 
