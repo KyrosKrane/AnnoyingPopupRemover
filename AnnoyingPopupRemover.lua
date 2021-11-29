@@ -214,7 +214,7 @@ function APR:PrintStatus(popup)
 
 			if (not APR.IsClassic or Settings.WorksInClassic) then
 				table.insert(OrderValues, Settings.config.order)
-				OrderToModuleNameMapping[Settings.config.order] = ModuleName;
+				OrderToModuleNameMapping[Settings.config.order] = ModuleName
 			end
 		end -- for each module
 

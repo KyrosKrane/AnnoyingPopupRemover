@@ -47,8 +47,8 @@ APR.Modules[ThisModule].config.order = APR.NextOrdering
 APR.NextOrdering = APR.NextOrdering + 10
 
 -- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"];
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"];
+APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
+APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = false;
@@ -87,15 +87,19 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 
 	-- else already hidden, nothing to do.
 	end
-	
+
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
 -- This function force-buys an item pending in the merchant window if the option is enabled.
 local function ForceBuyNonrefundableItem(SPU_Name, ...)
+	DebugPrint("in ForceBuyNonrefundableItem, SPU_Name is " .. SPU_Name)
 	if APR.DB.HideBuyNonrefundable and SPU_Name == "CONFIRM_PURCHASE_NONREFUNDABLE_ITEM" then
+		DebugPrint("in ForceBuyNonrefundableItem, auto buying item")
 		BuyMerchantItem(MerchantFrame.itemIndex, MerchantFrame.count)
+	else
+	   	DebugPrint("in ForceBuyNonrefundableItem, NOT auto buying item")
 	end
 end
 

@@ -28,7 +28,7 @@ local ThisModule = "innkeeper"
 APR.Modules[ThisModule] = {}
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideInnkeeper";
+APR.Modules[ThisModule].DBName = "HideInnkeeper"
 APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
@@ -47,11 +47,11 @@ APR.NextOrdering = APR.NextOrdering + 10
 
 -- These are the status strings that are printed to indicate whether it's off or on
 -- @TODO: Remember to add these localized strings to the localization file!
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"];
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"];
+APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
+APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = true;
+APR.Modules[ThisModule].WorksInClassic = true
 
 
 -- This function causes the popup to show when triggered.
