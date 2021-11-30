@@ -388,7 +388,7 @@ function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
 	DebugPrint("APR.DB.PrintStartupMessage is " .. MakeString(APR.DB.PrintStartupMessage))
 	if APR.DB.PrintStartupMessage then
-		ChatPrint(APR.USER_ADDON_NAME .. " " .. APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
+		ChatPrint(APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
 	end
 
 end -- APR.Events:PLAYER_LOGIN()
