@@ -23,7 +23,7 @@ local L = APR.L
 --#########################################
 
 -- Note the lowercase naming of modules. Makes it easier to pass status and settings around
-local ThisModule = "buynonrefundable"
+local ThisModule = "nonrefundable" -- old name buynonrefundable
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
