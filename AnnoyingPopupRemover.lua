@@ -29,13 +29,12 @@ local L = APR.L
 
 
 --#########################################
---# Local references (for readability and speed)
+--# Local references (for readability)
 --#########################################
 
 local DebugPrint = APR.Utilities.DebugPrint
 local ChatPrint = APR.Utilities.ChatPrint
 local MakeString = APR.Utilities.MakeString
-local pairs = pairs
 
 
 --#########################################
@@ -90,7 +89,7 @@ APR.OptionsTable = {
 
 		debug = {
 			name = "Enable debug output",
-			desc = string.format("%s%s%s", L["Prints extensive debugging output about everything "], APR.USER_ADDON_NAME, L[" does"]),
+			desc = string.format("%s%s%s", L["Prints extensive debugging output about everything "], APR.USER_ADDON_SHORT_NAME, L[" does"]),
 			type = "toggle",
 			set = function(info,val) APR:SetDebug(val) end,
 			get = function(info) return APR.DebugMode end,
