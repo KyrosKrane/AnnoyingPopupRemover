@@ -124,7 +124,7 @@ end
 
 
 -- Process the options and create the AceConfig options table
-local AceName = APR.USER_ADDON_NAME .. APR.Version
+local AceName = APR.USER_ADDON_NAME .. " " .. APR.Version
 APR.AceConfigReg = LibStub("AceConfigRegistry-3.0")
 APR.AceConfigReg:RegisterOptionsTable(AceName, APR.OptionsTable)
 
