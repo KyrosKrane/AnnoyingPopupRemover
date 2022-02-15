@@ -8,6 +8,7 @@ ignore: # Files and directories beginning with a dot (such as .git) are automati
     - Curse description in markup.md
     - WoWI description in BBCode.bbcode
     - module_template.lua
+    - module_enchanting.lua
 
 externals:
     # Prereqs
