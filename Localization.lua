@@ -41,6 +41,7 @@ local L = APR.L
 -- That way, it preserves the default English strings in case of a missed translation.
 
 L["Annoying Pop-up Remover"] = "Annoying Pop-up Remover"
+L["APR"] = "APR"
 
 
 --#########################################

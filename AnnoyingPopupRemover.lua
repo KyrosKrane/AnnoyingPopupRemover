@@ -44,6 +44,7 @@ local pairs = pairs
 
 -- Set the human-readable name for the addon.
 APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
+APR.USER_ADDON_SHORT_NAME = L["APR"]
 
 -- Set the current version so we can display it.
 APR.Version = "@project-version@"
