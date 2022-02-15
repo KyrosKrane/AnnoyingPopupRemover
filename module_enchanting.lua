@@ -4,11 +4,25 @@
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
--- This file defines a module that APR can handle. Each module is one setting or popup.
 
 
 --#########################################
+-- WARNING            WARNING            WARNING
+-- WARNING            WARNING            WARNING
+--#########################################
+
+--#########################################
 -- @TODO: The key function for this module is protected. This module will not work.
+--#########################################
+
+-- This file defines a module DOES NOT WORK.
+-- The key function is protected by Blizzard.
+-- I'm only adding this to the repository to remind myself
+-- that I already tried it, and it DOES NOT WORK.
+
+--#########################################
+-- WARNING            WARNING            WARNING
+-- WARNING            WARNING            WARNING
 --#########################################
 
 
