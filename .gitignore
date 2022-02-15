@@ -1,3 +1,14 @@
+# Local extra files
+Extras/
+.release/
+
+# The VS Code settings directory
+.vscode/
+
+# Backup files
+*.bak
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -16,9 +27,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-# Backup files
-*.bak
 
 # =========================
 # Operating System Files
@@ -44,11 +52,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-
-
-# Local extra files
-Extras/
-.release/
-
-# The VS Code settings directory
-.vscode/
