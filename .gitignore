@@ -49,3 +49,6 @@ Temporary Items
 # Local extra files
 Extras/
 .release/
+
+# The VS Code settings directory
+.vscode/
