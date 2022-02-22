@@ -32,25 +32,21 @@ jobs:
       # we first have to clone the AddOn project, this is a required step
       - name: Clone project
         uses: actions/checkout@v1
-        with:
-          # you can specify how much of the commit history you want to fetch,
-          # which is useful for controlling the length of the automated changelog
-          fetch-depth: 50
 
       # once cloned, we just run the GitHub Action for the packager project
 
       # package for the Classic version of the game
       - name: Package and release for Vanilla Classic
-        uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@v1
         with:
           args: -g classic
 
-      # relepackagease for Burning Crusade Classic
+      # package for Burning Crusade Classic
       - name: Package and release for TBC Classic
-        uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@v1
         with:
           args: -g bcc
 
       # package for the retail version of the game
       - name: Package and release for Retail
-        uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@v1
