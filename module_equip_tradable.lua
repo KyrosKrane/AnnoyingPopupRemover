@@ -96,7 +96,7 @@ end -- HidePopup()
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	-- Equipping a group-looted item that is still tradable triggers this event.
-    function APR.Events:EQUIP_BIND_TRADEABLE_CONFIRM(slot, ...)
+	function APR.Events:EQUIP_BIND_TRADEABLE_CONFIRM(slot, ...)
 
 		if APR.DebugMode then
 			DebugPrint("In APR.Events:EQUIP_BIND_TRADEABLE_CONFIRM")
@@ -106,7 +106,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideEquipTrade then
-            DebugPrint("HideEquipTrade off, not auto confirming")
+			DebugPrint("HideEquipTrade off, not auto confirming")
 			return
 		end
 

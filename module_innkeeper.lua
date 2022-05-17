@@ -97,12 +97,12 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	function APR.Events:CONFIRM_BINDER(...)
 		if APR.DebugMode then
 			DebugPrint("In APR.Events:CONFIRM_BINDER")
-            APR.Utilities.PrintVarArgs(...)
+			APR.Utilities.PrintVarArgs(...)
 
-            -- Document the parameters
-            local InnName = ...
-            DebugPrint("InnName is " .. InnName)
-        end -- if APR.DebugMode
+			-- Document the parameters
+			local InnName = ...
+			DebugPrint("InnName is " .. InnName)
+		end -- if APR.DebugMode
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideInnkeeper then

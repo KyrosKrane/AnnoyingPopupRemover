@@ -86,7 +86,7 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 		APR.DB.HideRefund = APR.HIDE_DIALOG
 
 	-- else already hidden, nothing to do.
-    end
+	end
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
