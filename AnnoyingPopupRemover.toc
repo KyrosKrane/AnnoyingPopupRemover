@@ -12,6 +12,7 @@
 
 ## X-Curse-Project-ID: 93154
 ## X-WoWI-ID: 23631
+## X-Wago-ID: 0mKOLPGx
 
 # Linked from externals
 Libs\LibStub\LibStub.lua
