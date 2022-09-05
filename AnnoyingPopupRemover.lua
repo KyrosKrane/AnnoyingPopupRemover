@@ -339,7 +339,8 @@ end -- APR:ToggleStartupMessage()
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	DebugPrint("In PLAYER_LOGIN")
-
+	DebugPrint("Detected client is " .. (APR.IsClassic and "Classic" or "Retail"))
+	
 	-- Load the saved variables, or initialize if they don't exist yet.
 	if APR_DB then
 		DebugPrint("Loading existing saved var.")
