@@ -1,6 +1,6 @@
 -- AnnoyingPopupRemover.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2022 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -340,7 +340,7 @@ end -- APR:ToggleStartupMessage()
 function APR.Events:PLAYER_LOGIN(...)
 	DebugPrint("In PLAYER_LOGIN")
 	DebugPrint("Detected client is " .. (APR.IsClassic and "Classic" or "Retail"))
-	
+
 	-- Load the saved variables, or initialize if they don't exist yet.
 	if APR_DB then
 		DebugPrint("Loading existing saved var.")
