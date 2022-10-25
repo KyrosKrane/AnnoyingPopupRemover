@@ -1,6 +1,6 @@
--- module_binding.lua
+-- module_innkeeper.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2022 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -111,6 +111,14 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		DebugPrint("Auto confirming Innkeeper bind request")
-		ConfirmBinder()
+		if APR.IsClassic then
+			DebugPrint("Executing with pre-DF command")
+			ConfirmBinder()
+		else
+			DebugPrint("Executing with Dragonflight command")
+			C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
+			C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
+		end
+
 	end -- APR.Events:CONFIRM_BINDER()
 end -- WoW Classic check
