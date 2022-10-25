@@ -111,6 +111,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		DebugPrint("Auto confirming Innkeeper bind request")
-		ConfirmBinder()
+		C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
+		C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
 	end -- APR.Events:CONFIRM_BINDER()
 end -- WoW Classic check
