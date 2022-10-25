@@ -111,7 +111,14 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		DebugPrint("Auto confirming Innkeeper bind request")
-		C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
-		C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
+		if select(4, GetBuildInfo()) >= 100000 then
+			DebugPrint("Executing with Dragonflight command")
+			C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
+			C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
+		else
+			DebugPrint("Executing with pre-DF command")
+			ConfirmBinder()
+		end
+
 	end -- APR.Events:CONFIRM_BINDER()
 end -- WoW Classic check
