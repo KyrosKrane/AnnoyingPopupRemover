@@ -40,7 +40,7 @@ jobs:
       # once cloned, we just run the GitHub Action for the packager project
 
       # package for all versions of the game
-      - name: Package and upload alphas
+      - name: Package and upload test versions
         uses: BigWigsMods/packager@v2
         with:
           args: -w 0 # do not load alphas to WowInterface
