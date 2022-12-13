@@ -43,5 +43,6 @@ module_mail.lua
 module_delete.lua
 module_innkeeper.lua
 module_undercut.lua
+module_dragonriding.lua
 
 AnnoyingPopupRemover.lua
