@@ -7,6 +7,8 @@
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 -- This module removes the confirmation popup when selecing a dragonriding talent.
 
+DEFAULT_CHAT_FRAME:AddMessage("at top of dragonriding raw load")
+
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -82,11 +84,37 @@ end
 
 
 -- Now capture the events that this module has to handle
+print("in dragonriding raw load")
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
-	function APR.Events:DR_EVENT_NAME_HERE(...)
+
+	-- This uses the event registry
+	-- https://wowpedia.fandom.com/wiki/EventRegistry
+	-- callback name is "TalentButton.OnClick"
+
+	-- Sample registration call from another addon
+	-- ClassTalentFrame.TalentsTab:RegisterCallback(TalentFrameBaseMixin.Event.TalentButtonAcquired, self.OnTalentButtonAcquired, self);
+
+	-- need to modify this and figure out how to implement in the APR framework.
+	-- But also, this same callback is triggered for talents and other stuff. Have to figure out how to narrow it down
+	-- first parameter is a table. Maybe that has info in it? Need to register and dump the table to see.
+
+	local DragonridingSpellIDs = {
+				377920,
+		393999,	377938,	377964,
+				378967,
+			378409,	384824,
+				377939,
+				378970,
+				377921,
+			381870,	381871,
+		377922,	377940,	377967,
+	}
+
+
+	local function DumpCallbackRegistry(...)
 		if APR.DebugMode then
-			DebugPrint("In APR.Events:DR_EVENT_NAME_HERE")
+			DebugPrint("In DumpCallbackRegistry")
 			APR.Utilities.PrintVarArgs(...)
 
 			-- Document the incoming parameters.
@@ -100,6 +128,10 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			return
 		end
 
+		DebugPrint("HideDragonriding on, autoconfirm logic goes here")
 
-	end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
+	end -- DumpCallbackRegistry()
+
+	EventRegistry:RegisterCallback("TalentButton.OnClick", DumpCallbackRegistry)
+
 end -- WoW Classic check
