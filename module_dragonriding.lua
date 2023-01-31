@@ -1,6 +1,6 @@
 -- module_dragonriding.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2022 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -89,13 +89,9 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	-- https://wowpedia.fandom.com/wiki/EventRegistry
 	-- callback name is "TalentButton.OnClick"
 
-	-- Sample registration call from another addon
-	-- ClassTalentFrame.TalentsTab:RegisterCallback(TalentFrameBaseMixin.Event.TalentButtonAcquired, self.OnTalentButtonAcquired, self);
-
-	-- need to modify this and figure out how to implement in the APR framework.
-	-- But also, this same callback is triggered for talents and other stuff. Have to figure out how to narrow it down
-	-- first parameter is a table. Maybe that has info in it? Need to register and dump the table to see.
-
+    -- This same callback is triggered for talents and other stuff. Have to narrow it down to just dragonriding talents.
+	-- Second parameter in the callback is a table. Based on that, I used the spellID to identify each talent and make an approved list.
+	-- Doesn't seem to be any specific flag saying "this is dragonriding" so I'm just hardcoding the list.
 	local DragonridingSpellIDs = {
 				377920,
 		393999,	377938,	377964,
@@ -115,13 +111,12 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
     end
 
 	local function ProcessTalentClick(n, TalentDetails, button)
+		DebugPrint("In ProcessTalentClick")
 
 		-- purely for debugging
 		if false then
 			if APR.DebugMode then
-				DebugPrint("In DumpCallbackRegistry")
 				APR.Utilities.PrintVarArgs( { n, TalentDetails, button } )
-
 			end -- if APR.DebugMode
         end
 
@@ -132,14 +127,22 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
         end
 
 		-- Make sure it's a valid dragonriding talent.
-		if not TalentDetails or not TalentDetails.definitionInfo or not TalentDetails.definitionInfo.spellID or not DRSID_Keys[TalentDetails.definitionInfo.spellID] then
-			DebugPrint("Not an approved dragonriding talent, bailing out")
+		if not TalentDetails then
+            DebugPrint("No TalentDetails parameter; bailing out.")
+			return
+		elseif not TalentDetails.definitionInfo then
+            DebugPrint("No definitionInfo key in TalentDetails; bailing out.")
+			return
+		elseif not TalentDetails.definitionInfo.spellID then
+            DebugPrint("No spellID key in TalentDetails.definitionInfo; bailing out.")
+			return
+		elseif not DRSID_Keys[TalentDetails.definitionInfo.spellID] then
+			DebugPrint("spellID not in approved dragonriding talents, bailing out.")
 			return
 		end
 
-
-		DebugPrint("HideDragonriding on, autoconfirm logic goes here")
-	end
+		DebugPrint("HideDragonriding on, and talent is confirmed as dragonriding.")
+	end -- ProcessTalentClick()
 
 
 	EventRegistry:RegisterCallback("TalentButton.OnClick", ProcessTalentClick)
