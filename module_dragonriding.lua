@@ -83,9 +83,6 @@ APR.Modules[ThisModule].PreloadFunc = function()
 end
 
 
--- Now capture the events that this module has to handle
-print("in dragonriding raw load")
-
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 
 	-- This uses the event registry
@@ -111,27 +108,40 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		377922,	377940,	377967,
 	}
 
+	-- Invert the values for easier lookups
+	local DRSID_Keys = {}
+	for k,v in pairs(DragonridingSpellIDs) do
+		DRSID_Keys[v] = true
+    end
 
-	local function DumpCallbackRegistry(...)
-		if APR.DebugMode then
-			DebugPrint("In DumpCallbackRegistry")
-			APR.Utilities.PrintVarArgs(...)
+	local function ProcessTalentClick(n, TalentDetails, button)
 
-			-- Document the incoming parameters.
-			-- local item = ... -- this is an item link.
-			-- DebugPrint("item is " .. item)
-		end -- if APR.DebugMode
+		-- purely for debugging
+		if false then
+			if APR.DebugMode then
+				DebugPrint("In DumpCallbackRegistry")
+				APR.Utilities.PrintVarArgs( { n, TalentDetails, button } )
+
+			end -- if APR.DebugMode
+        end
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideDragonriding then
 			DebugPrint("HideDragonriding off, not auto confirming")
 			return
+        end
+
+		-- Make sure it's a valid dragonriding talent.
+		if not TalentDetails or not TalentDetails.definitionInfo or not TalentDetails.definitionInfo.spellID or not DRSID_Keys[TalentDetails.definitionInfo.spellID] then
+			DebugPrint("Not an approved dragonriding talent, bailing out")
+			return
 		end
 
+
 		DebugPrint("HideDragonriding on, autoconfirm logic goes here")
+	end
 
-	end -- DumpCallbackRegistry()
 
-	EventRegistry:RegisterCallback("TalentButton.OnClick", DumpCallbackRegistry)
+	EventRegistry:RegisterCallback("TalentButton.OnClick", ProcessTalentClick)
 
 end -- WoW Classic check
