@@ -53,6 +53,9 @@ APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = false
 
+-- This Boolean tells us whether to disable this module during combat.
+APR.Modules[ThisModule].DisableInCombat = true
+
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)

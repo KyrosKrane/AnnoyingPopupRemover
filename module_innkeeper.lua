@@ -111,7 +111,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		DebugPrint("Auto confirming Innkeeper bind request")
-		if APR.IsClassic then
+		if APR.IsClassicEra then
 			DebugPrint("Executing with pre-DF command")
 			ConfirmBinder()
 		else
