@@ -402,6 +402,37 @@ function APR.Events:PLAYER_LOGOUT(...)
 end -- APR.Events:PLAYER_LOGOUT()
 
 
+-- Some events should be toggled off during combat to prevent lua errors.
+function APR.Events:PLAYER_REGEN_DISABLED(...)
+	DebugPrint("In PLAYER_REGEN_DISABLED, disabling combat events.")
+	for ModuleName, ModuleSettings in pairs(APR.Modules) do
+		if (ModuleSettings.DisableInCombat and not APR.DB[ModuleSettings.DBName .. "_precombat"]) then
+			APR.DB[ModuleSettings.DBName .. "_precombat"] = APR.DB[ModuleSettings.DBName]
+			ModuleSettings.ShowPopup(APR.NO_CONFIRMATION)
+		end
+	end
+end -- APR.Events:PLAYER_REGEN_DISABLED()
+
+
+-- Restore module settings after combat ends.
+function APR.Events:PLAYER_REGEN_ENABLED(...)
+	DebugPrint("In PLAYER_REGEN_ENABLED, restoring combat events.")
+	for ModuleName, ModuleSettings in pairs(APR.Modules) do
+		if (APR.DB[ModuleSettings.DBName .. "_precombat"]) then
+			ModuleSettings.HidePopup(APR.NO_CONFIRMATION)
+		end
+		APR.DB[ModuleSettings.DBName .. "_precombat"] = nil
+	end
+end -- APR.Events:PLAYER_REGEN_ENABLED()
+
+
+-- Sanity check: if the user reloads or logs in during combat, preemptively disable stuff.
+if InCombatLockdown() then
+	DebugPrint("Logged in during combat lockdown, disabling events")
+	APR.Events:PLAYER_REGEN_DISABLED()
+end
+
+
 --#########################################
 --# Implement the event handlers
 --#########################################

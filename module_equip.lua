@@ -53,6 +53,10 @@ APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = true
 
+-- This Boolean tells us whether to disable this module during combat.
+APR.Modules[ThisModule].DisableInCombat = true
+
+
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
@@ -91,11 +95,6 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
-
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-APR.Modules[ThisModule].PreloadFunc = function()
-end
 
 
 -- Now capture the events that this module has to handle
