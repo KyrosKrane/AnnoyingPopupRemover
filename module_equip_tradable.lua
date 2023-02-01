@@ -47,7 +47,6 @@ APR.Modules[ThisModule].config.order = APR.NextOrdering
 APR.NextOrdering = APR.NextOrdering + 10
 
 -- These are the status strings that are printed to indicate whether it's off or on
--- @TODO: Remember to add these localized strings to the localization file!
 APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
 APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 
