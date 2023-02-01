@@ -68,17 +68,10 @@ end -- ShowPopup()
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
-    APR.DB.HideDragonriding = APR.HIDE_DIALOG
+	APR.DB.HideDragonriding = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
-
-
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-APR.Modules[ThisModule].PreloadFunc = function()
-	DebugPrint("in dragonriding PreloadFunc")
-end
 
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
@@ -92,27 +85,21 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	-- https://wowpedia.fandom.com/wiki/EventRegistry
 	-- callback name is "TalentButton.OnClick"
 
-    -- This same callback is triggered for talents and other stuff. Have to narrow it down to just dragonriding talents.
+	-- This same callback is triggered for talents and other stuff. Have to narrow it down to just dragonriding talents.
 	-- There's a choice of spellID, nodeID, or ... some third thing I forget. Rather arbitrarily, I picked the spellID as the identifier to track.
 	-- Second parameter in the callback is a table. Based on that, I used the spellID to identify each talent and make an approved list.
 	-- Doesn't seem to be any specific flag saying "this is dragonriding" so I'm just hardcoding the list.
 	local DragonridingSpellIDs = {
-				377920,
-		393999,	377938,	377964,
-				378967,
-			378409,	384824,
-				377939,
-				378970,
-				377921,
-			381870,	381871,
-		377922,	377940,	377967,
+							[377920] = true,
+		[393999] = true,	[377938] = true,	[377964] = true,
+							[378967] = true,
+					[378409] = true,	[384824] = true,
+							[377939] = true,
+							[378970] = true,
+							[377921] = true,
+					[381870] = true,	[381871] = true,
+		[377922] = true,	[377940] = true,	[377967] = true,
 	}
-
-	-- Invert the values for easier lookups
-	local DRSID_Keys = {}
-	for k,v in pairs(DragonridingSpellIDs) do
-		DRSID_Keys[v] = true
-	end
 
 	-- Tracking variable to tell us whether we should buy a talent or not.
 	local ShouldBuyTalent = false
@@ -144,7 +131,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		elseif not TalentDetails.definitionInfo.spellID then
 			DebugPrint("No spellID key in TalentDetails.definitionInfo; bailing out.")
 			return
-		elseif not DRSID_Keys[TalentDetails.definitionInfo.spellID] then
+		elseif not DragonridingSpellIDs[TalentDetails.definitionInfo.spellID] then
 			DebugPrint("spellID not in approved dragonriding talents, bailing out.")
 			return
 		end
@@ -177,13 +164,12 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		else
 			DebugPrint("NOT Buying DR talent")
 		end
-	end
+	end -- function BuyDRTalent()
 
-	-- Ask Blizz to notify us when the user clicks a talent ...
-    EventRegistry:RegisterCallback("TalentButton.OnClick", ProcessTalentClick)
+	-- Ask Blizz to notify us when the user clicks a talent.
+	EventRegistry:RegisterCallback("TalentButton.OnClick", ProcessTalentClick)
 
-	-- ... and buy the talent when the confirmation dialog is displayed.
+	-- Buy the talent when the confirmation dialog is displayed.
 	hooksecurefunc("StaticPopup_ShowCustomGenericConfirmation", BuyDRTalent)
-
 
 end -- WoW Classic check
