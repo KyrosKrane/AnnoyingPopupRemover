@@ -58,7 +58,7 @@ APR.Modules[ThisModule].WorksInClassic = false
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
-	-- code here
+	APR.DB.HideDragonriding = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -68,7 +68,7 @@ end -- ShowPopup()
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
-	-- code here
+    APR.DB.HideDragonriding = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
