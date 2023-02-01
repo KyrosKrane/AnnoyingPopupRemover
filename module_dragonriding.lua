@@ -7,8 +7,6 @@
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 -- This module removes the confirmation popup when selecing a dragonriding talent.
 
-DEFAULT_CHAT_FRAME:AddMessage("at top of dragonriding raw load")
-
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -85,11 +83,17 @@ end
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 
+	-- There are two things that happen when the user clicks the talent.
+	-- First, the event registry callback fires. This lets us identify whether the user clicked a dragonriding talent or something else. But it doesn't contain the callback to actually buy the talent.
+	-- Second, the confirmation dialog is shown. The parameters to the ShowPopup function have the callback to actually buy the talent, but not the data on what the talent is.
+	-- So, we need to capture both pieces of information. 
+
 	-- This uses the event registry
 	-- https://wowpedia.fandom.com/wiki/EventRegistry
 	-- callback name is "TalentButton.OnClick"
 
     -- This same callback is triggered for talents and other stuff. Have to narrow it down to just dragonriding talents.
+	-- There's a choice of spellID, nodeID, or ... some third thing I forget. Rather arbitrarily, I picked the spellID as the identifier to track.
 	-- Second parameter in the callback is a table. Based on that, I used the spellID to identify each talent and make an approved list.
 	-- Doesn't seem to be any specific flag saying "this is dragonriding" so I'm just hardcoding the list.
 	local DragonridingSpellIDs = {
@@ -108,8 +112,12 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	local DRSID_Keys = {}
 	for k,v in pairs(DragonridingSpellIDs) do
 		DRSID_Keys[v] = true
-    end
+	end
 
+	-- Tracking variable to tell us whether we should buy a talent or not.
+	local ShouldBuyTalent = false
+
+	-- This function identifies whether a given talent is dragonriding or not.
 	local function ProcessTalentClick(n, TalentDetails, button)
 		DebugPrint("In ProcessTalentClick")
 
@@ -118,23 +126,23 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			if APR.DebugMode then
 				APR.Utilities.PrintVarArgs( { n, TalentDetails, button } )
 			end -- if APR.DebugMode
-        end
+		end
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideDragonriding then
 			DebugPrint("HideDragonriding off, not auto confirming")
 			return
-        end
+		end
 
 		-- Make sure it's a valid dragonriding talent.
 		if not TalentDetails then
-            DebugPrint("No TalentDetails parameter; bailing out.")
+			DebugPrint("No TalentDetails parameter; bailing out.")
 			return
 		elseif not TalentDetails.definitionInfo then
-            DebugPrint("No definitionInfo key in TalentDetails; bailing out.")
+			DebugPrint("No definitionInfo key in TalentDetails; bailing out.")
 			return
 		elseif not TalentDetails.definitionInfo.spellID then
-            DebugPrint("No spellID key in TalentDetails.definitionInfo; bailing out.")
+			DebugPrint("No spellID key in TalentDetails.definitionInfo; bailing out.")
 			return
 		elseif not DRSID_Keys[TalentDetails.definitionInfo.spellID] then
 			DebugPrint("spellID not in approved dragonriding talents, bailing out.")
@@ -142,9 +150,40 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		DebugPrint("HideDragonriding on, and talent is confirmed as dragonriding.")
+		ShouldBuyTalent = true
+		C_Timer.After(0.1, function() ShouldBuyTalent = false end)
 	end -- ProcessTalentClick()
 
+	-- This function attempts to actually buy the talent.
+	local function BuyDRTalent(customData, insertedFrame)
+		DebugPrint("In BuyDRTalent")
+		if not APR.DB.HideDragonriding then
+			DebugPrint("HideDragonriding off, attempting to buy talent")
+			return
+		end
 
-	EventRegistry:RegisterCallback("TalentButton.OnClick", ProcessTalentClick)
+		-- for debugging only
+		if false then
+			APR.Utilities.DumpTable(customData)
+		end
+
+		if ShouldBuyTalent then
+			DebugPrint("Buying DR talent")
+			customData.callback()
+			-- Hide the now unneeded dialog.
+			StaticPopup_Hide("GENERIC_CONFIRMATION")
+			-- Mark that we shouldn't autobuy the next talent.
+			ShouldBuyTalent = false
+		else
+			DebugPrint("NOT Buying DR talent")
+		end
+	end
+
+	-- Ask Blizz to notify us when the user clicks a talent ...
+    EventRegistry:RegisterCallback("TalentButton.OnClick", ProcessTalentClick)
+
+	-- ... and buy the talent when the confirmation dialog is displayed.
+	hooksecurefunc("StaticPopup_ShowCustomGenericConfirmation", BuyDRTalent)
+
 
 end -- WoW Classic check
