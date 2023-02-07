@@ -90,6 +90,13 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
+-- We have to defer the actual binding on retail by a frame. So, this function does the actual bind.
+local function ConfirmBind_DF()
+	DebugPrint("In ConfirmBind_DF(), Executing with Dragonflight command")
+	C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
+	C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
+end
+
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
@@ -115,9 +122,11 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			DebugPrint("Executing with pre-DF command")
 			ConfirmBinder()
 		else
-			DebugPrint("Executing with Dragonflight command")
-			C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
-			C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
+			-- If we try to confirm right away, it will silently fail. The confirmation doesn't work the same frame. 
+			-- So, we defer the confirmation to the next frame.
+			-- Thanks to Meorawr for the suggestion!
+			DebugPrint("Deferring execution one frame")
+			RunNextFrame(ConfirmBind_DF)
 		end
 
 	end -- APR.Events:CONFIRM_BINDER()
