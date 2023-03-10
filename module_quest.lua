@@ -62,7 +62,6 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	APR.DB.HideAbandonQuest = APR.SHOW_DIALOG
-	-- code here
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -73,35 +72,46 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	APR.DB.HideAbandonQuest = APR.HIDE_DIALOG
-	-- code here
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
+
+-- This is how you abandon quests on retail...
 local function APR_Abandon_Quest()
 	if APR.DB.HideAbandonQuest == APR.SHOW_DIALOG then return end
 
 	-- These lines adapted from Interface/FrameXML/QuestMapFrame.lua, function QuestMapQuestOptions_AbandonQuest()
-	StaticPopup_Hide("ABANDON_QUEST");
-	StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS");
+	StaticPopup_Hide("ABANDON_QUEST")
+	StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
 
 	-- These lines adapted from Interface/FrameXML/StaticPopup.lua, section StaticPopupDialogs["ABANDON_QUEST"]
-	C_QuestLog.AbandonQuest();
+	C_QuestLog.AbandonQuest()
 	if (QuestLogPopupDetailFrame:IsShown()) then
-		HideUIPanel(QuestLogPopupDetailFrame);
+		HideUIPanel(QuestLogPopupDetailFrame)
 	end
-	PlaySound(SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST);
+	PlaySound(SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST)
+end
+
+
+-- ... and this is how you abandon quests on classic.
+local function APR_Abandon_Quest_Classic()
+	if APR.DB.HideAbandonQuest == APR.SHOW_DIALOG then return end
+
+	-- These lines adapted from Interface_Vanilla/FrameXML/QuestLogFrame.xml, Button name="QuestLogFrameAbandonButton", OnClick.
+	StaticPopup_Hide("ABANDON_QUEST")
+	StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
+
+	-- These lines adapted from Interface/FrameXML/StaticPopup.lua, section StaticPopupDialogs["ABANDON_QUEST"]
+	AbandonQuest()
+	PlaySound(SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST)
 end
 
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
 APR.Modules[ThisModule].PreloadFunc = function()
-	hooksecurefunc(QuestMapQuestOptions_AbandonQuest, APR_Abandon_Quest)
+	if QuestMapQuestOptions_AbandonQuest then
+		hooksecurefunc("QuestMapQuestOptions_AbandonQuest", APR_Abandon_Quest)
+	else
+		QuestLogFrameAbandonButton:HookScript("OnClick", APR_Abandon_Quest_Classic)
+	end
 end
-
-
--- Now capture the events that this module has to handle
-
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
-	-- Events go here
-end -- WoW Classic check
