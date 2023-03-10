@@ -90,3 +90,6 @@ L["trade_shown"] = "Confirmation pop-up when equipping a group-looted items you 
 
 L["dragonriding_hidden"] = "Confirmation pop-up when selecting a " .. APR.Utilities.CHAT_GREEN .. "dragonriding" .. FONT_COLOR_CODE_CLOSE .. " talent will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["dragonriding_shown"] = "Confirmation pop-up when selecting a " .. APR.Utilities.CHAT_RED .. "dragonriding" .. FONT_COLOR_CODE_CLOSE .. " talent will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
+L["quest_hidden"] = "Confirmation pop-up abandoning a " .. APR.Utilities.CHAT_GREEN .. "quest" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["quest_shown"] = "Confirmation pop-up abandoning a " .. APR.Utilities.CHAT_RED .. "quest" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."

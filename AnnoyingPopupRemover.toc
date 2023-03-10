@@ -42,6 +42,7 @@ module_equip_refund.lua
 module_mail.lua
 module_delete.lua
 module_innkeeper.lua
+module_quest.lua
 module_undercut.lua
 module_dragonriding.lua
 
