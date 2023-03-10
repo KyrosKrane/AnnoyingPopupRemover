@@ -79,6 +79,7 @@ end -- HidePopup()
 
 -- This is how you abandon quests on retail...
 local function APR_Abandon_Quest()
+	DebugPrint("in APR_Abandon_Quest")
 	if APR.DB.HideAbandonQuest == APR.SHOW_DIALOG then return end
 
 	-- These lines adapted from Interface/FrameXML/QuestMapFrame.lua, function QuestMapQuestOptions_AbandonQuest()
@@ -96,6 +97,7 @@ end
 
 -- ... and this is how you abandon quests on classic.
 local function APR_Abandon_Quest_Classic()
+	DebugPrint("in APR_Abandon_Quest_Classic")
 	if APR.DB.HideAbandonQuest == APR.SHOW_DIALOG then return end
 
 	-- These lines adapted from Interface_Vanilla/FrameXML/QuestLogFrame.xml, Button name="QuestLogFrameAbandonButton", OnClick.
@@ -110,8 +112,10 @@ end
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
 APR.Modules[ThisModule].PreloadFunc = function()
 	if QuestMapQuestOptions_AbandonQuest then
+		DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking with retail style")
 		hooksecurefunc("QuestMapQuestOptions_AbandonQuest", APR_Abandon_Quest)
 	else
+		DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking with classic style")
 		QuestLogFrameAbandonButton:HookScript("OnClick", APR_Abandon_Quest_Classic)
 	end
 end
