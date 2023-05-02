@@ -1,5 +1,5 @@
-## Interface: 100007
-## Interface-Retail: 100007
+## Interface: 101000
+## Interface-Retail: 101000
 ## Interface-Classic: 11403
 ## Interface-Wrath: 30401
 ## Title: Annoying Popup Remover
