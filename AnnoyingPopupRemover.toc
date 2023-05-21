@@ -6,6 +6,7 @@
 ## Version: @project-version@
 ## Author: KyrosKrane Sylvanblade
 ## Notes: Removes multiple annoying confirmation popups throughout the game. Configurable through the standard settings dialog.
+## IconTexture: Interface\AddOns\AnnoyingPopupRemover\Media\thumbup.blp
 
 ## SavedVariablesPerCharacter: APR_DB
 ## OptionalDeps: Blizzard_VoidStorageUI
