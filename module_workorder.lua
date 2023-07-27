@@ -1,8 +1,8 @@
--- module_craftingorder.lua
+-- module_workorder.lua
 -- Written by fuba (fuba82 on CurseForge) and KyrosKrane Sylvanblade (kyros@kyros.info)
 -- Copyright (c) 2023 fuba and KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
--- Addon version: v16.0.5-release
+-- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 -- This module removes the confirmation popup when you are about to fill a Crafting Order that includes some of your own reagents.
@@ -23,21 +23,21 @@ local L = APR.L
 --#########################################
 
 -- Note the lowercase naming of modules. Makes it easier to pass status and settings around
-local ThisModule = "craftingorder"
+local ThisModule = "workorder"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideCraftingOrder"
+APR.Modules[ThisModule].DBName = "HideWorkOrder"
 APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the confirmation pop-up when Craft a Crafting Order that includes some of your own reagents."],
+	name = L["Hide the confirmation pop-up when crafting a work order that requires some of your own reagents."],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideCraftingOrder end,
+	get = function(info) return APR.DB.HideWorkOrder end,
 	descStyle = "inline",
 	width = "full",
 } -- config
@@ -47,6 +47,7 @@ APR.Modules[ThisModule].config.order = APR.NextOrdering
 APR.NextOrdering = APR.NextOrdering + 10
 
 -- These are the status strings that are printed to indicate whether it's off or on
+-- @TODO: Remember to add these localized strings to the localization file!
 APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
 APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 
@@ -62,7 +63,7 @@ APR.Modules[ThisModule].DisableInCombat = false
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
-	APR.DB.HideCraftingOrder = APR.SHOW_DIALOG
+	APR.DB.HideWorkOrder = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -70,11 +71,9 @@ end -- ShowPopup()
 
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['" ..
-	ThisModule ..
-	"'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 
-	APR.DB.HideCraftingOrder = APR.HIDE_DIALOG
+	APR.DB.HideWorkOrder = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
@@ -91,8 +90,8 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			APR.Utilities.DumpTable(customData)
 		end
 
-		if not APR.DB.HideCraftingOrder then
-			DebugPrint("HideCraftingOrder off")
+		if not APR.DB.HideWorkOrder then
+			DebugPrint("HideWorkOrder off")
 			return
 		end
 
