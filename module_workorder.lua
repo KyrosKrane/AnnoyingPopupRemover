@@ -5,7 +5,7 @@
 -- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
--- This module removes the confirmation popup when you are about to fill a Crafting Order that includes some of your own reagents.
+-- This module removes the confirmation popup when you are about to fill a crafting work order that includes some of your own reagents.
 
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
