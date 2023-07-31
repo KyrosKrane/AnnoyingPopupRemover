@@ -93,3 +93,6 @@ L["dragonriding_shown"] = "Confirmation pop-up when selecting a " .. APR.Utiliti
 
 L["quest_hidden"] = "Confirmation pop-up abandoning a " .. APR.Utilities.CHAT_GREEN .. "quest" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["quest_shown"] = "Confirmation pop-up abandoning a " .. APR.Utilities.CHAT_RED .. "quest" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
+L["workorder_hidden"] = "Confirmation pop-up when crafting a " .. APR.Utilities.CHAT_GREEN .. "workorder" .. FONT_COLOR_CODE_CLOSE .. " that uses your own reagents will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["workorder_shown"] = "Confirmation pop-up crafting a " .. APR.Utilities.CHAT_RED .. "workorder" .. FONT_COLOR_CODE_CLOSE .. " that uses your own reagents will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."

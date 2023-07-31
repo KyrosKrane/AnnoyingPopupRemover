@@ -15,6 +15,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Equipping a bind-on-equip item. (This is off by default; you can turn it on in the settings.)
 - Abandoning a quest.
 - Buying a dragonriding talent.
+- Crafting a profession work order using your own reagents or materials.
 
 In addition, it simplifies the following dialog:
 
@@ -26,9 +27,9 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 16 adds the option to hide the pop-up when you abandon a quest.
+Version 17 adds the option to hide the pop-up when crafting a profession work order using your own reagents or materials.
 
-Version 15 adds the option to hide the pop-up when buying dragonriding talents.
+Version 16 adds the option to hide the pop-up when you abandon a quest.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
@@ -39,5 +40,3 @@ I don't have a toon high enough to test thoroughly on WoW Classic, so if you fin
 
 ## Future update plans
 Let me know what you'd like to see in the comments section. Or for live support, [visit my Discord server](https://discord.gg/YRBDrxQ)!
-
-Bitcoin and Bitcoin Cash donations gratefully accepted at: 1Kyros6w6CHRFLXZCwhBPNTbRPUNJ35L97
