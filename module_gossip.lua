@@ -53,9 +53,8 @@ APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = false
--- Although the Darkmoon Faire exists in classic and has a similar popup, this popup is handled differently. 
--- In Retail, it uses the C_Gossip API, which doesn't exist in Classic. I might have found a way to finesse this by just calling the dialog's OnAccept function.
--- The solution works fine in retail. This needs to be tested in Classic.
+-- Although the Darkmoon Faire exists in classic, the teleport NPC does not.
+-- If I ever implement a gossip popup that exists in Classic, I'll have to review the code below.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 APR.Modules[ThisModule].DisableInCombat = true -- Since this module is designed to handle multiple popups, I'm going to leave this as true to be safe.
@@ -89,7 +88,7 @@ end -- HidePopup()
 -- List the gossip text strings that should be auto confirmed.
 -- format: GossipConfirmTextList["Blizzard text"] = "Name for use in APR"
 local GossipConfirmTextList = {}
-GossipConfirmTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this is not localized in Blizzard's lua code.
+GossipConfirmTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this line (for the DMF) is not localized in Blizzard's lua code.
 
 
 -- Now capture the events that this module has to handle
