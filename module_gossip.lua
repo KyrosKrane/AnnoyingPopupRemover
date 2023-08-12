@@ -53,15 +53,16 @@ APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = false
--- Although the Darkmoon Faire exists in classic and has a similar popup, I tested this in Retail only. 
--- In Retail, it uses the Player Interaction Manager, which doesn't exist in Classic.
--- Given that Blizz is likely to bring these code updates to Classic at some point, I'm disinclined to take a toon into classic and figure out the right events to make it work there.
+-- Although the Darkmoon Faire exists in classic and has a similar popup, this popup is handled differently. 
+-- In Retail, it uses the C_Gossip API, which doesn't exist in Classic. I might have found a way to finesse this by just calling the dialog's OnAccept function.
+-- The solution works fine in retail. This needs to be tested in Classic.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 APR.Modules[ThisModule].DisableInCombat = true -- Since this module is designed to handle multiple popups, I'm going to leave this as true to be safe.
 
 
--- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup. Instead, we just instantly confirm when it pops up for our selected events.
+-- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
+-- Instead, we just instantly confirm when it pops up for our selected events.
 
 -- This function causes the popup to show when triggered.
 APR.Modules[ThisModule].ShowPopup = function(printconfirm)
@@ -85,30 +86,10 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-APR.Modules[ThisModule].PreloadFunc = function()
-end
-
-
 -- List the gossip text strings that should be auto confirmed.
-local GossipConfirmTextList = {}
 -- format: GossipConfirmTextList["Blizzard text"] = "Name for use in APR"
+local GossipConfirmTextList = {}
 GossipConfirmTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this is not localized in Blizzard's lua code.
-
-
-local function ConfirmGossip_DF(gossipID)
-	DebugPrint(string.format("In ConfirmGossip_DF(), Executing C_PlayerInteractionManager commands using type %d", Enum.PlayerInteractionType.Gossip))
-	StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
-
-	-- Direct command for retail
-	-- C_GossipInfo.SelectOption(gossipID, "", true)
-
-	-- Direct command for Classic:
-	-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
-
-	-- @TODO: figure out whether the OnAccept() call works as expected in Classic.
-end
 
 
 -- Now capture the events that this module has to handle
@@ -136,7 +117,16 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			if _G[sp_name] and _G[sp_name].text and _G[sp_name].text.text_arg1 and GossipConfirmTextList[_G[sp_name].text.text_arg1] then
 				DebugPrint(string.format("Found matching popup, index %d, type %s", i, GossipConfirmTextList[_G[sp_name].text.text_arg1]))
 
-				ConfirmGossip_DF(gossipID)
+				StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
+
+				-- Direct command for retail
+				-- C_GossipInfo.SelectOption(gossipID, "", true)
+
+				-- Direct command for Classic:
+				-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
+
+				-- @TODO: figure out whether the OnAccept() call works as expected in Classic.
+
 				return
 			end
 		end
