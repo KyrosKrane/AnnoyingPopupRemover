@@ -97,13 +97,18 @@ local GossipConfirmTextList = {}
 GossipConfirmTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this is not localized in Blizzard's lua code.
 
 
-local function ConfirmGossip_DF()
-	DebugPrint("In ConfirmGossip_DF(), Executing C_PlayerInteractionManager commands")
-	C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Gossip)
-	C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Gossip)
+local function ConfirmGossip_DF(gossipID)
+	DebugPrint(string.format("In ConfirmGossip_DF(), Executing C_PlayerInteractionManager commands using type %d", Enum.PlayerInteractionType.Gossip))
+	StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
+
+	-- Direct command for retail
+	-- C_GossipInfo.SelectOption(gossipID, "", true)
+
+	-- Direct command for Classic:
+	-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
+
+	-- @TODO: figure out whether the OnAccept() call works as expected in Classic.
 end
-
-
 
 
 -- Now capture the events that this module has to handle
@@ -131,7 +136,7 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 			if _G[sp_name] and _G[sp_name].text and _G[sp_name].text.text_arg1 and GossipConfirmTextList[_G[sp_name].text.text_arg1] then
 				DebugPrint(string.format("Found matching popup, index %d, type %s", i, GossipConfirmTextList[_G[sp_name].text.text_arg1]))
 
-				ConfirmGossip_DF()
+				ConfirmGossip_DF(gossipID)
 				return
 			end
 		end
