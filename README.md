@@ -21,6 +21,7 @@ This add-on removes a number of annoying pop-ups.
 - Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
 - Buying a dragonriding talent.
 - Crafting a profession work order using your own reagents or materials.
+- Requesting a teleport to the Darkmoon Faire from a Darkmoon Faire Mystic Mage.
 
 In addition, it simplifies the following dialog:
 

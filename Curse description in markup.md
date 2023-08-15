@@ -16,6 +16,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Abandoning a quest.
 - Buying a dragonriding talent.
 - Crafting a profession work order using your own reagents or materials.
+- Accepting a teleport to the Darkmoon Faire.
 
 In addition, it simplifies the following dialog:
 
@@ -27,9 +28,9 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 17 adds the option to hide the pop-up when crafting a profession work order using your own reagents or materials.
+Version 18 adds the option to hide the pop-up when you request a teleport to the Darkmoon Faire from a Darkmoon Faire Mystic Mage.
 
-Version 16 adds the option to hide the pop-up when you abandon a quest.
+Version 17 adds the option to hide the pop-up when crafting a profession work order using your own reagents or materials.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
