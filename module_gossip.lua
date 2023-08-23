@@ -54,6 +54,7 @@ APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = false
 -- Although the Darkmoon Faire exists in classic, the teleport NPC does not.
+-- Pet battles also don't exist in Classic.
 -- If I ever implement a gossip popup that exists in Classic, I'll have to review the code below.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
@@ -86,9 +87,25 @@ end -- HidePopup()
 
 
 -- List the gossip text strings that should be auto confirmed.
--- format: GossipConfirmTextList["Blizzard text"] = "Name for use in APR"
-local GossipConfirmTextList = {}
-GossipConfirmTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this line (for the DMF) is not localized in Blizzard's lua code.
+-- format: GossipTextList["Blizzard text"] = "Name for use in APR"
+local GossipTextList = {}
+GossipTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this line (for the DMF) is not localized in Blizzard's lua code.
+
+
+-- Similarly track gossips by ID that should be auto confirmed.
+local GossipIDList = {}
+
+-- Pandaria pet tamer battles
+GossipIDList[41951] = "Burning Pandaren Spirit"
+GossipIDList[41935] = "Flowing Pandaren Spirit"
+GossipIDList[41955] = "Thundering Pandaren Spirit"
+GossipIDList[41953] = "Whispering Pandaren Spirit"
+GossipIDList[41824] = "Aki the Chosen"
+GossipIDList[41820] = "Courageous Yon"
+GossipIDList[41818] = "Farmer Nishi"
+GossipIDList[41814] = "Hyuna of the Shrines"
+GossipIDList[41155] = "Seeker Zusshi"
+GossipIDList[41822] = "Wastewalker Shu"
 
 
 -- Now capture the events that this module has to handle
@@ -110,28 +127,44 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		-- Loop through the static popup dialogs to find the one that matches what we need.
-		for i = 1, 9 do
+		local found = false
+		for i = 1, STATICPOPUP_NUMDIALOGS do
 			local sp_name = "StaticPopup" .. i
+			local dialog = _G[sp_name]
 
-			if _G[sp_name] and _G[sp_name].text and _G[sp_name].text.text_arg1 and GossipConfirmTextList[_G[sp_name].text.text_arg1] then
-				DebugPrint(string.format("Found matching popup, index %d, type %s", i, GossipConfirmTextList[_G[sp_name].text.text_arg1]))
+			if dialog and dialog:IsShown() then
+				DebugPrint(string.format("Dialog %s is shown, validating.", sp_name))
+				found = true
 
-				StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
+				local sp_text = dialog.text and dialog.text.text_arg1 or nil
+				local sp_data = dialog.data
 
-				-- Direct command for retail
-				-- C_GossipInfo.SelectOption(gossipID, "", true)
+				DebugPrint(string.format("sp_data is %s, sp_text is %s", sp_data or "nil", sp_text or "nil"))
 
-				-- Direct command for Classic:
-				-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
+				-- Check if the dialog ID is in the list of IDs we want to skip.
+				if sp_data and GossipIDList[sp_data] and sp_data == gossipID then
+					DebugPrint(string.format("Found matching popup by ID, index %d, ID %s, name is %s", i, sp_data, GossipIDList[sp_data]))
+					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
 
-				-- @TODO: figure out whether the OnAccept() call works as expected in Classic.
+					-- Check if the dialog has the specific text we want to auto approve
+				elseif sp_text and GossipTextList[sp_text] then
+					DebugPrint(string.format("Found matching popup by text, index %d, text %s, name %s", i, sp_text, GossipTextList[sp_text]))
+					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
 
-				return
+				else
+					DebugPrint("Auto-confirm condition not met.")
+				end
 			end
 		end
+		
+		-- Instead of calling OnAccept(), I could also call the direct commands.
+		-- Direct command for retail
+		-- C_GossipInfo.SelectOption(gossipID, "", true)
 
-		DebugPrint("Did not find matching popup")
+		-- Direct command for Classic:
+		-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
 
+
+		if not found then DebugPrint("Did not find matching popup") end
 	end -- APR.Events:GOSSIP_CONFIRM()
-
-end  -- WoW Classic check
+end -- WoW Classic check
