@@ -154,9 +154,9 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 				else
 					DebugPrint("Auto-confirm condition not met.")
 				end
-			end
-		end
-		
+			end -- if dialog shown
+		end -- for each dialog
+
 		-- Instead of calling OnAccept(), I could also call the direct commands.
 		-- Direct command for retail
 		-- C_GossipInfo.SelectOption(gossipID, "", true)
