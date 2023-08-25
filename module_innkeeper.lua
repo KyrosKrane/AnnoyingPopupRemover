@@ -91,8 +91,8 @@ end -- HidePopup()
 
 
 -- We have to defer the actual binding on retail by a frame. So, this function does the actual bind.
-local function ConfirmBind_DF()
-	DebugPrint("In ConfirmBind_DF(), Executing with Dragonflight command")
+local function ConfirmBind_PIM()
+	DebugPrint("In ConfirmBind_PIM(), Executing with Interaction Manager command")
 	C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
 	C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
 end
@@ -118,15 +118,15 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		end
 
 		DebugPrint("Auto confirming Innkeeper bind request")
-		if APR.IsClassicEra then
-			DebugPrint("Executing with pre-DF command")
-			ConfirmBinder()
-		else
+		if C_PlayerInteractionManager and C_PlayerInteractionManager.ConfirmationInteraction then
 			-- If we try to confirm right away, it will silently fail. The confirmation doesn't work the same frame. 
 			-- So, we defer the confirmation to the next frame.
 			-- Thanks to Meorawr for the suggestion!
 			DebugPrint("Deferring execution one frame")
-			RunNextFrame(ConfirmBind_DF)
+			RunNextFrame(ConfirmBind_PIM)
+		else
+			DebugPrint("Executing with pre-DF command")
+			ConfirmBinder()
 		end
 
 	end -- APR.Events:CONFIRM_BINDER()
