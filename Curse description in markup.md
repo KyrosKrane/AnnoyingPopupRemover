@@ -16,7 +16,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Abandoning a quest.
 - Buying a dragonriding talent.
 - Crafting a profession work order using your own reagents or materials.
-- Accepting a teleport to the Darkmoon Faire.
+- Chatting with NPCs, such as teleporting to the Darkmoon Faire or starting some pet battles.
 
 In addition, it simplifies the following dialog:
 
