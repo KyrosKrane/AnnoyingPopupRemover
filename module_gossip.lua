@@ -36,8 +36,12 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 APR.Modules[ThisModule].config = {
 	name = L["Hide the confirmation pop-up for various NPC chats (English clients only)"],
 	type = "toggle",
-	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideGossip end,
+	set = function(info, val)
+		APR:HandleAceSettingsChange(val, info)
+	end,
+	get = function(info)
+		return APR.DB.HideGossip
+	end,
 	descStyle = "inline",
 	width = "full",
 } -- config
@@ -60,7 +64,6 @@ APR.Modules[ThisModule].WorksInClassic = false
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 APR.Modules[ThisModule].DisableInCombat = true -- Since this module is designed to handle multiple popups, I'm going to leave this as true to be safe.
 
-
 -- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
 -- Instead, we just instantly confirm when it pops up for our selected events.
 
@@ -71,18 +74,29 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 	-- Mark that the dialog is shown.
 	APR.DB.HideGossip = APR.SHOW_DIALOG
 
-	if printconfirm then APR:PrintStatus(ThisModule) end
+	if printconfirm then
+		APR:PrintStatus(ThisModule)
+	end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint(
+		"in APR.Modules['"
+			.. ThisModule
+			.. "'].HidePopup, printconfirm is "
+			.. MakeString(printconfirm)
+			.. ", ForceHide is "
+			.. MakeString(ForceHide)
+	)
 
 	-- Mark that the dialog is hidden.
 	APR.DB.HideGossip = APR.HIDE_DIALOG
 
-	if printconfirm then APR:PrintStatus(ThisModule) end
+	if printconfirm then
+		APR:PrintStatus(ThisModule)
+	end
 end -- HidePopup()
 
 
@@ -111,9 +125,7 @@ GossipIDList[41822] = "Wastewalker Shu"
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
-
 	function APR.Events:GOSSIP_CONFIRM(gossipID, text, cost)
-
 		DebugPrint("In APR.Events:GOSSIP_CONFIRM")
 
 		DebugPrint("gossipID is " .. gossipID)
@@ -143,14 +155,27 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 
 				-- Check if the dialog ID is in the list of IDs we want to skip.
 				if sp_data and GossipIDList[sp_data] and sp_data == gossipID then
-					DebugPrint(string.format("Found matching popup by ID, index %d, ID %s, name is %s", i, sp_data, GossipIDList[sp_data]))
+					DebugPrint(
+						string.format(
+							"Found matching popup by ID, index %d, ID %s, name is %s",
+							i,
+							sp_data,
+							GossipIDList[sp_data]
+						)
+					)
 					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
 
 					-- Check if the dialog has the specific text we want to auto approve
 				elseif sp_text and GossipTextList[sp_text] then
-					DebugPrint(string.format("Found matching popup by text, index %d, text %s, name %s", i, sp_text, GossipTextList[sp_text]))
+					DebugPrint(
+						string.format(
+							"Found matching popup by text, index %d, text %s, name %s",
+							i,
+							sp_text,
+							GossipTextList[sp_text]
+						)
+					)
 					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
-
 				else
 					DebugPrint("Auto-confirm condition not met.")
 				end
@@ -164,7 +189,8 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 		-- Direct command for Classic:
 		-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
 
-
-		if not found then DebugPrint("Did not find matching popup") end
+		if not found then
+			DebugPrint("Did not find matching popup")
+		end
 	end -- APR.Events:GOSSIP_CONFIRM()
 end -- WoW Classic check
