@@ -107,9 +107,51 @@ GossipTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Fai
 
 
 -- Similarly track gossips by ID that should be auto confirmed.
+-- format: GossipIDList[gossipID] = "Name for use in APR"
 local GossipIDList = {}
 
--- Pandaria pet tamer battles
+-- Eastern Kingdoms pet tamers
+GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
+GossipIDList[40127] = "Julia Stevens" -- Elwynn Forest
+GossipIDList[41437] = "Old MacDonald" -- Westfall
+GossipIDList[41186] = "Eric Davidson" -- Duskwood
+GossipIDList[41216] = "Bill Buckler" -- Cape of Stranglethorn
+GossipIDList[39601] = "Steven Lisbane" -- Northern Stranglethorn
+GossipIDList[41777] = "Everessa" -- Swamp of Sorrows
+GossipIDList[41184] = "Lindsay" -- Redridge Mountains
+GossipIDList[41779] = "Durin Darkhammer" -- Burning Steppes
+GossipIDList[41417] = "Kortas Darkhammer" -- Searing Gorge
+GossipIDList[41415] = "Deiza Plaguehorn" -- Western Plaguelands
+GossipIDList[41413] = "David Kosse" -- Hinterlands
+
+-- Kalimdor pet tamers
+GossipIDList[41403] = "Zunta" -- Durotar
+GossipIDList[47298] = "Crysa" -- North Barrens
+GossipIDList[41182] = "Dagra the Fierce" -- North Barrens
+GossipIDList[41411] = "Stone Cold Trixxy" -- Winterspring
+GossipIDList[41258] = "Elena Flutterfly" -- Moonglade
+GossipIDList[41250] = "Zoltan" -- Felwood
+GossipIDList[40737] = "Analynn" -- Ashenvale
+GossipIDList[40812] = "Zonya the Sadist" -- Stonetalon Mountains
+GossipIDList[41022] = "Merda Stonehoof" -- Desolace
+GossipIDList[41017] = "Traitor Gluk" -- Feralas
+GossipIDList[41260] = "Cassandra Kaboom" -- South Barrens
+GossipIDList[41428] = "Kela Grimtotem" -- Thousand Needles
+GossipIDList[41246] = "Grazzle the Great" -- Dustwallow Marsh
+
+-- Outland pet tamers
+GossipIDList[00000] = "tbd" -- tbd
+
+-- Northrend pet tamers
+GossipIDList[00000] = "tbd" -- tbd
+
+-- Cataclysm pet tamers
+GossipIDList[41919] = "Obalis" -- Uldum
+GossipIDList[41915] = "Brok" -- Mount Hyjal
+GossipIDList[41913] = "Bordin Steadyfist" -- Deepholm
+GossipIDList[41917] = "Goz Banefury" -- Twilight Highlands
+
+-- Pandaria pet tamers
 GossipIDList[41951] = "Burning Pandaren Spirit"
 GossipIDList[41935] = "Flowing Pandaren Spirit"
 GossipIDList[41955] = "Thundering Pandaren Spirit"
@@ -120,6 +162,11 @@ GossipIDList[41818] = "Farmer Nishi"
 GossipIDList[41814] = "Hyuna of the Shrines"
 GossipIDList[41155] = "Seeker Zusshi"
 GossipIDList[41822] = "Wastewalker Shu"
+
+-- Spawning rares and opening chests at suffusion camps
+GossipIDList[108274] = "Secured Shipment" -- loot chest
+GossipIDList[108249] = "Suffusion Crucible" -- spawns minor rares
+GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
 
 
 -- Now capture the events that this module has to handle
