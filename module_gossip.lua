@@ -62,7 +62,9 @@ APR.Modules[ThisModule].WorksInClassic = false
 -- If I ever implement a gossip popup that exists in Classic, I'll have to review the code below.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
-APR.Modules[ThisModule].DisableInCombat = true -- Since this module is designed to handle multiple popups, I'm going to leave this as true to be safe.
+APR.Modules[ThisModule].DisableInCombat = false
+-- I'm assuming none of these options will be combat affecting. Pet battles and DMF port will be fine, since the chance of those during combat is low.
+-- Suffusion camp ones need more testing to be sure.
 
 -- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
 -- Instead, we just instantly confirm when it pops up for our selected events.
