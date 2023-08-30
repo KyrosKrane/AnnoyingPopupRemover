@@ -110,6 +110,14 @@ APR.OptionsTable = {
 			guiHidden = true,
 			order = 800,
 		}, -- status
+
+		version = {
+			name = L["Print the APR version and help summary"],
+			type = "execute",
+			func = function() APR:PrintVersion() end,
+			guiHidden = true,
+			order = 801,
+		}, -- status
 	} -- args
 } -- APR.OptionsTable
 
@@ -175,6 +183,10 @@ function APR:HandleAceSettingsChange(value, AceInfo)
 	elseif "status" == option then
 		APR:PrintStatus()
 
+	-- Print version if requested
+	elseif "version" == option then
+		APR:PrintVersion()
+
 	end -- if
 end -- APR:HandleAceSettingsChange()
 
@@ -231,6 +243,14 @@ function APR:PrintStatus(popup)
 		APR:PrintStatusSingle(popup)
 	end
 end -- APR:PrintStatus()
+
+
+function APR:PrintVersion(PrintLoadMessage)
+	local message = APR.Version .. " " .. L["loaded"] .. "."
+	if PrintLoadMessage then message = message .. " " .. L["For help and options, type /apr"] end
+
+	ChatPrint( message )
+end
 
 
 --#########################################
@@ -389,7 +409,7 @@ function APR.Events:PLAYER_LOGIN(...)
 	-- Announce our load.
 	DebugPrint("APR.DB.PrintStartupMessage is " .. MakeString(APR.DB.PrintStartupMessage))
 	if APR.DB.PrintStartupMessage then
-		ChatPrint(APR.Version .. " " .. L["loaded"] .. ". " .. L["For help and options, type /apr"])
+		APR:PrintVersion(true)
 	end
 
 end -- APR.Events:PLAYER_LOGIN()
