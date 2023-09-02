@@ -20,7 +20,9 @@ local L = APR.L
 --# Module settings
 --#########################################
 
--- Note the lowercase naming of modules. Makes it easier to pass status and settings around
+-- Note the lowercase naming of modules. Makes it easier to pass status and settings around.
+-- This is also the value used in slash commands to toggle settings. For the user, it's case insensitive.
+-- @TODO: This value should always be lowercase only in this file.
 local ThisModule = "loot"
 
 -- Set up the module
