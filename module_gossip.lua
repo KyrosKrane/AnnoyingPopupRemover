@@ -167,9 +167,15 @@ GossipIDList[41822] = "Wastewalker Shu"
 
 -- Spawning rares and opening chests at suffusion camps
 GossipIDList[108274] = "Secured Shipment Azure Span" -- loot chest
-GossipIDList[109222] = "Secured Shipment Oh'naran Plains" -- loot chest
+GossipIDList[109222] = "Secured Shipment Ohn'ahran Plains" -- loot chest
 GossipIDList[108249] = "Suffusion Crucible" -- spawns minor rares
 GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
+
+-- maybe stable masters?
+-- 107788 - Pan the Kind Hand in Apex Observatory, Waking Shores
+-- 36818 - Aiwen Ironeye, Theron's Watch, Azure Span
+-- 55630 - Goru the Shepherd, Forkriver Crossing, Ohn'ahran Plains
+-- 55630 - Beastmaster Oken, Broadhoof Outpost, Ohn'ahran Plains
 
 
 -- Now capture the events that this module has to handle
