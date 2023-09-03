@@ -58,13 +58,12 @@ APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
 -- This Boolean tells us whether this module works in Classic.
 APR.Modules[ThisModule].WorksInClassic = false
 -- Although the Darkmoon Faire exists in classic, the teleport NPC does not.
--- Pet battles also don't exist in Classic.
+-- Pet battles and suffusion camps also don't exist in Classic.
 -- If I ever implement a gossip popup that exists in Classic, I'll have to review the code below.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 APR.Modules[ThisModule].DisableInCombat = false
--- I'm assuming none of these options will be combat affecting. Pet battles and DMF port will be fine, since the chance of those during combat is low.
--- Suffusion camp ones need more testing to be sure.
+-- I was never able to trigger an error using these during combat. I'm assuming it's fine.
 
 -- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
 -- Instead, we just instantly confirm when it pops up for our selected events.
@@ -182,6 +181,7 @@ GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
 -- 36818 - Aiwen Ironeye, Theron's Watch, Azure Span
 -- 55630 - Goru the Shepherd, Forkriver Crossing, Ohn'ahran Plains
 -- 55630 - Beastmaster Oken, Broadhoof Outpost, Ohn'ahran Plains
+-- 36818 - Bulrug, Thunder Bluff, and Tassia Whisperglen, Dalaran Northrend
 
 
 -- Now capture the events that this module has to handle
