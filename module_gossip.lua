@@ -105,12 +105,18 @@ end -- HidePopup()
 -- List the gossip text strings that should be auto confirmed.
 -- format: GossipTextList["Blizzard text"] = "Name for use in APR"
 local GossipTextList = {}
-GossipTextList[L["Travel to the faire staging area will cost:"]] = "Darkmoon Faire" -- NOTE, this line (for the DMF) is not localized in Blizzard's lua code.
-
+-- Before I realized I could use the IDs to identify specific gossips, I tried using the text of the popup dialog.
+-- It works, but it's unreliable due to localization.
+-- So, while the code and infrastructure for it are still here, it shouldn't be used.
+-- Use the gossipID instead.
 
 -- Similarly track gossips by ID that should be auto confirmed.
 -- format: GossipIDList[gossipID] = "Name for use in APR"
 local GossipIDList = {}
+
+-- Darkmoon Faire teleports
+GossipIDList[40457] = "Darkmoon Faire Alliance" -- both alliance and horde gossips are shared across all the factional Mystic Mage NPCs
+GossipIDList[40007] = "Darkmoon Faire Horde"
 
 -- Eastern Kingdoms pet tamers
 GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
