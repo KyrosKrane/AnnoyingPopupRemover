@@ -261,7 +261,7 @@ end
 -- popup is required, state and ConfState are optional
 function APR:TogglePopup(popup, state, ConfState)
 
-	DebugPrint("in TogglePopup, popup = " .. popup .. ", state is " .. (state and state or "nil") .. ", ConfState is " .. (ConfState == nil and "nil" or (ConfState and "true" or "false")))
+	DebugPrint("in TogglePopup, popup = ", popup, ", state is ", state, ", ConfState is ", (ConfState == nil and "nil" or (ConfState and "true" or "false")))
 
 	-- Check if a confirmation message should be printed. This is only needed when a change is made from the command line, not from the config UI.
 	local ShowConf = APR.PRINT_CONFIRMATION
@@ -279,7 +279,7 @@ function APR:TogglePopup(popup, state, ConfState)
 	-- We'll follow the game protocol of using the word "delete", but accept "destroy" as well.
 	if "destroy" == popup then popup = "delete" end
 
-	DebugPrint("in TogglePopup, After replacing, popup is " .. popup)
+	DebugPrint("in TogglePopup, After replacing, popup is ", popup)
 
 	-- Get the settings for the selected popup
 	local Settings = APR.Modules[popup]
@@ -299,7 +299,7 @@ function APR:TogglePopup(popup, state, ConfState)
 				Settings.HidePopup(ShowConf)
 			else
 				-- error, bad programmer, no cookie!
-				DebugPrint("Error in APR:TogglePopup: unknown state " .. state .. " for popup type " .. PreReplacePopup .. " passed in.")
+				DebugPrint("Error in APR:TogglePopup: unknown state ", state, " for popup type ", PreReplacePopup, " passed in.")
 				return false
 			end
 		else
@@ -312,7 +312,7 @@ function APR:TogglePopup(popup, state, ConfState)
 		end
 	else
 		-- error, bad programmer, no cookie!
-		DebugPrint("Error in APR:TogglePopup: unknown popup type " .. PreReplacePopup .. " passed in. (Parsed as " .. popup .. " after replacement.)")
+		DebugPrint("Error in APR:TogglePopup: unknown popup type ", PreReplacePopup, " passed in. (Parsed as ", popup, " after replacement.)")
 		return false
 	end
 end -- APR:TogglePopup()
@@ -330,7 +330,7 @@ end -- APR:SetDebug()
 
 
 function APR:ToggleStartupMessage(mode, ConfState)
-	DebugPrint("in ToggleStartupMessage, mode = " .. mode .. ", ConfState is " .. (ConfState == nil and "nil" or (ConfState and "true" or "false")))
+	DebugPrint("in ToggleStartupMessage, mode = ", mode, ", ConfState is ", (ConfState == nil and "nil" or (ConfState and "true" or "false")))
 
 	-- Check if a confirmation message should be printed. This is only needed when a change is made from the command line, not from the config UI.
 	local ShowConf = APR.PRINT_CONFIRMATION
@@ -346,7 +346,7 @@ function APR:ToggleStartupMessage(mode, ConfState)
 		if ShowConf then ChatPrint(L["Startup announcement message will NOT printed in your chat frame at login."]) end
 	else
 		-- error, bad programmer, no cookie!
-		DebugPrint("Error in APR:ToggleStartupMessage: unknown mode " .. mode .. " passed in.")
+		DebugPrint("Error in APR:ToggleStartupMessage: unknown mode ", mode, " passed in.")
 		return false
 	end
 end -- APR:ToggleStartupMessage()
@@ -359,7 +359,7 @@ end -- APR:ToggleStartupMessage()
 -- On-load handler for addon initialization.
 function APR.Events:PLAYER_LOGIN(...)
 	DebugPrint("In PLAYER_LOGIN")
-	DebugPrint("Detected client is " .. (APR.IsClassic and "Classic" or "Retail"))
+	DebugPrint("Detected client is ", (APR.IsClassicEra and "Classic Era" or APR.IsClassic and "Classic Non-Era" or "Retail"))
 
 	-- Load the saved variables, or initialize if they don't exist yet.
 	if APR_DB then
@@ -369,9 +369,9 @@ function APR.Events:PLAYER_LOGIN(...)
 			if not APR.IsClassic or Settings.WorksInClassic then
 				if nil == APR_DB[Settings.DBName] then
 					APR_DB[Settings.DBName] = Settings.DBDefaultValue
-					DebugPrint(Settings.DBName .. " in APR_DB initialized to " .. MakeString(Settings.DBDefaultValue) .. ".")
+					DebugPrint(Settings.DBName, " in APR_DB initialized to ", MakeString(Settings.DBDefaultValue), ".")
 				else
-					DebugPrint(Settings.DBName .. " in APR_DB exists as " .. MakeString(Settings.DBDefaultValue) .. ".")
+					DebugPrint(Settings.DBName, " in APR_DB exists as ", MakeString(Settings.DBDefaultValue), ".")
 				end
 			end
 		end
@@ -399,7 +399,7 @@ function APR.Events:PLAYER_LOGIN(...)
 
 			-- Hide the dialogs the user has selected.
 			-- In this scenario, the DB variable may already be true, but the dialog has not yet been hidden. So, we pass APR.FORCE_HIDE_DIALOG to forcibly hide the dialogs.
-			DebugPrint("At load, " .. Settings.DBName .. " is " .. MakeString(APR.DB[Settings.DBName]))
+			DebugPrint("At load, ", Settings.DBName, " is ", MakeString(APR.DB[Settings.DBName]))
 			if APR.DB[Settings.DBName] then
 				Settings.HidePopup(APR.NO_CONFIRMATION, APR.FORCE_HIDE_DIALOG)
 			end
@@ -407,7 +407,7 @@ function APR.Events:PLAYER_LOGIN(...)
 	end -- processing loaded settings
 
 	-- Announce our load.
-	DebugPrint("APR.DB.PrintStartupMessage is " .. MakeString(APR.DB.PrintStartupMessage))
+	DebugPrint("APR.DB.PrintStartupMessage is ", MakeString(APR.DB.PrintStartupMessage))
 	if APR.DB.PrintStartupMessage then
 		APR:PrintVersion(true)
 	end

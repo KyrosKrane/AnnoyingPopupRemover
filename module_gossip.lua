@@ -190,9 +190,15 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 	function APR.Events:GOSSIP_CONFIRM(gossipID, text, cost)
 		DebugPrint("In APR.Events:GOSSIP_CONFIRM")
 
-		DebugPrint("gossipID is " .. gossipID)
-		DebugPrint("text is " .. text)
-		DebugPrint("cost is " .. cost)
+		-- If the gossipID is nil or blank, then it's not a dialog we care about
+		if not gossipID or "" == gossipID then
+			DebugPrint("GossipID is nil or blank, not auto confirming")
+			return
+		end
+
+		DebugPrint("gossipID is ", gossipID)
+		DebugPrint("text is ", text)
+		DebugPrint("cost is ", cost)
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideGossip then
