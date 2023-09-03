@@ -47,5 +47,6 @@ module_quest.lua
 module_undercut.lua
 module_dragonriding.lua
 module_workorder.lua
+module_actioncam.lua
 
 AnnoyingPopupRemover.lua

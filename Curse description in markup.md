@@ -16,6 +16,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Abandoning a quest.
 - Buying a dragonriding talent.
 - Crafting a profession work order using your own reagents or materials.
+- Enabling the ActionCam or other experimental settings.
 
 In addition, it simplifies the following dialog:
 
