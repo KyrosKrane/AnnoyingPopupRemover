@@ -101,6 +101,10 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
+-- Sometimes when auto confirming, it requires a gold cost.
+-- This is the max amount (in copper pieces) to auto confirm.
+local MAX_COPPER = 50000 -- 5g
+
 -- List the gossip text strings that should be auto confirmed.
 -- format: GossipTextList["Blizzard text"] = "Name for use in APR"
 local GossipTextList = {}
@@ -238,9 +242,14 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 							GossipIDList[sp_data]
 						)
 					)
+
+					if cost and cost > MAX_COPPER then
+						DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
+						return
+					end
 					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
 
-					-- Check if the dialog has the specific text we want to auto approve
+				-- Check if the dialog has the specific text we want to auto approve
 				elseif sp_text and GossipTextList[sp_text] then
 					DebugPrint(
 						string.format(
@@ -250,6 +259,11 @@ if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
 							GossipTextList[sp_text]
 						)
 					)
+
+					if cost and cost > MAX_COPPER then
+						DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
+						return
+					end
 					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
 				else
 					DebugPrint("Auto-confirm condition not met.")
