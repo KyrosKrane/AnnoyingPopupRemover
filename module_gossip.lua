@@ -184,14 +184,12 @@ GossipIDList[109222] = "Secured Shipment Ohn'ahran Plains" -- loot chest
 GossipIDList[108249] = "Suffusion Crucible" -- spawns minor rares
 GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
 
--- maybe stable masters?
--- 107788 - Pan the Kind Hand in Apex Observatory, Waking Shores
--- 36818 - Aiwen Ironeye, Theron's Watch, Azure Span
--- 55630 - Goru the Shepherd, Forkriver Crossing, Ohn'ahran Plains
--- 55630 - Beastmaster Oken, Broadhoof Outpost, Ohn'ahran Plains
--- 36818 - Bulrug, Thunder Bluff, and Tassia Whisperglen, Dalaran Northrend
--- 41280 - Vanndual, Loamm, Zeralek Cavern
--- Iskaara and Valdrakken dudes are free, no popup
+-- Stable masters. This is a partial list of known IDs
+GossipIDList[107788] = "Stable master 107788"
+GossipIDList[36818] = "Stable master 36818"
+GossipIDList[55630] = "Stable master 55630"
+GossipIDList[41280] = "Stable master 41280"
+
 
 -- Now capture the events that this module has to handle
 
