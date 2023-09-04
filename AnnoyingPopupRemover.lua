@@ -160,7 +160,7 @@ function APR:HandleAceSettingsChange(value, AceInfo)
 	end
 
 	-- Check which option the user toggled
-	local option = AceInfo[#AceInfo]
+	local option = AceInfo[#AceInfo]:lower()
 
 	-- This variable holds the "show/hide" instruction used in the toggling functions.
 	local TextAction = value and "hide" or "show"
