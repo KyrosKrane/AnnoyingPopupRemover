@@ -147,10 +147,18 @@ GossipIDList[41428] = "Kela Grimtotem" -- Thousand Needles
 GossipIDList[41246] = "Grazzle the Great" -- Dustwallow Marsh
 
 -- Outland pet tamers
-GossipIDList[00000] = "tbd" -- tbd
+GossipIDList[40903] = "Morulu the Elder" -- Shattrath
+GossipIDList[40903] = "Bloodknight Antari" -- Shadowmoon Valley
+GossipIDList[41046] = "Nicki Tinytech" -- Hellfire Peninsula
+GossipIDList[41751] = "Narrok" -- Nagrand
+GossipIDList[40901] = "Ras'an" -- Zangarmarsh
 
 -- Northrend pet tamers
-GossipIDList[00000] = "tbd" -- tbd
+GossipIDList[40769] = "Major Payne" -- Argent Tournament, Icecrown
+GossipIDList[41230] = "Nearly Headless Jacob" -- Crystalsong Forest
+GossipIDList[41234] = "Gutwretch" -- Zul'Drak
+GossipIDList[41232] = "Okrut Dragonwaste" -- Dragonblight
+GossipIDList[41228] = "Beegle Blastfuse" -- Howling Fjord
 
 -- Cataclysm pet tamers
 GossipIDList[41919] = "Obalis" -- Uldum
@@ -182,7 +190,8 @@ GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
 -- 55630 - Goru the Shepherd, Forkriver Crossing, Ohn'ahran Plains
 -- 55630 - Beastmaster Oken, Broadhoof Outpost, Ohn'ahran Plains
 -- 36818 - Bulrug, Thunder Bluff, and Tassia Whisperglen, Dalaran Northrend
-
+-- 41280 - Vanndual, Loamm, Zeralek Cavern
+-- Iskaara and Valdrakken dudes are free, no popup
 
 -- Now capture the events that this module has to handle
 
