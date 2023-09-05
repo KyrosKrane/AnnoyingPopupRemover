@@ -29,7 +29,7 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 18 adds the option to hide the pop-up when you request a teleport to the Darkmoon Faire from a Darkmoon Faire Mystic Mage.
+Version 18 adds the option to hide the pop-up when you chat with some NPCs, and when using the ActionCam.
 
 Version 17 adds the option to hide the pop-up when crafting a profession work order using your own reagents or materials.
 

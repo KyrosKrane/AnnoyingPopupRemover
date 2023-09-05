@@ -4,7 +4,7 @@ World of Warcraft addon to remove some annoying popups in the game.
 Written by KyrosKrane Sylvanblade (kyros@kyros.info)  
 Copyright (c) 2015-2023 KyrosKrane Sylvanblade. Licensed under the MIT License.
 
-Get it from here, or on your favorite addon site: [Curse](https://www.curseforge.com/wow/addons/bop-items-quick-loot) - [WowInterface](https://www.wowinterface.com/downloads/info23631-AnnoyingPop-upRemover.html)
+Get it from here, or on your favorite addon site: [Curse](https://www.curseforge.com/wow/addons/bop-items-quick-loot) - [WowInterface](https://www.wowinterface.com/downloads/info23631-AnnoyingPop-upRemover.html) - [Wago](https://addons.wago.io/addons/annoying-pop-up-remover)
 
 # Description
 This add-on removes a number of annoying pop-ups.
@@ -21,7 +21,8 @@ This add-on removes a number of annoying pop-ups.
 - Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
 - Buying a dragonriding talent.
 - Crafting a profession work order using your own reagents or materials.
-- Chatting with NPCs, such as teleporting to the Darkmoon Faire or starting some pet battles.
+- Enabling the ActionCam or other experimental settings.
+- Chatting with NPCs, such as teleporting to the Darkmoon Faire, healing pets at a stable master, or starting pet battles.
 
 In addition, it simplifies the following dialog:
 
