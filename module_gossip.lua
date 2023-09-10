@@ -189,11 +189,14 @@ GossipIDList[108249] = "Suffusion Crucible" -- spawns minor rares
 GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
 
 -- Stable masters. This is a partial list of known IDs
-GossipIDList[107788] = "Stable master 107788"
 GossipIDList[36818] = "Stable master 36818"
-GossipIDList[55630] = "Stable master 55630"
 GossipIDList[41280] = "Stable master 41280"
+GossipIDList[41827] = "Stable master 41827"
+GossipIDList[54986] = "Stable master 54986"
 GossipIDList[55231] = "Stable master 55231"
+GossipIDList[55630] = "Stable master 55630"
+GossipIDList[107788] = "Stable master 107788"
+GossipIDList[110331] = "Stable master 110331" -- Wurallie
 
 
 -- Now capture the events that this module has to handle
