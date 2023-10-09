@@ -181,6 +181,7 @@ GossipIDList[41818] = "Farmer Nishi"
 GossipIDList[41814] = "Hyuna of the Shrines"
 GossipIDList[41155] = "Seeker Zusshi"
 GossipIDList[41822] = "Wastewalker Shu"
+GossipIDList[41816] = "Mo'ruk"
 GossipIDList[41591] = "Little Tommy Newcomer"
 
 -- Spawning rares and opening chests at suffusion camps
