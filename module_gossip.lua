@@ -181,6 +181,7 @@ GossipIDList[41818] = "Farmer Nishi"
 GossipIDList[41814] = "Hyuna of the Shrines"
 GossipIDList[41155] = "Seeker Zusshi"
 GossipIDList[41822] = "Wastewalker Shu"
+GossipIDList[41591] = "Little Tommy Newcomer"
 
 -- Spawning rares and opening chests at suffusion camps
 GossipIDList[108274] = "Secured Shipment Azure Span" -- loot chest
@@ -195,6 +196,7 @@ GossipIDList[41827] = "Stable master 41827"
 GossipIDList[54986] = "Stable master 54986"
 GossipIDList[55231] = "Stable master 55231"
 GossipIDList[55630] = "Stable master 55630"
+GossipIDList[107385] = "Stable master 107385"
 GossipIDList[107788] = "Stable master 107788"
 GossipIDList[110331] = "Stable master 110331" -- Wurallie
 
