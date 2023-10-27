@@ -201,6 +201,10 @@ GossipIDList[107385] = "Stable master 107385"
 GossipIDList[107788] = "Stable master 107788"
 GossipIDList[110331] = "Stable master 110331" -- Wurallie
 
+-- Start of various encounters in the Dragon Soul raid
+GossipIDList[40649] = "Warmaster Blackhorn Heroic"
+GossipIDList[40000] = "Spine of Deathwing Heroic"
+
 
 -- Now capture the events that this module has to handle
 
