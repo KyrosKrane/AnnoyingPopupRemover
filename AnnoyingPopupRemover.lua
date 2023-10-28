@@ -45,9 +45,6 @@ local MakeString = APR.Utilities.MakeString
 APR.USER_ADDON_NAME = L["Annoying Pop-up Remover"]
 APR.USER_ADDON_SHORT_NAME = L["APR"]
 
--- Set the current version so we can display it.
-APR.Version = "@project-version@"
-
 
 --#########################################
 --# Configuration setup
@@ -63,7 +60,8 @@ APR.OptionsTable = {
 			order = 100,
 		}, -- AnnoyancesHeader
 
-			-- Annoyances should be ordered between 101-299
+		-- Annoyances should be ordered between 101-299
+		-- These come from modules
 
 
 		AddonOptionsHeader = {
@@ -72,10 +70,10 @@ APR.OptionsTable = {
 			order = 300,
 		}, -- AddonOptionsHeader
 
-			-- Addon options should be between 301 and 399
+		-- Addon options should be between 301 and 399
 
 		startup = {
-			name = L["Show a startup announcement message in your chat frame at login"],
+			name = L["startup_config"],
 			type = "toggle",
 			set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 			get = function(info) return APR.DB.PrintStartupMessage end,
@@ -86,10 +84,11 @@ APR.OptionsTable = {
 
 
 		-- Hidden options should be between 701 and 799
+		-- Note that hidden and other items don't need to be localized, since the text is only visible in code.
 
 		debug = {
 			name = "Enable debug output",
-			desc = string.format("%s%s%s", L["Prints extensive debugging output about everything "], APR.USER_ADDON_SHORT_NAME, L[" does"]),
+			desc = "Prints extensive debugging output about everything APR does",
 			type = "toggle",
 			set = function(info,val) APR:SetDebug(val) end,
 			get = function(info) return APR.DebugMode end,
@@ -103,8 +102,7 @@ APR.OptionsTable = {
 		-- Other items should be 800+
 
 		status = {
-			name = L["Print the setting summary to the chat window"],
-			--desc = L["Print the setting summary to the chat window"],
+			name = "Print the setting summary to the chat window",
 			type = "execute",
 			func = function() APR:PrintStatus() end,
 			guiHidden = true,
@@ -112,7 +110,7 @@ APR.OptionsTable = {
 		}, -- status
 
 		version = {
-			name = L["Print the APR version and help summary"],
+			name = "Print the APR version and help summary",
 			type = "execute",
 			func = function() APR:PrintVersion() end,
 			guiHidden = true,
@@ -246,11 +244,12 @@ end -- APR:PrintStatus()
 
 
 function APR:PrintVersion(PrintLoadMessage)
-	local message = APR.Version .. " " .. L["loaded"] .. "."
-	if PrintLoadMessage then message = message .. " " .. L["For help and options, type /apr"] end
-
-	ChatPrint( message )
-end
+	if PrintLoadMessage then
+		ChatPrint(L["Startup_message"])
+	else
+		ChatPrint(L["Version_message"])
+	end
+end -- APR:PrintVersion()
 
 
 --#########################################
@@ -340,10 +339,10 @@ function APR:ToggleStartupMessage(mode, ConfState)
 
 	if "show" == mode then
 		APR.DB.PrintStartupMessage = APR.PRINT_STARTUP
-		if ShowConf then ChatPrint(L["Startup announcement message will printed in your chat frame at login."]) end
+		if ShowConf then ChatPrint(L["startup_printed"]) end
 	elseif "hide" == mode then
 		APR.DB.PrintStartupMessage = APR.HIDE_STARTUP
-		if ShowConf then ChatPrint(L["Startup announcement message will NOT printed in your chat frame at login."]) end
+		if ShowConf then ChatPrint(L["startup_not_printed"]) end
 	else
 		-- error, bad programmer, no cookie!
 		DebugPrint("Error in APR:ToggleStartupMessage: unknown mode ", mode, " passed in.")

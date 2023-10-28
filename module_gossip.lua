@@ -34,7 +34,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the confirmation pop-up for various NPC chats (English clients only)"],
+	name = L["gossip_config"],
 	type = "toggle",
 	set = function(info, val)
 		APR:HandleAceSettingsChange(val, info)
@@ -112,6 +112,8 @@ local GossipTextList = {}
 -- It works, but it's unreliable due to localization.
 -- So, while the code and infrastructure for it are still here, it shouldn't be used.
 -- Use the gossipID instead.
+-- Example:
+-- GossipTextList[L["Darkmoon_travel"]] = "Darkmoon_travel"
 
 -- Similarly track gossips by ID that should be auto confirmed.
 -- format: GossipIDList[gossipID] = "Name for use in APR"

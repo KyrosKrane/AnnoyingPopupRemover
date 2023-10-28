@@ -34,7 +34,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the confirmation pop-up when equipping an item that was looted in a group and can still be traded."],
+	name = L["trade_config"],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideEquipTrade end,

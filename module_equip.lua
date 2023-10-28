@@ -34,7 +34,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.SHOW_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the confirmation pop-up when equipping a bind-on-equip item"],
+	name = L["equip_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideEquip end,

@@ -30,6 +30,7 @@ Libs\AddonUtilities\Utilities.lua
 # In this add-on
 Init.lua
 Localization.lua
+Localization_frFR.lua
 
 module_loot.lua
 module_roll.lua

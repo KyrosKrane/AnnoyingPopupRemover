@@ -33,7 +33,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.SHOW_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the reminder that undercutting is no longer required when selling at the auction house"],
+	name = L["undercut_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideUndercut end,

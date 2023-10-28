@@ -34,7 +34,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["Hide the popup when abandoning a quest"],
+	name = L["quest_config"],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideAbandonQuest end,

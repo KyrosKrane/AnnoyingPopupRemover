@@ -31,7 +31,7 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["When deleting \"good\" items, don't require typing the word \"delete\""],
+	name = L["delete_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideDelete end,
