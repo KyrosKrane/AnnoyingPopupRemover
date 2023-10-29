@@ -10,7 +10,7 @@
 local addonName, APR = ...
 
 -- Bail out if it's the wrong language.
-if not "frFR" == APR.locale then return end
+if "frFR" ~= APR.locale then return end
 
 -- Get a handle to the localization table for easier reading
 local L = APR.L

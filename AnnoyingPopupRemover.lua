@@ -24,9 +24,6 @@
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
 
--- Get the localization details from our external setup file
-local L = APR.L
-
 
 --#########################################
 --# Local references (for readability)
@@ -35,6 +32,9 @@ local L = APR.L
 local DebugPrint = APR.Utilities.DebugPrint
 local ChatPrint = APR.Utilities.ChatPrint
 local MakeString = APR.Utilities.MakeString
+
+-- Get the localization details from our external strings file
+local L = APR.L
 
 
 --#########################################
