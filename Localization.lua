@@ -55,8 +55,12 @@ L["gossip_config"] = "Hide the confirmation pop-up for various NPC chats" -- gos
 L["startup_config"] = "Show a startup announcement message in your chat frame at login"
 
 -- Config headers
-L["Annoyances"] = "Annoyances"
-L["Addon Options"] = "Addon Options"
+
+L["ItemsHeader"] = "Items"
+L["VendoringHeader"] = "Vendoring"
+L["NPCInteractionHeader"] = "NPC Interaction"
+L["GameInterfaceHeader"] = "Game Interface"
+L["AddonOptionsHeader"] = L["APR"] .. " Options"
 
 
 -- Status printing

@@ -33,7 +33,8 @@ APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
 
 -- This is the config setup for AceConfig
 APR.Modules[ThisModule].config = {
-	name = L["innkeeper_config"],
+	name = "/apr " .. ThisModule,
+	desc = L["innkeeper_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB.HideInnkeeper end,
@@ -41,9 +42,12 @@ APR.Modules[ThisModule].config = {
 	width = "full",
 } -- config
 
+-- The module's category determines where it goes in the options list
+APR.Modules[ThisModule].Category = "NPCInteraction"
+
 -- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.NextOrdering
-APR.NextOrdering = APR.NextOrdering + 10
+APR.Modules[ThisModule].config.order = APR.Categories[APR.Modules[ThisModule].Category].order + APR.NextOrdering
+APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
 -- @TODO: Remember to add these localized strings to the localization file!

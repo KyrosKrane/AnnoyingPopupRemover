@@ -54,23 +54,9 @@ APR.USER_ADDON_SHORT_NAME = L["APR"]
 APR.OptionsTable = {
 	type = "group",
 	args = {
-		AnnoyancesHeader = {
-			name = L["Annoyances"],
-			type = "header",
-			order = 100,
-		}, -- AnnoyancesHeader
+		-- Headers are now added programmatically below
 
-		-- Annoyances should be ordered between 101-299
-		-- These come from modules
-
-
-		AddonOptionsHeader = {
-			name = L["Addon Options"],
-			type = "header",
-			order = 300,
-		}, -- AddonOptionsHeader
-
-		-- Addon options should be between 301 and 399
+		-- Addon options should be between 601 and 699
 
 		startup = {
 			name = L["startup_config"],
@@ -79,7 +65,7 @@ APR.OptionsTable = {
 			get = function(info) return APR.DB.PrintStartupMessage end,
 			descStyle = "inline",
 			width = "full",
-			order = 310,
+			order = 610,
 		}, -- startup
 
 
@@ -119,10 +105,16 @@ APR.OptionsTable = {
 	} -- args
 } -- APR.OptionsTable
 
+-- Programmatically add the headers
+DebugPrint("About to add headers")
+for HeaderName, HeaderSettings in pairs(APR.Categories) do
+	DebugPrint("Adding header ", HeaderName)
+	APR.OptionsTable.args[HeaderName .. "Header"] = HeaderSettings
+end
 
 -- Programmatically add the settings for each module
 for ModuleName, ModuleSettings in pairs(APR.Modules) do
-	if (not APR.IsClassic or APR.Modules[ModuleName].WorksInClassic) then
+	if (not APR.IsClassic or ModuleSettings.WorksInClassic) then
 		APR.OptionsTable.args[ModuleName] = ModuleSettings.config
 	end
 end

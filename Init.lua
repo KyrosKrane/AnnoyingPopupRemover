@@ -58,7 +58,7 @@ APR.IsClassic = select(4, GetBuildInfo()) < 40000
 APR.IsClassicEra = select(4, GetBuildInfo()) < 30000
 
 -- Get the ordering constant of the next module
-APR.NextOrdering = 110
+APR.NextOrdering = 10
 
 
 --#########################################
