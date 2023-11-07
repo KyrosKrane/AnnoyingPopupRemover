@@ -41,10 +41,6 @@ APR.Modules[ThisModule].config = {
 } -- config
 
 -- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.NextOrdering
-APR.NextOrdering = APR.NextOrdering + 10
-
--- Set the order based on the file inclusion order in the TOC
 -- The module's category determines where it goes in the options list
 APR.Modules[ThisModule].Category = "Items"
 
