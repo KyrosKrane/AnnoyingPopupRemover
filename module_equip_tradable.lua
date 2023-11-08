@@ -27,43 +27,43 @@ local ThisModule = "trade"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideEquipTrade"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideEquipTrade"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "Items"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
+this.config = {
 	name = "/apr " .. ThisModule,
 	desc = L["trade_config"],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideEquipTrade end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- Set the order based on the file inclusion order in the TOC
--- The module's category determines where it goes in the options list
-APR.Modules[ThisModule].Category = "Items"
-
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.Categories[APR.Modules[ThisModule].Category].order + APR.NextOrdering
+-- Update the ordering for the next file to be loaded
 APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = false
+this.WorksInClassic = false
 
 -- This Boolean tells us whether to disable this module during combat.
-APR.Modules[ThisModule].DisableInCombat = true
+this.DisableInCombat = true
 
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	if APR.DB.HideEquipTrade then
@@ -82,7 +82,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideEquipTrade or ForceHide then
@@ -101,7 +101,7 @@ end -- HidePopup()
 
 -- Now capture the events that this module has to handle
 
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
+if not APR.IsClassic or this.WorksInClassic then
 	-- Equipping a group-looted item that is still tradable triggers this event.
 	function APR.Events:EQUIP_BIND_TRADEABLE_CONFIRM(slot, ...)
 

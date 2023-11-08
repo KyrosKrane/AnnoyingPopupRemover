@@ -27,42 +27,43 @@ local ThisModule = "quest"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideAbandonQuest"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideAbandonQuest"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "GameInterface"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
+this.config = {
 	name = "/apr " .. ThisModule,
 	desc = L["quest_config"],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideAbandonQuest end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- The module's category determines where it goes in the options list
-APR.Modules[ThisModule].Category = "GameInterface"
-
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.Categories[APR.Modules[ThisModule].Category].order + APR.NextOrdering
+-- Update the ordering for the next file to be loaded
 APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = true
+this.WorksInClassic = true
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
-APR.Modules[ThisModule].DisableInCombat = false
+this.DisableInCombat = false
 
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	APR.DB.HideAbandonQuest = APR.SHOW_DIALOG
@@ -72,7 +73,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	APR.DB.HideAbandonQuest = APR.HIDE_DIALOG
@@ -114,7 +115,7 @@ local function APR_Abandon_Quest_Classic()
 end
 
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
-APR.Modules[ThisModule].PreloadFunc = function()
+this.PreloadFunc = function()
 	if QuestMapQuestOptions_AbandonQuest then
 		DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking with retail style")
 		hooksecurefunc("QuestMapQuestOptions_AbandonQuest", APR_Abandon_Quest)

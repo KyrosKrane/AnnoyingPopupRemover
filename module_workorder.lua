@@ -27,44 +27,45 @@ local ThisModule = "workorder"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideWorkOrder"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideWorkOrder"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "GameInterface"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
+this.config = {
 	name = "/apr " .. ThisModule,
 	desc = L["workorder_config"],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideWorkOrder end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- The module's category determines where it goes in the options list
-APR.Modules[ThisModule].Category = "GameInterface"
-
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.Categories[APR.Modules[ThisModule].Category].order + APR.NextOrdering
+-- Update the ordering for the next file to be loaded
 APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
 -- @TODO: Remember to add these localized strings to the localization file!
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = false
+this.WorksInClassic = false
 
 -- This Boolean tells us whether to disable this module during combat.
 -- Weirdly, this works fine in combat! No errors.
-APR.Modules[ThisModule].DisableInCombat = false
+this.DisableInCombat = false
 
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	APR.DB.HideWorkOrder = APR.SHOW_DIALOG
@@ -74,7 +75,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	APR.DB.HideWorkOrder = APR.HIDE_DIALOG
@@ -83,7 +84,7 @@ APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
+if not APR.IsClassic or this.WorksInClassic then
 	-- When the user clicks the "Craft" Button, the confirmation dialog is shown. The parameters to the ShowPopup function have the callback to actually Craft the Crafting Order.
 
 	-- This function attempts to actually Craft the Crafting Order

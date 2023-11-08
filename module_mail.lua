@@ -1,6 +1,6 @@
 -- module_mail.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -26,7 +26,7 @@ local ThisModule = "mail"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
-this = APR.Modules[ThisModule]
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
 this.DBName = "HideMail"
@@ -41,7 +41,7 @@ this.config = {
 	desc = L["mail_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideMail end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
 	order = APR.Categories[this.Category].order + APR.NextOrdering,

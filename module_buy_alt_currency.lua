@@ -27,39 +27,40 @@ local ThisModule = "buy"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideBuyToken"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideBuyToken"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "Vendoring"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
+this.config = {
 	name = "/apr " .. ThisModule,
 	desc = L["buy_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideBuyToken end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- The module's category determines where it goes in the options list
-APR.Modules[ThisModule].Category = "Vendoring"
-
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.Categories[APR.Modules[ThisModule].Category].order + APR.NextOrdering
+-- Update the ordering for the next file to be loaded
 APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = false
+this.WorksInClassic = false
 
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	
 	if APR.DB.HideBuyToken then
@@ -78,7 +79,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideBuyToken or ForceHide then
@@ -105,9 +106,9 @@ end
 
 
 -- Now hook the purchase function.
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
+if not APR.IsClassic or this.WorksInClassic then
 	-- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
-	APR.Modules[ThisModule].PreloadFunc = function()
+	this.PreloadFunc = function()
 		-- Hook the function called when you try to buy an item with an alternate currency.
 		-- This Blizz function calls the static dialog with the confirm option.
 		hooksecurefunc("StaticPopup_Show", ForceBuyTokenItem)
