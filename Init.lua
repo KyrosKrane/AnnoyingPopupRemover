@@ -58,7 +58,7 @@ APR.IsClassic = select(4, GetBuildInfo()) < 40000
 APR.IsClassicEra = select(4, GetBuildInfo()) < 30000
 
 -- Get the ordering constant of the next module
-APR.NextOrdering = 110
+APR.NextOrdering = 10
 
 
 --#########################################
@@ -67,6 +67,11 @@ APR.NextOrdering = 110
 
 -- Get the language used by the client.
 APR.locale = GetLocale()
+--@alpha@
+-- Override for testing of missing strings
+if false then APR.locale = "frFR" end
+--@end-alpha@
+APR.Utilities.DebugPrint("At load time, locale is ", APR.locale)
 
 -- This bit of meta-magic makes it so that if we call L with a key that doesn't yet exist, a key is created automatically, and its value is the name of the key.  For example, if L["MyAddon"] doesn't exist, and I run print(L["MyAddon"]), the __index command causes the L table to automatically create a new key called MyAddon, and its value is set to tostring("MyAddon") -- same as the key name.
 APR.L = setmetatable({}, {

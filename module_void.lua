@@ -26,34 +26,39 @@ local ThisModule = "void"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideVoid"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideVoid"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "NPCInteraction"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
-	name = L["void_config"],
+this.config = {
+	name = L[ThisModule .. "_name"],
+	desc = L[ThisModule .. "_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideVoid end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.NextOrdering
-APR.NextOrdering = APR.NextOrdering + 10
+-- Update the ordering for the next file to be loaded
+APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = false
+this.WorksInClassic = false
 
 
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.IsClassic then
 		DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, Classic detected, aborting")
@@ -76,7 +81,7 @@ APR.Modules[ThisModule].ShowPopup = function(printconfirm)
 end -- ShowPopup()
 
 
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if APR.IsClassic then
 		DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, Classic detected, aborting")
@@ -102,7 +107,7 @@ end -- HidePopup()
 
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
 -- This function can be safely deleted if not used.
-APR.Modules[ThisModule].PreloadFunc = function()
+this.PreloadFunc = function()
 		-- Force the default Void Storage frame to load so we can override it
 		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
 		DebugPrint("Blizzard_VoidStorageUI isloaded is " .. MakeString(isloaded))
@@ -112,7 +117,7 @@ end
 
 -- Now capture the events that this module has to handle
 
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
+if not APR.IsClassic or this.WorksInClassic then
 	-- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
 	function APR.Events:VOID_DEPOSIT_WARNING(...)
 		if APR.DebugMode then

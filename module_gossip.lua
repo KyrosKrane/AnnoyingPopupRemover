@@ -27,49 +27,50 @@ local ThisModule = "gossip"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideGossip"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideGossip"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "NPCInteraction"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
-	name = L["gossip_config"],
+this.config = {
+	name = L[ThisModule .. "_name"],
+	desc = L[ThisModule .. "_config"],
 	type = "toggle",
-	set = function(info, val)
-		APR:HandleAceSettingsChange(val, info)
-	end,
-	get = function(info)
-		return APR.DB.HideGossip
-	end,
+	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.NextOrdering
-APR.NextOrdering = APR.NextOrdering + 10
+-- Update the ordering for the next file to be loaded
+APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
 -- @TODO: Remember to add these localized strings to the localization file!
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = false
+this.WorksInClassic = false
 -- Although the Darkmoon Faire exists in classic, the teleport NPC does not.
 -- Pet battles and suffusion camps also don't exist in Classic.
 -- If I ever implement a gossip popup that exists in Classic, I'll have to review the code below.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
-APR.Modules[ThisModule].DisableInCombat = false
+this.DisableInCombat = false
 -- I was never able to trigger an error using these during combat. I'm assuming it's fine.
 
 -- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
 -- Instead, we just instantly confirm when it pops up for our selected events.
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	-- Mark that the dialog is shown.
@@ -82,7 +83,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint(
 		"in APR.Modules['"
 			.. ThisModule
@@ -212,7 +213,7 @@ GossipIDList[40425] = "Madness of Deathwing"
 
 -- Now capture the events that this module has to handle
 
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
+if not APR.IsClassic or this.WorksInClassic then
 	function APR.Events:GOSSIP_CONFIRM(gossipID, text, cost)
 		DebugPrint("In APR.Events:GOSSIP_CONFIRM")
 

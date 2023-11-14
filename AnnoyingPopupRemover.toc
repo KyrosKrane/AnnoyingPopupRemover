@@ -5,7 +5,7 @@
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
 ## Author: KyrosKrane Sylvanblade
-## Notes: Removes multiple annoying confirmation popups throughout the game. Configurable through the standard settings dialog.
+## Notes: Removes multiple annoying confirmation popups throughout the game.
 ## IconTexture: Interface\AddOns\AnnoyingPopupRemover\Media\thumbup.blp
 
 ## SavedVariablesPerCharacter: APR_DB
@@ -31,6 +31,7 @@ Libs\AddonUtilities\Utilities.lua
 Init.lua
 Localization.lua
 Localization_frFR.lua
+Post_Locale_Init.lua
 
 module_loot.lua
 module_roll.lua
