@@ -38,8 +38,8 @@ this.Category = "Items"
 
 -- This is the config setup for AceConfig
 this.config = {
-	name = "/apr " .. ThisModule,
-	desc = L["refund_config"],
+	name = L[ThisModule .. "_name"],
+	desc = L[ThisModule .. "_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB[this.DBName] end,

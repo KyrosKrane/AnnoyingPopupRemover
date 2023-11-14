@@ -38,10 +38,9 @@ this.Category = "Items"
 
 -- This is the config setup for AceConfig
 this.config = {
-	-- These differ for each module
-	name = "/apr " .. ThisModule,
-	desc = L["trade_config"],
-	-- The rest are typically boilerplate.
+	-- With the standardization that came with the localization and options revamp, these are now typically identical for all modules.
+	name = L[ThisModule .. "_name"],
+	desc = L[ThisModule .. "_config"],
 	type = "toggle",
 	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB[this.DBName] end,
