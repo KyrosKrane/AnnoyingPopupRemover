@@ -73,11 +73,10 @@ L["void_hidden"] = "La fenêtre de confirmation lors du dépôt d’un objet LqR
 L["void_shown"] = "La fenêtre de confirmation lors du dépôt d’un objet LqR dans la " .. APR.Utilities.CHAT_RED .. "Chambre du Vide" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- vendor
-L["vendor_name"] = "Vendor tradable items" -- à traduire
-L["vendor_config"] = "Hide the confirmation pop-up when selling group-looted items to a vendor"
---L["vendor_config"] = "Masquer la fenêtre de confirmation lorsque vous vendez des objets provenant d’un groupe"
-L["vendor_hidden"] = "Confirmation pop-up when selling group-looted items to a " .. APR.Utilities.CHAT_GREEN .. "vendor" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["vendor_shown"] = "Confirmation pop-up when selling group-looted items to a " .. APR.Utilities.CHAT_RED .. "vendor" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["vendor_name"] = "Objets échangeables"
+L["vendor_config"] = "Masquer la fenêtre de confirmation lorsque vous vendez des objets provenant d’un groupe"
+L["vendor_hidden"] = "La fenêtre de confirmation lorsque vous vendez des objets provenant d’un groupe sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["vendor_shown"] = "La fenêtre de confirmation lorsque vous vendez des objets provenant d’un groupe sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- buy_alt_currency
 L["buy_name"] = "Achat dans une monnaie différente (autre que l’Or)"
