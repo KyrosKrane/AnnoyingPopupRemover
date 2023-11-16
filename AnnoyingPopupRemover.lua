@@ -88,7 +88,7 @@ APR.OptionsTable = {
 		-- Other items should be 800+
 
 		status = {
-			name = "Print the setting summary to the chat window",
+			name = L["status_config"],
 			type = "execute",
 			func = function() APR:PrintStatus() end,
 			guiHidden = true,
@@ -96,7 +96,7 @@ APR.OptionsTable = {
 		}, -- status
 
 		version = {
-			name = "Print the APR version and help summary",
+			name = L["version_config"],
 			type = "execute",
 			func = function() APR:PrintVersion() end,
 			guiHidden = true,

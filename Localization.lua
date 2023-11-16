@@ -34,6 +34,8 @@ L["Startup_message"] = L["Version_message"] .. " For help and options, type /apr
 
 -- Config options
 L["startup_config"] = "Show a startup announcement message in your chat frame at login"
+L["status_config"] = "Print the setting summary to the chat window"
+L["version_config"] = "Print the APR version and help summary"
 
 
 -- Config headers
