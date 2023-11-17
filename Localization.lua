@@ -84,13 +84,13 @@ L["vendor_shown"] = "Confirmation pop-up when selling group-looted items to a " 
 L["buy_name"] = "Buy with alternate currency (other than gold)"
 L["buy_config"] = "Hide the confirmation pop-up when buying an item with an alternate currency" 
 L["buy_hidden"] = "Confirmation pop-up when you " .. APR.Utilities.CHAT_GREEN .. "buy" .. FONT_COLOR_CODE_CLOSE .. " an item with an alternate currency will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["buy_shown"]  = "Confirmation pop-up when you " .. APR.Utilities.CHAT_RED .. "buy" .. FONT_COLOR_CODE_CLOSE .. " an item with an alternate currency will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["buy_shown"] = "Confirmation pop-up when you " .. APR.Utilities.CHAT_RED .. "buy" .. FONT_COLOR_CODE_CLOSE .. " an item with an alternate currency will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- buy_nonrefundable
 L["nonrefundable_name"] = "Buy a non-refundable item"
 L["nonrefundable_config"] = "Hide the confirmation pop-up when buying a nonrefundable item" 
 L["nonrefundable_hidden"] = "Confirmation pop-up when you buy a " .. APR.Utilities.CHAT_GREEN .. "nonrefundable" .. FONT_COLOR_CODE_CLOSE .. " item will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["nonrefundable_shown"]  = "Confirmation pop-up when you buy a " .. APR.Utilities.CHAT_RED .. "nonrefundable" .. FONT_COLOR_CODE_CLOSE .. " item will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["nonrefundable_shown"] = "Confirmation pop-up when you buy a " .. APR.Utilities.CHAT_RED .. "nonrefundable" .. FONT_COLOR_CODE_CLOSE .. " item will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip
 L["equip_name"] = "Equip a bind-on-equip item"
@@ -168,10 +168,10 @@ L["gossip_shown"] = "Confirmation pop-up when " .. APR.Utilities.CHAT_RED .. "go
 -- This is for the gossip module using string matching
 L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.
 
--- For testing purposes, I need to know if any strings are not localized. 
--- So, add a prefix if we're not in English and a string isn't localized.
+-- For testing purposes, I need to know if any strings are not translated. 
+-- So, add a prefix if we're not in English and a string isn't translated.
 if APR.DebugMode and "enUS" ~= APR.locale then
-	local prestring = "UNLOCALIZED STRING - "
+	local prestring = "UNTRANSLATED STRING - "
 	for k, v in pairs(L) do
 		 if k ~= "APR" then L[k] = prestring .. v end
 	end
