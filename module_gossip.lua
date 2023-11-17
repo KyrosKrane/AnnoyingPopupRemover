@@ -204,7 +204,8 @@ GossipIDList[110331] = "Stable master 110331" -- Wurallie
 -- Start of various encounters in the Dragon Soul raid
 GossipIDList[40206] = "Ultraxion trash"
 GossipIDList[40649] = "Warmaster Blackhorn"
-GossipIDList[40000] = "Spine of Deathwing"
+GossipIDList[39999] = "Spine of Deathwing - normal"
+GossipIDList[40000] = "Spine of Deathwing - heroic"
 GossipIDList[40425] = "Madness of Deathwing"
 
 -- Myrrit digs
