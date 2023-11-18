@@ -11,13 +11,15 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Setting your hearthstone location at an innkeeper.
 - Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
 - Equipping an item you can return to a vendor for a refund.
-- Equipping an item looted in a group while it is still tradable with others who were in the group.
+- Selling an item looted in a group while it is still tradable with others who were in the group.
 - Equipping a bind-on-equip item. (This is off by default; you can turn it on in the settings.)
 - Abandoning a quest.
 - Buying a dragonriding talent.
 - Crafting a profession work order using your own reagents or materials.
 - Enabling the ActionCam or other experimental settings.
 - Chatting with NPCs, such as teleporting to the Darkmoon Faire, healing pets at a stable master, or starting pet battles.
+
+In all cases, the add-on hides the dialog and makes the game think you clicked to allow the action. That's it!
 
 In addition, it simplifies the following dialog:
 
