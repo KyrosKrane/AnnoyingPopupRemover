@@ -34,7 +34,8 @@ L["Startup_message"] = L["Version_message"] .. " Pour de l’aide et afficher le
 
 -- Config options
 L["startup_config"] = "Afficher un message d’accueil lors de votre connexion"
-
+L["status_config"] = "Afficher le résumé des paramètres dans la fenêtre de dialogue"
+L["version_config"] = "Afficher la version d’APR et le résumé de l’aide"
 
 -- Config headers
 L["ItemsHeader"] = "Objets"
