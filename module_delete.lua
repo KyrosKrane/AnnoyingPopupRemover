@@ -24,35 +24,36 @@ local ThisModule = "delete"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideDelete"
-APR.Modules[ThisModule].DBDefaultValue = APR.HIDE_DIALOG
+this.DBName = "HideDelete"
+this.DBDefaultValue = APR.HIDE_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "Items"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
-	name = L["When deleting \"good\" items, don't require typing the word \"delete\""],
+this.config = {
+	name = L[ThisModule .. "_name"],
+	desc = L[ThisModule .. "_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideDelete end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering
 } -- config
 
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.NextOrdering
-APR.NextOrdering = APR.NextOrdering + 10
-
--- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+-- Update the ordering for the next file to be loaded
+APR.NextOrdering = APR.NextOrdering + 5
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = true
+this.WorksInClassic = true
 
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideDelete then
 		-- Re-enable typing the word "delete" when deleting good items.
@@ -74,7 +75,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideDelete or ForceHide then
 		-- When deleting a good item, get a yes/no dialog instead of typing the word "delete"

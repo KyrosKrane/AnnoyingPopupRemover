@@ -27,39 +27,44 @@ local ThisModule = "equip"
 
 -- Set up the module
 APR.Modules[ThisModule] = {}
+local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-APR.Modules[ThisModule].DBName = "HideEquip"
-APR.Modules[ThisModule].DBDefaultValue = APR.SHOW_DIALOG
+this.DBName = "HideEquip"
+this.DBDefaultValue = APR.SHOW_DIALOG
+
+-- The module's category determines where it goes in the options list
+this.Category = "Items"
 
 -- This is the config setup for AceConfig
-APR.Modules[ThisModule].config = {
-	name = L["Hide the confirmation pop-up when equipping a bind-on-equip item"],
+this.config = {
+	name = L[ThisModule .. "_name"],
+	desc = L[ThisModule .. "_config"],
 	type = "toggle",
 	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-	get = function(info) return APR.DB.HideEquip end,
+	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
+	order = APR.Categories[this.Category].order + APR.NextOrdering,
 } -- config
 
--- Set the order based on the file inclusion order in the TOC
-APR.Modules[ThisModule].config.order = APR.NextOrdering
-APR.NextOrdering = APR.NextOrdering + 10
+-- Update the ordering for the next file to be loaded
+APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
-APR.Modules[ThisModule].hidden_msg = L[ThisModule .. "_hidden"]
-APR.Modules[ThisModule].shown_msg = L[ThisModule .. "_shown"]
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-APR.Modules[ThisModule].WorksInClassic = true
+this.WorksInClassic = true
 
 -- This Boolean tells us whether to disable this module during combat.
-APR.Modules[ThisModule].DisableInCombat = true
+this.DisableInCombat = true
 
 
 
 -- This function causes the popup to show when triggered.
-APR.Modules[ThisModule].ShowPopup = function(printconfirm)
+this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	if APR.DB.HideEquip then
@@ -78,7 +83,7 @@ end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
-APR.Modules[ThisModule].HidePopup = function(printconfirm, ForceHide)
+this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideEquip or ForceHide then
@@ -99,7 +104,7 @@ end -- HidePopup()
 
 -- Now capture the events that this module has to handle
 
-if not APR.IsClassic or APR.Modules[ThisModule].WorksInClassic then
+if not APR.IsClassic or this.WorksInClassic then
 	-- Equipping a BoE item triggers this event.
 	function APR.Events:EQUIP_BIND_CONFIRM(slot, ...)
 

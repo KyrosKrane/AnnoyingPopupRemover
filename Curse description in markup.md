@@ -29,9 +29,9 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 18 adds the option to hide the pop-up when you chat with some NPCs, and when using the ActionCam.
+Version 19 revamps the options window and adds French localization - thanks Klep-Ysondre!
 
-Version 17 adds the option to hide the pop-up when crafting a profession work order using your own reagents or materials.
+Version 18 adds the option to hide the pop-up when you chat with some NPCs, and when using the ActionCam.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
@@ -40,7 +40,7 @@ I tried to include the most common stable masters and pet battles, but I might h
 
 I've had reports that the addon can interfere with picking up bind-on-pickup items on Classic Era and Wrath Classic servers. Reported examples are fishing up Old Ironjaw or Old Crafty. I've never been able to reproduce this properly, so I don't know what the root cause is or how to fix it. If you are trying for those fish, I suggest disabling the options for looting bind-on-pickup items.
 
-I don't have a toon high enough to test thoroughly on WoW Classic, so if you find any errors, please report them in the comments here, or (preferably) [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github.
+I don't have a toon high enough to test thoroughly on WoW Classic, so if you find any errors, please report them! Preferably [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github, or if you don't have a Github account, you can post a comment here.
 
 ## Future update plans
 Let me know what you'd like to see in the comments section. Or for live support, [visit my Discord server](https://discord.gg/YRBDrxQ)!
