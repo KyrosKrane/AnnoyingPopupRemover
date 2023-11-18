@@ -1,13 +1,15 @@
 -- Localization_frFR.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Translations by Klep-Ysondre on Github.
--- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
+-- Translations by Klep-Ysondre via Github.
+-- Copyright (c) 2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 
 -- This file sets up French localization and text strings for the addon.
 
 
--- Parameters
+--#########################################
+--# Parameters
+--#########################################
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -19,8 +21,9 @@ if "frFR" ~= APR.locale then return end
 local L = APR.L
 
 
-
--- Strings
+--#########################################
+--# Strings
+--#########################################
 
 -- Addon name
 L["Annoying Pop-up Remover"] = "Annoying Pop-up Remover"
