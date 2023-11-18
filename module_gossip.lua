@@ -207,8 +207,15 @@ GossipIDList[110331] = "Stable master 110331" -- Wurallie
 -- Start of various encounters in the Dragon Soul raid
 GossipIDList[40206] = "Ultraxion trash"
 GossipIDList[40649] = "Warmaster Blackhorn"
-GossipIDList[40000] = "Spine of Deathwing"
+GossipIDList[39999] = "Spine of Deathwing - normal"
+GossipIDList[40000] = "Spine of Deathwing - heroic"
 GossipIDList[40425] = "Madness of Deathwing"
+
+-- Myrrit digs
+GossipIDList[109101] = "Starting a Myrrit dig with 1 map"
+GossipIDList[109604] = "Starting a Myrrit dig with 2 maps"
+GossipIDList[109603] = "Starting a Myrrit dig with 3 maps"
+GossipIDList[109815] = "Continuing a Myrrit dig"
 
 
 -- Now capture the events that this module has to handle
