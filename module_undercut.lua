@@ -106,6 +106,8 @@ end -- HidePopup()
 -- This function can be safely deleted if not used by this module.
 this.PreloadFunc = function()
 	-- Ensure the AH UI is loaded
+	-- Future proof against upcoming API changes
+	local LoadAddOn = LoadAddOn or C_AddOns.LoadAddOn
 	LoadAddOn("Blizzard_AuctionHouseUI")
 
 	-- Store the default help tip function
