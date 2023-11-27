@@ -197,6 +197,7 @@ GossipIDList[108250] = "Suffusion Mold" -- spawns Forgemaster
 GossipIDList[36818] = "Stable master 36818"
 GossipIDList[41280] = "Stable master 41280"
 GossipIDList[41827] = "Stable master 41827"
+GossipIDList[47842] = "Stable master 47842" -- Lead Rider Jerek in Krokuun
 GossipIDList[54986] = "Stable master 54986"
 GossipIDList[55231] = "Stable master 55231"
 GossipIDList[55630] = "Stable master 55630"
