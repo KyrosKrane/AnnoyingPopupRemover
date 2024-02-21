@@ -86,31 +86,25 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-this.PreloadFunc = function()
-	DebugPrint("followers module loaded")
-end
-
+-- This is a list of the popups we want to handle using this module.
 local SkippedPopups = {
 	CONFIRM_FOLLOWER_UPGRADE = 1,
 	CONFIRM_FOLLOWER_ABILITY_UPGRADE = 1,
 	CONFIRM_FOLLOWER_TEMPORARY_ABILITY = 1,
 	CONFIRM_FOLLOWER_EQUIPMENT = 1,
-}
+} -- SkippedPopups
 
+-- This function is called whenever a static popup is shown, and determines whether to auto accept it.
 local function CheckPopup(upgradeType)
 	DebugPrint("in followers CheckPopup, upgradeType is " .. MakeString(upgradeType))
 
 	if not SkippedPopups[upgradeType] then return end
 
 	DebugPrint("in followers CheckPopup, auto confirming")
-	AcceptStaticPopup(upgradeType)
-
-end
+	APR.AcceptStaticPopup(upgradeType)
+end -- CheckPopup()
 
 -- Now capture the events that this module has to handle
--- This block can be deleted if you don't use events.
 if not APR.IsClassic or this.WorksInClassic then
 
 	hooksecurefunc("StaticPopup_Show", CheckPopup)
