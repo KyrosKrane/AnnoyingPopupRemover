@@ -63,33 +63,6 @@ this.WorksInClassic = false
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 this.DisableInCombat = false
 
-local function CancelStaticPopup(WhichType)
-	-- logic stolen from Blizz's StaticPopup.lua
-	for index = 1, STATICPOPUP_NUMDIALOGS, 1 do
-		local frame = _G["StaticPopup"..index];
-		if ( frame:IsShown() and (frame.which == WhichType) ) then
-			frame:Hide();
-			local OnCancel = StaticPopupDialogs[frame.which].OnCancel;
-			if ( OnCancel ) then
-				OnCancel(frame, frame.data, "override");
-			end
-		end
-	end
-end -- function CancelStaticPopup()
-
-local function AcceptStaticPopup(WhichType)
-	-- logic stolen from Blizz's StaticPopup.lua
-	for index = 1, STATICPOPUP_NUMDIALOGS, 1 do
-		local frame = _G["StaticPopup"..index];
-		if ( frame:IsShown() and (frame.which == WhichType) ) then
-			frame:Hide();
-			local OnAccept = StaticPopupDialogs[frame.which].OnAccept;
-			if ( OnAccept ) then
-				OnAccept(frame, frame.data);
-			end
-		end
-	end
-end -- function AcceptStaticPopup()
 
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
