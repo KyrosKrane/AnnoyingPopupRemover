@@ -165,7 +165,7 @@ L["gossip_hidden"] = "Confirmation pop-up when " .. APR.Utilities.CHAT_GREEN .. 
 L["gossip_shown"] = "Confirmation pop-up when " .. APR.Utilities.CHAT_RED .. "gossip" .. FONT_COLOR_CODE_CLOSE .. "ing with some NPCS will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- followers
-L["followers_name"] = "Equip followers with items"
+L["followers_name"] = "Equip or upgrade followers with items"
 L["followers_config"] = "Hide the confirmation pop-up when using items on followers at mission tables"
 L["followers_hidden"] = "Confirmation pop-up when upgrading " .. APR.Utilities.CHAT_GREEN .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["followers_shown"] = "Confirmation pop-up when upgrading " .. APR.Utilities.CHAT_RED .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."

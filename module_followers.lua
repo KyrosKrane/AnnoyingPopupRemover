@@ -75,7 +75,7 @@ local function CancelStaticPopup(WhichType)
 			end
 		end
 	end
-end
+end -- function CancelStaticPopup()
 
 local function AcceptStaticPopup(WhichType)
 	-- logic stolen from Blizz's StaticPopup.lua
@@ -89,21 +89,14 @@ local function AcceptStaticPopup(WhichType)
 			end
 		end
 	end
-end
-
-local _, _ = CancelStaticPopup(), AcceptStaticPopup()
+end -- function AcceptStaticPopup()
 
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
-	if APR.DB.HideRoll then
-
-		-- Mark that the dialog is shown.
-		APR.DB.HideRoll = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
+	-- Mark that the dialog is shown.
+	APR.DB.HideFollowers = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -113,13 +106,8 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
-	if not APR.DB.HideFollowers or ForceHide then
-
-		-- Mark that the dialog is hidden.
-		APR.DB.HideFollowers = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
+	-- Mark that the dialog is hidden.
+	APR.DB.HideFollowers = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
@@ -128,12 +116,24 @@ end -- HidePopup()
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
 -- This function can be safely deleted if not used by this module.
 this.PreloadFunc = function()
+	DebugPrint("followers module loaded")
 end
 
+local SkippedPopups = {
+	CONFIRM_FOLLOWER_UPGRADE = 1,
+	CONFIRM_FOLLOWER_ABILITY_UPGRADE = 1,
+	CONFIRM_FOLLOWER_TEMPORARY_ABILITY = 1,
+	CONFIRM_FOLLOWER_EQUIPMENT = 1,
+}
+
 local function CheckPopup(upgradeType)
-	if upgradeType == "CONFIRM_FOLLOWER_UPGRADE" then
-		AcceptStaticPopup(upgradeType)
-	end
+	DebugPrint("in followers CheckPopup, upgradeType is " .. MakeString(upgradeType))
+
+	if not SkippedPopups[upgradeType] then return end
+
+	DebugPrint("in followers CheckPopup, auto confirming")
+	AcceptStaticPopup(upgradeType)
+
 end
 
 -- Now capture the events that this module has to handle
