@@ -68,7 +68,7 @@ this.DisableInCombat = false
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
-	-- Mark that the dialog is shown.
+	-- Mark that the dialog should be shown.
 	APR.DB.HideFollowers = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
@@ -79,7 +79,7 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
-	-- Mark that the dialog is hidden.
+	-- Mark that the dialog should be hidden.
 	APR.DB.HideFollowers = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
@@ -99,6 +99,10 @@ local function CheckPopup(upgradeType)
 	DebugPrint("in followers CheckPopup, upgradeType is " .. MakeString(upgradeType))
 
 	if not SkippedPopups[upgradeType] then return end
+	if APR.DB.HideFollowers ~= APR.HIDE_DIALOG then
+		DebugPrint("in followers CheckPopup, HideFollowers is off")
+		return
+	end
 
 	DebugPrint("in followers CheckPopup, auto confirming")
 	APR.AcceptStaticPopup(upgradeType)
