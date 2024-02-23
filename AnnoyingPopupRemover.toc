@@ -31,7 +31,7 @@ Libs\AddonUtilities\Utilities.lua
 Init.lua
 Localization.lua
 Localization_frFR.lua
-Post_Locale_Init.lua
+Init_Post_Locale.lua
 
 module_loot.lua
 module_roll.lua
@@ -51,5 +51,6 @@ module_dragonriding.lua
 module_workorder.lua
 module_actioncam.lua
 module_gossip.lua
+module_followers.lua
 
 AnnoyingPopupRemover.lua

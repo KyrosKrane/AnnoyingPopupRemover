@@ -1,6 +1,6 @@
 -- Init.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2022 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -92,3 +92,39 @@ APR.L = setmetatable({}, {
 --			L["Annoying Pop-up Remover"] = "German name of APR here"
 --		end
 -- That way, it preserves the default English strings in case of a missed translation.
+
+
+--#########################################
+--# Common functions
+--#########################################
+
+-- Finds a shown static popup of the matching type and calls the OnCancel function for it
+function APR.CancelStaticPopup(WhichType)
+	-- logic stolen from Blizz's StaticPopup.lua
+	for index = 1, STATICPOPUP_NUMDIALOGS, 1 do
+		local frame = _G["StaticPopup"..index];
+		if ( frame:IsShown() and (frame.which == WhichType) ) then
+			frame:Hide();
+			local OnCancel = StaticPopupDialogs[frame.which].OnCancel;
+			if ( OnCancel ) then
+				OnCancel(frame, frame.data, "override");
+			end
+		end
+	end
+end -- APR.CancelStaticPopup()
+
+
+-- Finds a shown static popup of the matching type and calls the OnAccept function for it
+function APR.AcceptStaticPopup(WhichType)
+	-- logic stolen from Blizz's StaticPopup.lua
+	for index = 1, STATICPOPUP_NUMDIALOGS, 1 do
+		local frame = _G["StaticPopup"..index];
+		if ( frame:IsShown() and (frame.which == WhichType) ) then
+			frame:Hide();
+			local OnAccept = StaticPopupDialogs[frame.which].OnAccept;
+			if ( OnAccept ) then
+				OnAccept(frame, frame.data);
+			end
+		end
+	end
+end -- APR.AcceptStaticPopup()

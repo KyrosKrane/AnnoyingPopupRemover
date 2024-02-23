@@ -166,6 +166,12 @@ L["gossip_config"] = "Masquer la fenêtre de confirmation pour certaines discuss
 L["gossip_hidden"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.CHAT_GREEN .. "conversation" .. FONT_COLOR_CODE_CLOSE .. " avec certains PNJ sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["gossip_shown"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.CHAT_RED .. "conversation" .. FONT_COLOR_CODE_CLOSE .. " avec certains PNJ sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
+-- followers
+L["followers_name"] = "Équipez ou améliorez vos sujets avec des objets"
+L["followers_config"] = "Masquer la fenêtre de confirmation lorsque vous équipez ou améliorez vos sujets avec des objets dans les différentes tables de commandement"
+L["followers_hidden"] = "La fenêtre de confirmation lorsque vous équipez ou améliorez vos " .. APR.Utilities.CHAT_GREEN .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["followers_shown"] = "La fenêtre de confirmation lorsque vous équipez ou améliorez vos " .. APR.Utilities.CHAT_RED .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+
 -- module specific strings
 -- This is for the gossip module using string matching
 L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.
