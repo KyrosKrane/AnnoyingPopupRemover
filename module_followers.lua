@@ -108,9 +108,29 @@ local function CheckPopup(upgradeType)
 	APR.AcceptStaticPopup(upgradeType)
 end -- CheckPopup()
 
+
 -- Now capture the events that this module has to handle
 if not APR.IsClassic or this.WorksInClassic then
 
 	hooksecurefunc("StaticPopup_Show", CheckPopup)
+
+	-- There's a restriction in Blizzard's code for the static popup handler that causes a lua error if you pick up a piece of follower equipment and try to drop it directly onto the equipment slot.
+	-- Specifically, C_Garrison.CastItemSpellOnFollowerAbility() is forbidden to addons. It's the handler that's called if you pick up an item and drop it on the equipment slot directly.
+	-- Instead, you have to right click the item and THEN click the spell targeting cursor on the equipment slot.
+	-- This override stops the lua error from happening, at the cost of removing the ability to equip items by dropping them on the toon.
+
+	-- Force the default Garrison UI addon to load so we can override it
+	-- The code here is adapted from (as of the time of this writing) Blizzard_GarrisonTemplates\Blizzard_GarrisonSharedTemplates.lua in the definition of StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].
+	StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].OnAccept = function(self)
+		if (self.data.source == "spell") then
+			DebugPrint("Auto approving follower spell.")
+			C_Garrison.CastSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
+		elseif (self.data.source == "item") then
+			-- In the default UI, if you pick up an item and click it on a follower, this branch is executed. But this function throws an error if called from an addon.
+			-- So, don't call it. :)
+			-- C_Garrison.CastItemSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
+			DebugPrint("Follower item use detected and blocked.")
+		end
+	end
 
 end -- WoW Classic check
