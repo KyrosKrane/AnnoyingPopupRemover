@@ -105,18 +105,6 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used.
-this.PreloadFunc = function()
-		-- Future proof against upcoming API changes
-		local LoadAddOn = LoadAddOn or C_AddOns.LoadAddOn
-		-- Force the default Void Storage frame to load so we can override it
-		local isloaded, reason = LoadAddOn("Blizzard_VoidStorageUI")
-		DebugPrint("Blizzard_VoidStorageUI isloaded is " .. MakeString(isloaded))
-		DebugPrint("Blizzard_VoidStorageUI reason is " .. MakeString(reason))
-end
-
-
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
