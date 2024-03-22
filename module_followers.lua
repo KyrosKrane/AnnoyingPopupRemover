@@ -119,17 +119,16 @@ if not APR.IsClassic or this.WorksInClassic then
 	-- Instead, you have to right click the item and THEN click the spell targeting cursor on the equipment slot.
 	-- This override stops the lua error from happening, at the cost of removing the ability to equip items by dropping them on the toon.
 
-	-- Force the default Garrison UI addon to load so we can override it
 	-- The code here is adapted from (as of the time of this writing) Blizzard_GarrisonTemplates\Blizzard_GarrisonSharedTemplates.lua in the definition of StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].
 	StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].OnAccept = function(self)
 		if (self.data.source == "spell") then
-			DebugPrint("Auto approving follower spell.")
+			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Auto approving follower spell.")
 			C_Garrison.CastSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
 		elseif (self.data.source == "item") then
 			-- In the default UI, if you pick up an item and click it on a follower, this branch is executed. But this function throws an error if called from an addon.
 			-- So, don't call it. :)
+			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Follower item use detected and blocked.")
 			-- C_Garrison.CastItemSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
-			DebugPrint("Follower item use detected and blocked.")
 		end
 	end
 
