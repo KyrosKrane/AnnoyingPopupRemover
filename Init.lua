@@ -52,7 +52,7 @@ APR.HIDE_STARTUP = false
 --#########################################
 
 -- Determine whether we're running Classic or normal. Wrath Classic and Classic Era (vanilla) both count as Classic.
-APR.IsClassic = select(4, GetBuildInfo()) < 40000
+APR.IsClassic = select(4, GetBuildInfo()) < 50000
 
 -- Annoyingly, some functions on Classic Era still use old code. So, track that separately.
 APR.IsClassicEra = select(4, GetBuildInfo()) < 30000
