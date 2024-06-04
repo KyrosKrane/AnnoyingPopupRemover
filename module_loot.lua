@@ -61,9 +61,6 @@ this.WorksInClassic = true
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideBind then
-		-- Re-enable the dialog that pops to confirm looting BoP gear yourself.
-		StaticPopupDialogs["LOOT_BIND"] = APR.StoredDialogs["LOOT_BIND"]
-		APR.StoredDialogs["LOOT_BIND"] = nil
 
 		-- Mark that the dialog is shown.
 		APR.DB.HideBind = APR.SHOW_DIALOG
@@ -78,9 +75,6 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideBind or ForceHide then
-		-- Disable the dialog that pops to confirm looting BoP gear yourself.
-		APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"]
-		StaticPopupDialogs["LOOT_BIND"] = nil
 
 		-- Mark that the dialog is hidden.
 		APR.DB.HideBind = APR.HIDE_DIALOG
@@ -97,13 +91,11 @@ end -- HidePopup()
 if not APR.IsClassic or this.WorksInClassic then
 
 	-- Looting a BOP item triggers this event.
-	function APR.Events:LOOT_BIND_CONFIRM(Frame, id, ...)
+	function APR.Events:LOOT_BIND_CONFIRM(lootSlot)
 
 		if APR.DebugMode then
 			DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
-			DebugPrint("Frame is " .. (Frame or "**nil**"))
-			DebugPrint("id is " .. (id or "**nil**"))
-			APR.Utilities.PrintVarArgs(...)
+			DebugPrint("lootSlot is " .. (lootSlot or "**nil**"))
 		end -- if APR.DebugMode
 
 		-- If the user didn't ask us to hide this popup, just return.
@@ -112,29 +104,58 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		-- When harvesting (mining, herbing, or skinning) in WoD, you can get a Primal Spirit. This is a BoP item that will trigger this event when found on a mob corpse. Prior to patch 7.0.3, getting a PS while harvesting would not trigger this event (since there was never a scenario where someone else in the group could get the PS). For some reason, with 7.0.3, looting a PS on a harvest WILL trigger this event, even if you're solo. Worse, there are several problems.
-		-- 1: The parameters passed in will be wrong; it doesn't pass in the Frame; instead, the id is passed in as the first parameter.
-		-- 2: The ConfirmLootSlot() call is ignored. Effectively, it requires the user to click on the PS in the loot window to pick it up. If the user doesn't have autoloot turned on, it requires two total clicks to loot the PS.
-		-- The real fix here that this event should never trigger on a harvest; only on a kill loot. This is a Blizzard bug that has to be fixed from their end. In the meantime, I've put in the if/elseif below to handle this odd scenario.
-		-- The bug noted above was fixed some time during or after the patch 7.0.3 era.
-
-		if id then
-			DebugPrint("id is valid.")
-			ConfirmLootSlot(id)
-		elseif Frame then
-			DebugPrint("id is null, confirming with Frame.")
-			ConfirmLootSlot(Frame)
-
-		--		-- Testing whether double-Confirming would help. It didn't. :(
-		--		DebugPrint("Verifying if slot is empty.")
-		--		if LootSlotHasItem(Frame) then
-		--			DebugPrint("Loot slot still has item; attempting to re-loot.")
-		--			-- LootSlot(Frame) -- don't do this! This retriggers the same event recursively and infinitely, leading to a stack overflow.
-		--			ConfirmLootSlot(Frame)
-		--		else
-		--			DebugPrint("Loot slot is empty.")
-		--		end
+		if not lootSlot then
+			DebugPrint("lootSlot is nil, skipping")
+			return
 		end
+
+
+		-- Get the text that should be displayed on the dialog.
+		local texture, item, quantity, itemID, quality, locked = GetLootSlotInfo(lootSlot);
+		local formattedText = ITEM_QUALITY_COLORS[quality].hex..item.."|r"
+
+		DebugPrint(string.format("formattedText is %s", formattedText or "nil"))
+
+
+		-- Loop through the static popup dialogs to find the one that matches what we need.
+		for i = 1, STATICPOPUP_NUMDIALOGS do
+			local sp_name = "StaticPopup" .. i
+			local dialog = _G[sp_name]
+
+			if dialog and dialog:IsShown() then
+				DebugPrint(string.format("Dialog %s is shown, validating.", sp_name))
+
+				-- Get the loot frame slot from the dialog
+				local sp_data = dialog.data
+
+				-- get the text that's actually displayed on the dialog
+				local sp_text = dialog.text and dialog.text.text_arg1 or nil
+
+
+				DebugPrint(string.format("sp_data is %s, sp_text is %s", sp_data or "nil", sp_text or "nil"))
+
+
+				-- Check if this is the dialog we want to auto approve.
+				if sp_text == formattedText and sp_data == lootSlot then
+					DebugPrint(
+						string.format(
+							"Found matching popup by ID and text, index (static popup ID) %d, sp_data (loot frame slot) %s",
+							i,
+							sp_data
+						)
+					)
+
+					-- call the approval function and hide the popup
+					RunNextFrame(function() StaticPopupDialogs["LOOT_BIND"]:OnAccept(sp_data) end)
+					dialog:Hide()
+
+					return
+				end -- if matching dialog found
+			end -- if dialog shown
+		end -- for each dialog
+
+		DebugPrint("Did not find matching popup")
+
 	end -- APR.Events:LOOT_BIND_CONFIRM()
 
 end -- WoW Classic check
