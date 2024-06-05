@@ -1,6 +1,6 @@
 -- module_loot.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -92,11 +92,14 @@ if not APR.IsClassic or this.WorksInClassic then
 
 	-- Looting a BOP item triggers this event.
 	function APR.Events:LOOT_BIND_CONFIRM(lootSlot)
+		DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
 
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
-			DebugPrint("lootSlot is " .. (lootSlot or "**nil**"))
-		end -- if APR.DebugMode
+		if not lootSlot then
+			DebugPrint("lootSlot is nil, skipping")
+			return
+		end
+
+		DebugPrint("lootSlot is ", lootSlot)
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideBind then
@@ -104,48 +107,14 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		if not lootSlot then
-			DebugPrint("lootSlot is nil, skipping")
-			return
+		-- Check if a dialog is shown, and if so, hide it, then call the accept function
+		if APR:Hide_StaticPopup("LOOT_BIND", lootSlot) then
+			-- note that Hide_StaticPopup returns the ID of the matching popup, or nil. We don't care about the specific ID, just that it's not nil.
+
+			-- call the approval function and hide the popup
+			RunNextFrame(function() StaticPopupDialogs["LOOT_BIND"]:OnAccept(lootSlot) end)
+			-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
 		end
-
-		-- Loop through the static popup dialogs to find the one that matches what we need.
-		for i = 1, STATICPOPUP_NUMDIALOGS do
-			local sp_name = "StaticPopup" .. i
-			local dialog = _G[sp_name]
-
-			if dialog and dialog:IsShown() then
-				DebugPrint(string.format("Dialog %s is shown, validating.", sp_name))
-
-				-- Get the loot frame slot from the dialog
-				local sp_data = dialog.data
-
-				-- get the type of the dialog
-				local sp_which = dialog.which
-
-				DebugPrint(string.format("sp_data is %s, sp_which is %s", sp_data or "nil", sp_which or "nil"))
-
-				-- Check if this is the dialog we want to auto approve.
-				if sp_which == "LOOT_BIND" and sp_data == lootSlot then
-					DebugPrint(
-						string.format(
-							"Found matching popup by ID and text, index (static popup ID) %d, sp_data (loot frame slot) %s",
-							i,
-							sp_data
-						)
-					)
-
-					-- call the approval function and hide the popup
-					RunNextFrame(function() StaticPopupDialogs["LOOT_BIND"]:OnAccept(sp_data) end)
-					-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
-					dialog:Hide()
-
-					return
-				end -- if matching dialog found
-			end -- if dialog shown
-		end -- for each dialog
-
-		DebugPrint("Did not find matching popup")
 
 	end -- APR.Events:LOOT_BIND_CONFIRM()
 
