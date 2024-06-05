@@ -109,14 +109,6 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-
-		-- Get the text that should be displayed on the dialog.
-		local texture, item, quantity, itemID, quality, locked = GetLootSlotInfo(lootSlot);
-		local formattedText = ITEM_QUALITY_COLORS[quality].hex..item.."|r"
-
-		DebugPrint(string.format("formattedText is %s", formattedText or "nil"))
-
-
 		-- Loop through the static popup dialogs to find the one that matches what we need.
 		for i = 1, STATICPOPUP_NUMDIALOGS do
 			local sp_name = "StaticPopup" .. i
@@ -128,15 +120,13 @@ if not APR.IsClassic or this.WorksInClassic then
 				-- Get the loot frame slot from the dialog
 				local sp_data = dialog.data
 
-				-- get the text that's actually displayed on the dialog
-				local sp_text = dialog.text and dialog.text.text_arg1 or nil
+				-- get the type of the dialog
+				local sp_which = dialog.which
 
-
-				DebugPrint(string.format("sp_data is %s, sp_text is %s", sp_data or "nil", sp_text or "nil"))
-
+				DebugPrint(string.format("sp_data is %s, sp_which is %s", sp_data or "nil", sp_which or "nil"))
 
 				-- Check if this is the dialog we want to auto approve.
-				if sp_text == formattedText and sp_data == lootSlot then
+				if sp_which == "LOOT_BIND" and sp_data == lootSlot then
 					DebugPrint(
 						string.format(
 							"Found matching popup by ID and text, index (static popup ID) %d, sp_data (loot frame slot) %s",
@@ -147,6 +137,7 @@ if not APR.IsClassic or this.WorksInClassic then
 
 					-- call the approval function and hide the popup
 					RunNextFrame(function() StaticPopupDialogs["LOOT_BIND"]:OnAccept(sp_data) end)
+					-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
 					dialog:Hide()
 
 					return
