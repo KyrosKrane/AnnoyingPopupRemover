@@ -1,6 +1,6 @@
 -- module_loot.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -61,9 +61,6 @@ this.WorksInClassic = true
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideBind then
-		-- Re-enable the dialog that pops to confirm looting BoP gear yourself.
-		StaticPopupDialogs["LOOT_BIND"] = APR.StoredDialogs["LOOT_BIND"]
-		APR.StoredDialogs["LOOT_BIND"] = nil
 
 		-- Mark that the dialog is shown.
 		APR.DB.HideBind = APR.SHOW_DIALOG
@@ -78,9 +75,6 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideBind or ForceHide then
-		-- Disable the dialog that pops to confirm looting BoP gear yourself.
-		APR.StoredDialogs["LOOT_BIND"] = StaticPopupDialogs["LOOT_BIND"]
-		StaticPopupDialogs["LOOT_BIND"] = nil
 
 		-- Mark that the dialog is hidden.
 		APR.DB.HideBind = APR.HIDE_DIALOG
@@ -97,14 +91,15 @@ end -- HidePopup()
 if not APR.IsClassic or this.WorksInClassic then
 
 	-- Looting a BOP item triggers this event.
-	function APR.Events:LOOT_BIND_CONFIRM(Frame, id, ...)
+	function APR.Events:LOOT_BIND_CONFIRM(lootSlot)
+		DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
 
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
-			DebugPrint("Frame is " .. (Frame or "**nil**"))
-			DebugPrint("id is " .. (id or "**nil**"))
-			APR.Utilities.PrintVarArgs(...)
-		end -- if APR.DebugMode
+		if not lootSlot then
+			DebugPrint("lootSlot is nil, skipping")
+			return
+		end
+
+		DebugPrint("lootSlot is ", lootSlot)
 
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideBind then
@@ -112,29 +107,15 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		-- When harvesting (mining, herbing, or skinning) in WoD, you can get a Primal Spirit. This is a BoP item that will trigger this event when found on a mob corpse. Prior to patch 7.0.3, getting a PS while harvesting would not trigger this event (since there was never a scenario where someone else in the group could get the PS). For some reason, with 7.0.3, looting a PS on a harvest WILL trigger this event, even if you're solo. Worse, there are several problems.
-		-- 1: The parameters passed in will be wrong; it doesn't pass in the Frame; instead, the id is passed in as the first parameter.
-		-- 2: The ConfirmLootSlot() call is ignored. Effectively, it requires the user to click on the PS in the loot window to pick it up. If the user doesn't have autoloot turned on, it requires two total clicks to loot the PS.
-		-- The real fix here that this event should never trigger on a harvest; only on a kill loot. This is a Blizzard bug that has to be fixed from their end. In the meantime, I've put in the if/elseif below to handle this odd scenario.
-		-- The bug noted above was fixed some time during or after the patch 7.0.3 era.
+		-- Check if a dialog is shown, and if so, hide it, then call the accept function
+		if APR:Hide_StaticPopup("LOOT_BIND", lootSlot) then
+			-- note that Hide_StaticPopup returns the ID of the matching popup, or nil. We don't care about the specific ID, just that it's not nil.
 
-		if id then
-			DebugPrint("id is valid.")
-			ConfirmLootSlot(id)
-		elseif Frame then
-			DebugPrint("id is null, confirming with Frame.")
-			ConfirmLootSlot(Frame)
-
-		--		-- Testing whether double-Confirming would help. It didn't. :(
-		--		DebugPrint("Verifying if slot is empty.")
-		--		if LootSlotHasItem(Frame) then
-		--			DebugPrint("Loot slot still has item; attempting to re-loot.")
-		--			-- LootSlot(Frame) -- don't do this! This retriggers the same event recursively and infinitely, leading to a stack overflow.
-		--			ConfirmLootSlot(Frame)
-		--		else
-		--			DebugPrint("Loot slot is empty.")
-		--		end
+			-- call the approval function and hide the popup
+			RunNextFrame(function() StaticPopupDialogs["LOOT_BIND"]:OnAccept(lootSlot) end)
+			-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
 		end
+
 	end -- APR.Events:LOOT_BIND_CONFIRM()
 
 end -- WoW Classic check
