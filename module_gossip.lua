@@ -208,6 +208,7 @@ GossipIDList[40425] = "Madness of Deathwing"
 -- Start of various encounters in the Siege of Orgrimmar raid
 GossipIDList[42038] = "Norushen"
 GossipIDList[41620] = "Galakras"
+GossipIDList[41867] = "Spoils of Pandaria"
 GossipIDList[110714] = "Skip to Garrosh"
 
 -- Myrrit digs
