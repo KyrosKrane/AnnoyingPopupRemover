@@ -56,7 +56,7 @@ this.hidden_msg = L[ThisModule .. "_hidden"]
 this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-this.WorksInClassic = false
+this.WorksInClassic = true
 
 -- This Boolean tells us whether to disable this module during combat.
 this.DisableInCombat = true

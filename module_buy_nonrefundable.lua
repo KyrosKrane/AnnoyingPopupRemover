@@ -1,6 +1,6 @@
 -- module_buy_nonrefundable.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2021 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -56,7 +56,7 @@ this.hidden_msg = L[ThisModule .. "_hidden"]
 this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-this.WorksInClassic = false
+this.WorksInClassic = true
 
 
 -- This function causes the popup to show when triggered.
