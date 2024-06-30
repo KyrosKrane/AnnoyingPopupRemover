@@ -18,6 +18,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 - Crafting a profession work order using your own reagents or materials.
 - Enabling the ActionCam or other experimental settings.
 - Chatting with NPCs, such as teleporting to the Darkmoon Faire, healing pets at a stable master, or starting pet battles.
+- Upgrading followers with equipment or experience (at mission tables in Warlords of Draenor, Legion, Battle for Azeroth, and Shadowlands).
 
 In all cases, the add-on hides the dialog and makes the game think you clicked to allow the action. That's it!
 
@@ -31,16 +32,16 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 19 revamps the options window and adds French localization - thanks Klep-Ysondre!
+Version 21 enables several additional modules in Cataclysm Classic.
 
-Version 18 adds the option to hide the pop-up when you chat with some NPCs, and when using the ActionCam.
+Version 20 adds the option to hide the pop-up when you upgrade followers at mission tables.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
 ## Known errors
 I tried to include the most common stable masters and pet battles, but I might have missed some. If you see a popup asking you to confirm healing your pets at a stable master or to confirm starting a pet battle, please report it in [my Discord server](https://discord.gg/YRBDrxQ). I'll need to know your player faction (Horde/Alliance) and the name of the pet tamer or stable master you got the popup from.
 
-I've had reports that the addon can interfere with picking up bind-on-pickup items on Classic Era and Wrath Classic servers. Reported examples are fishing up Old Ironjaw or Old Crafty. I've never been able to reproduce this properly, so I don't know what the root cause is or how to fix it. If you are trying for those fish, I suggest disabling the options for looting bind-on-pickup items.
+I've had reports that the addon can interfere with picking up bind-on-pickup items on Classic Era and Cataclysm Classic servers. Reported examples are fishing up Old Ironjaw or Old Crafty. I've never been able to reproduce this properly, so I don't know what the root cause is or how to fix it. If you are trying for those fish, I suggest disabling the options for looting bind-on-pickup items.
 
 I don't have a toon high enough to test thoroughly on WoW Classic, so if you find any errors, please report them! Preferably [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github, or if you don't have a Github account, you can post a comment here.
 

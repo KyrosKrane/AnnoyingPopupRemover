@@ -2,7 +2,7 @@
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
 -- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
--- Addon version: v20.3.0-alpha2
+-- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 

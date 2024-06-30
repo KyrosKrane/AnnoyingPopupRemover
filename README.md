@@ -2,7 +2,7 @@
 World of Warcraft addon to remove some annoying popups in the game.
 
 Written by KyrosKrane Sylvanblade (kyros@kyros.info)  
-Copyright (c) 2015-2023 KyrosKrane Sylvanblade. Licensed under the MIT License.
+Copyright (c) 2015-2024 KyrosKrane Sylvanblade. Licensed under the MIT License.
 
 Get it from here, or on your favorite addon site: [Curse](https://www.curseforge.com/wow/addons/bop-items-quick-loot) - [WowInterface](https://www.wowinterface.com/downloads/info23631-AnnoyingPop-upRemover.html) - [Wago](https://addons.wago.io/addons/annoying-pop-up-remover)
 
@@ -23,6 +23,7 @@ This add-on removes a number of annoying pop-ups.
 - Crafting a profession work order using your own reagents or materials.
 - Enabling the ActionCam or other experimental settings.
 - Chatting with NPCs, such as teleporting to the Darkmoon Faire, healing pets at a stable master, or starting pet battles.
+- Upgrading followers with equipment or experience (at mission tables in Warlords of Draenor, Legion, Battle for Azeroth, and Shadowlands).
 
 In addition, it simplifies the following dialog:
 
