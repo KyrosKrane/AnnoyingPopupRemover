@@ -217,6 +217,12 @@ GossipIDList[109604] = "Starting a Myrrit dig with 2 maps"
 GossipIDList[109603] = "Starting a Myrrit dig with 3 maps"
 GossipIDList[109815] = "Continuing a Myrrit dig"
 
+-- Start of encounters in Dragonflight raids
+-- @TODO: Implement after DF is no longer current
+-- GossipIDList[55981] = "Vault of the Incarnates - start event for first trash clear"
+-- I have this note in the same file as the Vault start, but I don't know what it's referring to.
+-- 79691 bronze to start 6/15/2024
+
 
 -- Now capture the events that this module has to handle
 
