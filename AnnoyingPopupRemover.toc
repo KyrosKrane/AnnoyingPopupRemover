@@ -9,7 +9,7 @@
 ## IconTexture: Interface\AddOns\AnnoyingPopupRemover\Media\thumbup.blp
 
 ## SavedVariablesPerCharacter: APR_DB
-## OptionalDeps: Blizzard_VoidStorageUI, Blizzard_GarrisonTemplates
+## OptionalDeps: Blizzard_VoidStorageUI, Blizzard_GarrisonTemplates, Blizzard_ItemUpgradeUI
 
 ## X-Curse-Project-ID: 93154
 ## X-WoWI-ID: 23631
@@ -43,6 +43,7 @@ module_buy_nonrefundable.lua
 module_equip.lua
 module_equip_tradable.lua
 module_equip_refund.lua
+module_upgrades.lua
 module_mail.lua
 module_delete.lua
 module_innkeeper.lua
