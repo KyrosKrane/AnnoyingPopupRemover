@@ -108,7 +108,9 @@ if not APR.IsClassic or this.WorksInClassic then
 			if dialog and dialog:IsShown() and dialog.which == "CONFIRM_UPGRADE_ITEM" then
 				DebugPrint(string.format("Dialog %s is shown and validated.", sp_name))
 				--StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept()
-				ItemUpgradeFrame:OnConfirm()
+				ItemUpgradeFrame:OnConfirm() -- @TODO: DOES NOT WORK
+					-- This call goes through and eventually calls C_ItemUpgrade.UpgradeItem() 
+					-- C_ItemUpgrade.UpgradeItem() is protected and can only be called from Blizzard code.
 				return
 			else
 				DebugPrint(string.format("Dialog %s Auto-confirm condition not met.", sp_name))
