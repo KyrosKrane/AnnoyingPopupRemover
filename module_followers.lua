@@ -53,7 +53,6 @@ this.config = {
 APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
--- @TODO: Remember to add these localized strings to the localization file!
 this.hidden_msg = L[ThisModule .. "_hidden"]
 this.shown_msg = L[ThisModule .. "_shown"]
 
