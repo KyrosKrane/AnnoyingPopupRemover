@@ -1,6 +1,6 @@
 -- module_delete.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2021 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -38,7 +38,7 @@ this.config = {
 	name = L[ThisModule .. "_name"],
 	desc = L[ThisModule .. "_config"],
 	type = "toggle",
-	set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
+	set = function(info, val) APR:HandleAceSettingsChange(val, info) end,
 	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
@@ -48,8 +48,15 @@ this.config = {
 -- Update the ordering for the next file to be loaded
 APR.NextOrdering = APR.NextOrdering + 5
 
+-- These are the status strings that are printed to indicate whether it's off or on
+this.hidden_msg = L[ThisModule .. "_hidden"]
+this.shown_msg = L[ThisModule .. "_shown"]
+
 -- This Boolean tells us whether this module works in Classic.
 this.WorksInClassic = true
+
+-- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
+this.DisableInCombat = false
 
 
 -- This function causes the popup to show when triggered.

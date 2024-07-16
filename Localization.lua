@@ -118,7 +118,7 @@ L["mail_shown"] = "Confirmation pop-up when " .. APR.Utilities.CHAT_RED .. "mail
 
 -- delete
 L["delete_name"] = "Make deleting important items easier"
-L["delete_config"] = 'When deleting "good" items, don\'t require typing the word "delete"'
+L["delete_config"] = "When deleting \"good\" items, don't require typing the word \"delete\""
 L["delete_hidden"] = "If you " .. APR.Utilities.CHAT_GREEN .. "delete" .. FONT_COLOR_CODE_CLOSE .. " a \"good\" item, it will " .. APR.Utilities.CHAT_GREEN .. "not require" .. FONT_COLOR_CODE_CLOSE .. " typing the word \"delete\"."
 L["delete_shown"] = "If you " .. APR.Utilities.CHAT_RED .. "delete" .. FONT_COLOR_CODE_CLOSE .. " a \"good\" item, it will " .. APR.Utilities.CHAT_RED .. "require" .. FONT_COLOR_CODE_CLOSE .. " typing the word \"delete\"."
 
