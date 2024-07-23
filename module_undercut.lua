@@ -105,9 +105,6 @@ end -- HidePopup()
 -- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
 -- This function can be safely deleted if not used by this module.
 this.PreloadFunc = function()
-	-- Ensure the AH UI is loaded
-	C_AddOns.LoadAddOn("Blizzard_AuctionHouseUI")
-
 	-- Store the default help tip function
 	-- Note that unlike the other dialogs, this one is always stored.
 	-- This isn't strictly a dialog, but thanks to lua's flexibility, we can stuff it in here just the same!
