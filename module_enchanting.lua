@@ -132,6 +132,6 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		DebugPrint("Auto confirming REPLACE_ENCHANT.")
 		-- @TODO: This function is protected. This module will not work.
-		ReplaceEnchant()
+		C_Item.ReplaceEnchant()
 	end -- APR.Events:REPLACE_ENCHANT()
 end -- WoW Classic check
