@@ -1,6 +1,6 @@
 -- module_undercut.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2020-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -60,6 +60,11 @@ this.WorksInClassic = false
 
 -- This function handles the function that shows the AH help tooltip.
 local function ControlAHUndercutPopup()
+	-- if the AH addon isn't loaded, just bail out
+	if not _G["AuctionHouseFrame"] then
+		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), AH is not loaded, nothing to do")
+		return
+	end
 	if APR.DB.HideUndercut then
 		-- Replace with a blank function
 		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), replacing ShowHelpTip with dummy")
@@ -102,9 +107,9 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-this.PreloadFunc = function()
+-- This is the function that gets called when the AH is loaded. 
+-- It hooks the AH frame and stores references to the popup we want to hide.
+local function LoadWithAH()
 	-- Store the default help tip function
 	-- Note that unlike the other dialogs, this one is always stored.
 	-- This isn't strictly a dialog, but thanks to lua's flexibility, we can stuff it in here just the same!
@@ -112,6 +117,12 @@ this.PreloadFunc = function()
 	APR.StoredDialogs["I_ShowHelpTip"] = _G["AuctionHouseFrame"].ItemSellFrame.ShowHelpTip
 
 	-- Hook the AH to always call our function when it's shown
-	DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking SetAmount.")
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'] LoadWithAH, hooking SetAmount.")
 	hooksecurefunc(_G["AuctionHouseFrame"].ItemSellFrame.PriceInput, "SetAmount", ControlAHUndercutPopup)
-end -- PreloadFunc()
+end -- LoadWithAH()
+
+
+-- Now capture the events that this module has to handle
+if not APR.IsClassic or this.WorksInClassic then
+	EventUtil.ContinueOnAddOnLoaded("Blizzard_AuctionHouseUI", LoadWithAH)
+end -- WoW Classic check

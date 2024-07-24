@@ -34,27 +34,34 @@ function APR:Hide_StaticPopup(which, data, data2)
 		-- 4) Does the dialog data match the requested? (This differentiates if there are multiple open dialogs of the same type.)
 
 		-- Check the first three conditions.
-		if dialog and dialog:IsShown() and dialog.which == which then
+		if dialog then
+			DebugPrint(string.format("Dialog %s exists", sp_name))
+			if dialog:IsShown() then
+				DebugPrint(string.format("Dialog %s is shown", sp_name))
+				if dialog.which == which then
+					DebugPrint(string.format("Dialog %s has type %s", sp_name, dialog.which))
 
-			-- Check the fourth condition. data and data2 may be nil, so we have to explicitly check the permutations. 
-			-- There should never be a situation where data2 is not nil and data is nil, unless nil is the intended value.
-			if data2 then
-				if dialog.data == data and dialog.data2 == data2 then
-					-- data and data2 both exist and match
-					return HideDialog(dialog, i)
-				end
-			elseif data then
-				if dialog.data == data then
-					-- only data exists and matches
-					return HideDialog(dialog, i)
-				end
-			else
-				-- neither data nor data2 exist, but the dialog type matches.
-				return HideDialog(dialog, i)
-			end
+					-- Check the fourth condition. data and data2 may be nil, so we have to explicitly check the permutations. 
+					-- There should never be a situation where data2 is not nil and data is nil, unless nil is the intended value.
+					if data2 then
+						if dialog.data == data and dialog.data2 == data2 then
+							-- data and data2 both exist and match
+							return HideDialog(dialog, i)
+						end
+					elseif data then
+						if dialog.data == data then
+							-- only data exists and matches
+							return HideDialog(dialog, i)
+						end
+					else
+						-- neither data nor data2 exist, but the dialog type matches.
+						return HideDialog(dialog, i)
+					end
 
-		-- else there was a data mismatch, so continue looping looking for another dialog.
-		end -- if matching dialog found
+				-- else there was a data mismatch, so continue looping looking for another dialog.
+				end -- if dialog type matches
+			end -- if dialog is shown
+		end -- if dialog is not nil
 	end -- for each dialog
 
 	DebugPrint("Did not find matching popup")

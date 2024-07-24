@@ -93,6 +93,7 @@ local SkippedPopups = {
 	CONFIRM_FOLLOWER_EQUIPMENT = 1,
 } -- SkippedPopups
 
+
 -- This function is called whenever a static popup is shown, and determines whether to auto accept it.
 local function CheckPopup(upgradeType)
 	DebugPrint("in followers CheckPopup, upgradeType is " .. MakeString(upgradeType))
@@ -108,9 +109,8 @@ local function CheckPopup(upgradeType)
 end -- CheckPopup()
 
 
--- Now capture the events that this module has to handle
-if not APR.IsClassic or this.WorksInClassic then
-
+-- Hooks the static popup function so we can check whether we want to suppress that popup.
+local function LoadWithGarrison()
 	hooksecurefunc("StaticPopup_Show", CheckPopup)
 
 	-- There's a restriction in Blizzard's code for the static popup handler that causes a lua error if you pick up a piece of follower equipment and try to drop it directly onto the equipment slot.
@@ -129,6 +129,11 @@ if not APR.IsClassic or this.WorksInClassic then
 			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Follower item use detected and blocked.")
 			-- C_Garrison.CastItemSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
 		end
-	end
+	end -- StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].OnAccept()
+end -- LoadWithGarrison()
 
+
+-- Now capture the events that this module has to handle
+if not APR.IsClassic or this.WorksInClassic then
+	EventUtil.ContinueOnAddOnLoaded("Blizzard_GarrisonTemplates", LoadWithGarrison)
 end -- WoW Classic check
