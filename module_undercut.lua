@@ -1,6 +1,6 @@
 -- module_undercut.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2020-2024 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -120,8 +120,7 @@ local function LoadWithAH()
 end
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-this.PreloadFunc = function()
+-- Now capture the events that this module has to handle
+if not APR.IsClassic or this.WorksInClassic then
 	EventUtil.ContinueOnAddOnLoaded("Blizzard_AuctionHouseUI", LoadWithAH)
-end -- PreloadFunc()
+end -- WoW Classic check
