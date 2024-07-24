@@ -60,16 +60,8 @@ this.WorksInClassic = false
 
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-	if APR.IsClassic then
-		DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, Classic detected, aborting")
-		return
-	end
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, before showing, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if APR.DB.HideVoid then
-		-- Re-enable the dialog for putting tradable or modified items into void storage.
-		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"]
-		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = nil
-
 		-- Mark that the dialog is shown.
 		APR.DB.HideVoid = APR.SHOW_DIALOG
 
@@ -83,17 +75,8 @@ end -- ShowPopup()
 
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-	if APR.IsClassic then
-		DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, Classic detected, aborting")
-		return
-	end
-
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, before hiding, HideVoid is " .. MakeString(APR.DB.HideVoid))
 	if not APR.DB.HideVoid or ForceHide then
-		-- Disable the dialog for putting tradable or modified items into void storage.
-		APR.StoredDialogs["VOID_DEPOSIT_CONFIRM"] = StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"]
-		StaticPopupDialogs["VOID_DEPOSIT_CONFIRM"] = nil
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideVoid = APR.HIDE_DIALOG
 
@@ -105,33 +88,37 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
+-- This function actually handles the process of hiding the static popup and enabling the void storage's deposit button.
+local function HideVoidPopup(VoidStorageFrame, event, ...)
+	-- Make sure we only handle one event.
+	if event ~= "VOID_DEPOSIT_WARNING" then return end
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideVoid then
+		DebugPrint("HideVoid off, not auto confirming")
+		return
+	end
+
+	DebugPrint("HideVoid on, auto confirming")
+
+	-- First, we hide the actual popup.
+	APR:Hide_StaticPopup("VOID_DEPOSIT_CONFIRM");
+
+	-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and normally pops up the dialog.
+	-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
+	VoidStorage_UpdateTransferButton(nil)
+end -- HideVoidPopup()
+
+
+-- This function just hooks the void storage frame's event handler when that addon is loaded.
+local function LoadWithVoid()
+	DebugPrint("In LoadWithVoid(), hooking the function VoidStorageFrame's OnEvent handler")
+	VoidStorageFrame:HookScript("OnEvent", HideVoidPopup)
+end -- LoadWithVoid()
+
+
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
-	-- Depositing an item that's modified (gemmed, enchanted, or transmogged) or a BOP item still tradable in group triggers this event.
-	function APR.Events:VOID_DEPOSIT_WARNING(...)
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:VOID_DEPOSIT_WARNING")
-			APR.Utilities.PrintVarArgs(...)
-		end -- if APR.DebugMode
-
-		-- Document the incoming parameters.
-		-- local slot, itemLink = ...
-
-		-- We only care about the slot
-		local slot = ...
-		DebugPrint("slot is " .. slot)
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideVoid then
-			DebugPrint("HideVoid off, not auto confirming")
-			return
-		end
-
-		DebugPrint("HideVoid on, auto confirming")
-
-		-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and normally pops up the dialog.
-		-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.
-		VoidStorage_UpdateTransferButton(nil)
-	end -- APR.Events:VOID_DEPOSIT_WARNING()
+	EventUtil.ContinueOnAddOnLoaded("Blizzard_VoidStorageUI", LoadWithVoid)
 end -- WoW Classic check
