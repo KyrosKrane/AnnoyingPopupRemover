@@ -6,7 +6,7 @@
 ## IconTexture: Interface\AddOns\AnnoyingPopupRemover\Media\thumbup.blp
 
 ## SavedVariablesPerCharacter: APR_DB
-## OptionalDeps: Blizzard_VoidStorageUI, Blizzard_GarrisonTemplates, Blizzard_AuctionHouseUI
+## OptionalDeps: Blizzard_VoidStorageUI, Blizzard_GarrisonTemplates
 
 ## X-Curse-Project-ID: 93154
 ## X-WoWI-ID: 23631

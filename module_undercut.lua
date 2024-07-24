@@ -60,6 +60,11 @@ this.WorksInClassic = false
 
 -- This function handles the function that shows the AH help tooltip.
 local function ControlAHUndercutPopup()
+	-- if the AH addon isn't loaded, just bail out
+	if not _G["AuctionHouseFrame"] then
+		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), AH is not loaded, nothing to do")
+		return
+	end
 	if APR.DB.HideUndercut then
 		-- Replace with a blank function
 		DebugPrint("in '" .. ThisModule .. "' ControlAHUndercutPopup(), replacing ShowHelpTip with dummy")
@@ -102,9 +107,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-this.PreloadFunc = function()
+local function LoadWithAH()
 	-- Store the default help tip function
 	-- Note that unlike the other dialogs, this one is always stored.
 	-- This isn't strictly a dialog, but thanks to lua's flexibility, we can stuff it in here just the same!
@@ -112,6 +115,13 @@ this.PreloadFunc = function()
 	APR.StoredDialogs["I_ShowHelpTip"] = _G["AuctionHouseFrame"].ItemSellFrame.ShowHelpTip
 
 	-- Hook the AH to always call our function when it's shown
-	DebugPrint("in APR.Modules['" .. ThisModule .. "'].PreloadFunc, hooking SetAmount.")
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'] LoadWithAH, hooking SetAmount.")
 	hooksecurefunc(_G["AuctionHouseFrame"].ItemSellFrame.PriceInput, "SetAmount", ControlAHUndercutPopup)
+end
+
+
+-- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
+-- This function can be safely deleted if not used by this module.
+this.PreloadFunc = function()
+	EventUtil.ContinueOnAddOnLoaded("Blizzard_AuctionHouseUI", LoadWithAH)
 end -- PreloadFunc()
