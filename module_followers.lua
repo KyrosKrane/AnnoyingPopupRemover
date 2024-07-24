@@ -93,6 +93,7 @@ local SkippedPopups = {
 	CONFIRM_FOLLOWER_EQUIPMENT = 1,
 } -- SkippedPopups
 
+
 -- This function is called whenever a static popup is shown, and determines whether to auto accept it.
 local function CheckPopup(upgradeType)
 	DebugPrint("in followers CheckPopup, upgradeType is " .. MakeString(upgradeType))
@@ -108,6 +109,7 @@ local function CheckPopup(upgradeType)
 end -- CheckPopup()
 
 
+-- Hooks the static popup function so we can check whether we want to suppress that popup.
 local function LoadWithGarrison()
 	hooksecurefunc("StaticPopup_Show", CheckPopup)
 
@@ -127,8 +129,8 @@ local function LoadWithGarrison()
 			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Follower item use detected and blocked.")
 			-- C_Garrison.CastItemSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
 		end
-	end
-end
+	end -- StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].OnAccept()
+end -- LoadWithGarrison()
 
 
 -- Now capture the events that this module has to handle

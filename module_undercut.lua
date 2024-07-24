@@ -107,6 +107,8 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
+-- This is the function that gets called when the AH is loaded. 
+-- It hooks the AH frame and stores references to the popup we want to hide.
 local function LoadWithAH()
 	-- Store the default help tip function
 	-- Note that unlike the other dialogs, this one is always stored.
@@ -117,7 +119,7 @@ local function LoadWithAH()
 	-- Hook the AH to always call our function when it's shown
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'] LoadWithAH, hooking SetAmount.")
 	hooksecurefunc(_G["AuctionHouseFrame"].ItemSellFrame.PriceInput, "SetAmount", ControlAHUndercutPopup)
-end
+end -- LoadWithAH()
 
 
 -- Now capture the events that this module has to handle
