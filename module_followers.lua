@@ -108,9 +108,7 @@ local function CheckPopup(upgradeType)
 end -- CheckPopup()
 
 
--- Now capture the events that this module has to handle
-if not APR.IsClassic or this.WorksInClassic then
-
+local function LoadWithGarrison()
 	hooksecurefunc("StaticPopup_Show", CheckPopup)
 
 	-- There's a restriction in Blizzard's code for the static popup handler that causes a lua error if you pick up a piece of follower equipment and try to drop it directly onto the equipment slot.
@@ -130,5 +128,10 @@ if not APR.IsClassic or this.WorksInClassic then
 			-- C_Garrison.CastItemSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
 		end
 	end
+end
 
+
+-- Now capture the events that this module has to handle
+if not APR.IsClassic or this.WorksInClassic then
+	EventUtil.ContinueOnAddOnLoaded("Blizzard_GarrisonTemplates", LoadWithGarrison)
 end -- WoW Classic check
