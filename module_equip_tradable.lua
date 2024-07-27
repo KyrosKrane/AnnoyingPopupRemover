@@ -111,15 +111,14 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		-- Note that if we hide the dialog, the OnHide function is called, which cancels the pending equip request. 
-		-- So, we have to accept first, then hide.
-
 		-- in 11.0.0, Blizz changed the functions in this static dialog to expect a data table with a slot element, not just the slot number.
 		local data = {
 			slot = slot,
 			itemLocation = itemLocation
 		}
 
+		-- Note that if we hide the dialog, the OnHide function is called, which cancels the pending equip request. 
+		-- So, we have to accept first, then hide.
 		StaticPopupDialogs["EQUIP_BIND_TRADEABLE"]:OnAccept(data)
 		-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
 
