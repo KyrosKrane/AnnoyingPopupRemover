@@ -120,6 +120,9 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
+		-- Note that while EquipPendingItem() still takes a slot, the dialog's OnAccept handler now expects a data table, similar to the other equip modules.
+		-- If I ever revise this, I also need to create a data table and pass it in.
+
 		if slot then
 			DebugPrint("Slot is valid.")
 			EquipPendingItem(slot)
