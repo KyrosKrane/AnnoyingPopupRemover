@@ -125,3 +125,24 @@ if not APR.IsClassic or this.WorksInClassic then
 		APR:Hide_StaticPopup("EQUIP_BIND")
 	end -- APR.Events:EQUIP_BIND_CONFIRM()
 end -- WoW Classic check
+
+
+if not APR.IsClassic then
+	-- Trying to equip a BoE item your class cannot normally use triggers this event.
+	-- This event exists only in retail
+	function APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM()
+		DebugPrint("In APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM")
+		-- This event should not have any args as per the documentation
+
+		-- If the user didn't ask us to hide this popup, just return.
+		if not APR.DB.HideEquip then
+			DebugPrint("HideEquip off, not auto confirming")
+			return
+		end
+
+		DebugPrint("Converting to BOA.")
+		ConvertItemToBindToAccount()
+
+		APR:Hide_StaticPopup("CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM")
+	end -- APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM()
+end -- if not classic
