@@ -68,9 +68,6 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	if APR.DB.HideEquip then
-		-- Re-enable the dialog that pops to confirm equipping BoE gear yourself.
-		StaticPopupDialogs["EQUIP_BIND"] = APR.StoredDialogs["EQUIP_BIND"]
-		APR.StoredDialogs["EQUIP_BIND"] = nil
 
 		-- Mark that the dialog is shown.
 		APR.DB.HideEquip = APR.SHOW_DIALOG
@@ -87,9 +84,6 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideEquip or ForceHide then
-		-- Disable the dialog that pops to confirm equipping BoE gear yourself.
-		APR.StoredDialogs["EQUIP_BIND"] = StaticPopupDialogs["EQUIP_BIND"]
-		StaticPopupDialogs["EQUIP_BIND"] = nil
 
 		-- Mark that the dialog is hidden.
 		APR.DB.HideEquip = APR.HIDE_DIALOG
@@ -106,6 +100,7 @@ end -- HidePopup()
 
 if not APR.IsClassic or this.WorksInClassic then
 	-- Equipping a BoE item triggers this event.
+	-- This event exists in both classic and retail
 	function APR.Events:EQUIP_BIND_CONFIRM(slot, ...)
 
 		if APR.DebugMode then
@@ -127,5 +122,6 @@ if not APR.IsClassic or this.WorksInClassic then
 			DebugPrint("Slot is valid.")
 			EquipPendingItem(slot)
 		end
+		APR:Hide_StaticPopup("EQUIP_BIND")
 	end -- APR.Events:EQUIP_BIND_CONFIRM()
 end -- WoW Classic check
