@@ -1,6 +1,6 @@
 -- module_equip.lua
 -- Written by fuba (fuba82 on CurseForge) and updated by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2020 fuba and KyrosKrane Sylvanblade
+-- Copyright (c) 2020-2024 fuba and KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -101,11 +101,12 @@ end -- HidePopup()
 if not APR.IsClassic or this.WorksInClassic then
 	-- Equipping a BoE item triggers this event.
 	-- This event exists in both classic and retail
-	function APR.Events:EQUIP_BIND_CONFIRM(slot, ...)
+	function APR.Events:EQUIP_BIND_CONFIRM(slot, itemLocation, ...)
 
 		if APR.DebugMode then
 			DebugPrint("In APR.Events:EQUIP_BIND_CONFIRM")
 			DebugPrint("Slot is " .. slot)
+			DebugPrint("itemLocation (type ItemLocationMixin) is " .. itemLocation and "not nil" or "nil")
 			APR.Utilities.PrintVarArgs(...)
 		end -- if APR.DebugMode
 
@@ -122,6 +123,7 @@ if not APR.IsClassic or this.WorksInClassic then
 			DebugPrint("Slot is valid.")
 			EquipPendingItem(slot)
 		end
+		-- Note that EquipPendingItem() automatically hides the static popup. This command is just a failsafe.
 		APR:Hide_StaticPopup("EQUIP_BIND")
 	end -- APR.Events:EQUIP_BIND_CONFIRM()
 end -- WoW Classic check
