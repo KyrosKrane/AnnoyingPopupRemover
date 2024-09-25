@@ -107,10 +107,10 @@ L["trade_hidden"] = "La fenêtre de confirmation lorsque vous équipez un objet 
 L["trade_shown"] = "La fenêtre de confirmation lorsque vous équipez un objet qui a été pillé et qui peut encore être " .. APR.Utilities.CHAT_RED .. "échangé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_refund
-L["refund_name"] = "Équiper un objet remboursable"
-L["refund_config"] = "Masquer la fenêtre de confirmation lorsque vous équipez un objet qui peut encore être remboursé"
-L["refund_hidden"] = "La fenêtre de confirmation lorsque vous équipez un objet qui peut encore être " .. APR.Utilities.CHAT_GREEN .. "remboursé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
-L["refund_shown"] = "La fenêtre de confirmation lorsque vous équipez un objet qui peut encore être " .. APR.Utilities.CHAT_RED .. "remboursé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["refund_name"] = "Équiper ou utilisez un objet remboursable"
+L["refund_config"] = "Masquer la fenêtre de confirmation lorsque vous équipez ou utilisez un objet qui peut encore être remboursé"
+L["refund_hidden"] = "La fenêtre de confirmation lorsque vous équipez ou utilisez un objet qui peut encore être " .. APR.Utilities.CHAT_GREEN .. "remboursé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["refund_shown"] = "La fenêtre de confirmation lorsque vous équipez ou utilisez un objet qui peut encore être " .. APR.Utilities.CHAT_RED .. "remboursé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- mail
 L["mail_name"] = "Poster un objet remboursable"

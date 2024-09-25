@@ -6,7 +6,7 @@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
--- This module removes the popup when equipping a vendor-bought item that can still be returned for a refund.
+-- This module removes the popup when equipping or using a vendor-bought item that can still be returned for a refund.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -117,7 +117,8 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		-- Note that if we hide the dialog, the OnHide function is called, which cancels the pending equip request. 
 		-- So, we have to accept first, then hide.
-		-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
+		-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. 
+		-- The StaticPopup_OnClick function actually references the static version.
 
 		if APR.IsClassic then
 			StaticPopupDialogs["EQUIP_BIND_REFUNDABLE"]:OnAccept(slot)
@@ -133,4 +134,28 @@ if not APR.IsClassic or this.WorksInClassic then
 		APR:Hide_StaticPopup("EQUIP_BIND_REFUNDABLE")
 
 	end -- APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM()
+
+
+	-- Using a cosmetic vendor-refundable item triggers this event.
+	function APR.Events:USE_NO_REFUND_CONFIRM()
+
+		DebugPrint("In APR.Events:USE_NO_REFUND_CONFIRM")
+
+		-- If the user didn't ask us to hide this popup, just return.
+		if not APR.DB.HideRefund then
+			DebugPrint("HideRefund off, not auto confirming")
+			return
+		end
+
+		-- Note that if we hide the dialog, the OnHide function is called, which cancels the pending equip request. 
+		-- So, we have to accept first, then hide.
+		-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. 
+		-- The StaticPopup_OnClick function actually references the static version.
+
+		StaticPopupDialogs["USE_NO_REFUND_CONFIRM"]:OnAccept()
+
+		APR:Hide_StaticPopup("USE_NO_REFUND_CONFIRM")
+
+	end -- APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM()
+
 end -- WoW Classic check

@@ -32,9 +32,9 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 22 expands the bind-on-equip option to work with the new Warbound system and learn transmogs you could not normally use.
+Version 23 expands the equip-refundable option to learning cosmetic items that are still refundable.
 
-Version 21 enables several additional modules in Cataclysm Classic.
+Version 22 expands the bind-on-equip option to work with the new Warbound system and learn transmogs you could not normally use.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 

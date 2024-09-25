@@ -105,10 +105,10 @@ L["trade_hidden"] = "Confirmation pop-up when equipping a group-looted items you
 L["trade_shown"] = "Confirmation pop-up when equipping a group-looted items you can still " .. APR.Utilities.CHAT_RED .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_refund
-L["refund_name"] = "Equip a refundable item"
-L["refund_config"] = "Hide the confirmation pop-up when equipping an item that can still be returned for a refund"
-L["refund_hidden"] = "Confirmation pop-up when you equip a " .. APR.Utilities.CHAT_GREEN .. "refund" .. FONT_COLOR_CODE_CLOSE .. "able item will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["refund_shown"] = "Confirmation pop-up when you equip a " .. APR.Utilities.CHAT_RED .. "refund" .. FONT_COLOR_CODE_CLOSE .. "able item will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["refund_name"] = "Equip or use a refundable item"
+L["refund_config"] = "Hide the confirmation pop-up when equipping or using an item that can still be returned for a refund"
+L["refund_hidden"] = "Confirmation pop-up when you equip or use a " .. APR.Utilities.CHAT_GREEN .. "refund" .. FONT_COLOR_CODE_CLOSE .. "able item will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["refund_shown"] = "Confirmation pop-up when you equip or use a " .. APR.Utilities.CHAT_RED .. "refund" .. FONT_COLOR_CODE_CLOSE .. "able item will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- mail
 L["mail_name"] = "Mail a refundable item"
