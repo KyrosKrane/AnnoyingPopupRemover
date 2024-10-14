@@ -36,6 +36,12 @@ jobs:
         with:
           fetch-depth: 0  # gets git history for changelogs
 
+
+      # Substitute out the TOC placeholders with real versions
+      - name: Replace toc-versions
+        uses: NumyAddon/ToCVersions@v1
+
+
       # once cloned, we just run the GitHub Action for the packager project
 
       # package for all versions of the game
