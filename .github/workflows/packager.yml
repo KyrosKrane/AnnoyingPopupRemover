@@ -17,7 +17,7 @@ jobs:
   release:
 
     # we can run our steps on pretty much anything, but the "ubuntu-latest" image is a safe bet
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     # specify the environment variables used by the packager, matching the secrets from the project on GitHub
     env:
@@ -35,6 +35,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # gets git history for changelogs
+
+
+      # Substitute out the TOC placeholders with real versions
+      - name: Replace toc-versions
+        uses: NumyAddon/ToCVersions@v1
+
 
       # once cloned, we just run the GitHub Action for the packager project
 

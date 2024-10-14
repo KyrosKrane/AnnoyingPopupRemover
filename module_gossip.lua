@@ -212,6 +212,12 @@ GossipIDList[41867] = "Spoils of Pandaria - Horde"
 GossipIDList[41865] = "Spoils of Pandaria - Alliance"
 GossipIDList[110714] = "Skip to Garrosh"
 
+-- Start of various encounters in the Battle for Dazar'alor raid
+GossipIDList[50638] = "Talk to Otoye after Jadefire Masters (Horde)"
+GossipIDList[51135] = "Talk to Tancred after King Rastakhan (Alliance)"
+GossipIDList[51057] = "Talk to Ensign Roberts before Mekkatorque (Alliance)"
+GossipIDList[50645] = "Talk to Captain Zadari post Stormwall Blockade to start Jaina fight" -- same ID for horde LFR, horde normal, and alliance mythic. I assume it's the same for all.
+
 -- Myrrit digs
 GossipIDList[109101] = "Starting a Myrrit dig with 1 map"
 GossipIDList[109604] = "Starting a Myrrit dig with 2 maps"
