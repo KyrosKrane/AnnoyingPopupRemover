@@ -212,6 +212,9 @@ GossipIDList[41867] = "Spoils of Pandaria - Horde"
 GossipIDList[41865] = "Spoils of Pandaria - Alliance"
 GossipIDList[110714] = "Skip to Garrosh"
 
+-- Start of various encounters in the Antorus raid
+GossipIDList[46681] = "Eonar"
+
 -- Start of various encounters in the Battle for Dazar'alor raid
 GossipIDList[50638] = "Talk to Otoye after Jadefire Masters (Horde)"
 GossipIDList[51135] = "Talk to Tancred after King Rastakhan (Alliance)"
