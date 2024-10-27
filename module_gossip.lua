@@ -116,6 +116,12 @@ local GossipIDList = {}
 GossipIDList[40457] = "Darkmoon Faire Alliance" -- both alliance and horde gossips are shared across all the factional Mystic Mage NPCs
 GossipIDList[40007] = "Darkmoon Faire Horde"
 
+-- Shadowlands covenant swap
+GossipIDList[53870] = "Venthyr covenant"
+GossipIDList[54449] = "Necrolord covenant"
+GossipIDList[53984] = "Kyrian covenant"
+GossipIDList[53989] = "Night fae covenant"
+
 -- Eastern Kingdoms pet tamers
 GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
 GossipIDList[40127] = "Julia Stevens" -- Elwynn Forest
