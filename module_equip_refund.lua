@@ -141,6 +141,13 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		DebugPrint("In APR.Events:USE_NO_REFUND_CONFIRM")
 
+		-- in 11.0.5, Blizzard made the function C_Item.ConfirmNoRefundOnUse() protected. This function is called by the OnAccept method on the dialog.
+		-- So, until the next update (hopefully) reverses this change, just bail out when this is called.
+		if true then
+			DebugPrint("Bailing out until Blizz reallows addons to use C_Item.ConfirmNoRefundOnUse()")
+			return
+		end
+
 		-- If the user didn't ask us to hide this popup, just return.
 		if not APR.DB.HideRefund then
 			DebugPrint("HideRefund off, not auto confirming")
