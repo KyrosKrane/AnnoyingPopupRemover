@@ -122,6 +122,12 @@ GossipIDList[54449] = "Necrolord covenant"
 GossipIDList[53984] = "Kyrian covenant"
 GossipIDList[53989] = "Night fae covenant"
 
+-- 20th Anniversary event trainers
+GossipIDList[123337] = "Nicki Tinytech (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123338] = "Ras'an (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123339] = "Narrok (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123340] = "Morulu the Elder (Anniversary Event)" -- Tanaris, Caverns of Time
+
 -- Eastern Kingdoms pet tamers
 GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
 GossipIDList[40127] = "Julia Stevens" -- Elwynn Forest
@@ -153,7 +159,7 @@ GossipIDList[41246] = "Grazzle the Great" -- Dustwallow Marsh
 
 -- Outland pet tamers
 GossipIDList[40903] = "Morulu the Elder" -- Shattrath
-GossipIDList[40903] = "Bloodknight Antari" -- Shadowmoon Valley
+GossipIDList[41753] = "Bloodknight Antari" -- Shadowmoon Valley
 GossipIDList[41046] = "Nicki Tinytech" -- Hellfire Peninsula
 GossipIDList[41751] = "Narrok" -- Nagrand
 GossipIDList[40901] = "Ras'an" -- Zangarmarsh
