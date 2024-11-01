@@ -127,6 +127,9 @@ GossipIDList[123337] = "Nicki Tinytech (Anniversary Event)" -- Tanaris, Caverns 
 GossipIDList[123338] = "Ras'an (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123339] = "Narrok (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123340] = "Morulu the Elder (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123341] = "Major Payne (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123342] = "Nearly Headless Jacob (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123343] = "Gutwretch (Anniversary Event)" -- Tanaris, Caverns of Time
 
 -- Eastern Kingdoms pet tamers
 GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
