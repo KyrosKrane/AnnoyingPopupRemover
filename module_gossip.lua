@@ -130,6 +130,8 @@ GossipIDList[123340] = "Morulu the Elder (Anniversary Event)" -- Tanaris, Cavern
 GossipIDList[123341] = "Major Payne (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123342] = "Nearly Headless Jacob (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123343] = "Gutwretch (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123344] = "TBD (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123345] = "Okrut Dragonwaste (Anniversary Event)" -- Tanaris, Caverns of Time
 
 -- Eastern Kingdoms pet tamers
 GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
