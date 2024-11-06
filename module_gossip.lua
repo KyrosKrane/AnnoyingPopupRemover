@@ -132,7 +132,10 @@ GossipIDList[123342] = "Nearly Headless Jacob (Anniversary Event)" -- Tanaris, C
 GossipIDList[123343] = "Gutwretch (Anniversary Event)" -- Tanaris, Caverns of Time
 --GossipIDList[123344] = "TBD (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123345] = "Okrut Dragonwaste (Anniversary Event)" -- Tanaris, Caverns of Time
+--GossipIDList[123346] = "TBD (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123347] = "Hyuna of the Shrines (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123348] = "Farmer Nishi (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123349] = "Mo'ruk (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123350] = "Grand Master Yon (Anniversary Event)" -- Tanaris, Caverns of Time
 
 -- Eastern Kingdoms pet tamers
