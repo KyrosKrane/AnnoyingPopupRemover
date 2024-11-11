@@ -143,7 +143,8 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		-- in 11.0.5, Blizzard made the function C_Item.ConfirmNoRefundOnUse() protected. This function is called by the OnAccept method on the dialog.
 		-- So, until the next update (hopefully) reverses this change, just bail out when this is called.
-		if true then
+		-- This appears to have been reverted as of 2024-11-11 (still in 11.0.5).
+		if false then
 			DebugPrint("Bailing out until Blizz reallows addons to use C_Item.ConfirmNoRefundOnUse()")
 			return
 		end
