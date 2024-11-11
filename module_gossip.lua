@@ -136,7 +136,7 @@ GossipIDList[123345] = "Okrut Dragonwaste (Anniversary Event)" -- Tanaris, Caver
 GossipIDList[123347] = "Hyuna of the Shrines (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123348] = "Farmer Nishi (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123349] = "Mo'ruk (Anniversary Event)" -- Tanaris, Caverns of Time
-GossipIDList[123350] = "Grand Master Yon (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123350] = "Courageous Yon (Anniversary Event)" -- Tanaris, Caverns of Time
 
 -- Eastern Kingdoms pet tamers
 GossipIDList[41781] = "Lydia Accoste" -- Deadwind Pass
