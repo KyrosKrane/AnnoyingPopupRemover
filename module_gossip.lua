@@ -117,10 +117,14 @@ GossipIDList[40457] = "Darkmoon Faire Alliance" -- both alliance and horde gossi
 GossipIDList[40007] = "Darkmoon Faire Horde"
 
 -- Shadowlands covenant swap
+-- No idea why you get the different versions. Might be related to how high you are in the covenant paths?
 GossipIDList[53870] = "Venthyr covenant"
+GossipIDList[53868] = "Venthyr covenant v2"
 GossipIDList[54449] = "Necrolord covenant"
 GossipIDList[53984] = "Kyrian covenant"
+GossipIDList[53981] = "Kyrian covenant v2"
 GossipIDList[53989] = "Night fae covenant"
+GossipIDList[53992] = "Night fae covenant v2"
 
 -- 20th Anniversary event trainers
 GossipIDList[123337] = "Nicki Tinytech (Anniversary Event)" -- Tanaris, Caverns of Time
