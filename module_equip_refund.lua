@@ -144,7 +144,7 @@ if not APR.IsClassic or this.WorksInClassic then
 		-- in 11.0.5, Blizzard made the function C_Item.ConfirmNoRefundOnUse() protected. This function is called by the OnAccept method on the dialog.
 		-- So, until the next update (hopefully) reverses this change, just bail out when this is called.
 		-- This appears to have been reverted as of 2024-11-11 (still in 11.0.5).
-		if false then
+		if true then
 			DebugPrint("Bailing out until Blizz reallows addons to use C_Item.ConfirmNoRefundOnUse()")
 			return
 		end
@@ -154,6 +154,8 @@ if not APR.IsClassic or this.WorksInClassic then
 			DebugPrint("HideRefund off, not auto confirming")
 			return
 		end
+
+		DebugPrint("HideRefund on, auto confirming the buy")
 
 		-- Note that if we hide the dialog, the OnHide function is called, which cancels the pending equip request. 
 		-- So, we have to accept first, then hide.
