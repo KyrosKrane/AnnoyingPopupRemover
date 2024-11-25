@@ -127,6 +127,8 @@ GossipIDList[53989] = "Night fae covenant"
 GossipIDList[53992] = "Night fae covenant v2"
 
 -- 20th Anniversary event trainers
+GossipIDList[123241] = "Brok (Anniversary Event)" -- Tanaris, Caverns of Time
+GossipIDList[123331] = "Bordin Steadyfist (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123332] = "Goz Banefury (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123333] = "Grand Master Obalis (Anniversary Event)" -- Tanaris, Caverns of Time
 GossipIDList[123337] = "Nicki Tinytech (Anniversary Event)" -- Tanaris, Caverns of Time
