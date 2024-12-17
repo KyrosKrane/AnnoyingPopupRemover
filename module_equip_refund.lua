@@ -144,6 +144,19 @@ if not APR.IsClassic or this.WorksInClassic then
 		-- in 11.0.5, Blizzard made the function C_Item.ConfirmNoRefundOnUse() protected. This function is called by the OnAccept method on the dialog.
 		-- So, until the next update (hopefully) reverses this change, just bail out when this is called.
 		-- This appears to have been reverted as of 2024-11-11 (still in 11.0.5).
+		-- It wasn't reverted. It just seems that the confirm function sometimes works and sometimes gives a protected error.
+
+
+		--[[===
+					
+			Scenario 1:
+			If I use the item Preserved Deep-Dweller's Staff (a cosmetic that can be purchased for resonance crystals and is refundable still), the game fires the event USE_NO_REFUND_CONFIRM, which causes a static popup of type USE_NO_REFUND_CONFIRM to appear. Clicking Okay to learn invokes the dialog's :OnAccept() function, which ultimately calls C_Item.ConfirmNoRefundOnUse(). Doing this via /run or in an addon works correctly and without error.
+
+			Scenario 2:
+			If I use the item Alchemy Lab, Level 2 (a garrison plan that is purchased and is refundable still), the game fires the event USE_NO_REFUND_CONFIRM, which causes a static popup of type USE_NO_REFUND_CONFIRM to appear. Clicking Okay to learn invokes the dialog's :OnAccept() function, which ultimately calls C_Item.ConfirmNoRefundOnUse(). Doing this via /run or in an addon generates an error (e.g., from /run: "[ADDON_ACTION_FORBIDDEN] AddOn '*** ForceTaint_Strong ***' tried to call the protected function 'ConfirmNoRefundOnUse()'."
+
+		===]]
+
 		if true then
 			DebugPrint("Bailing out until Blizz reallows addons to use C_Item.ConfirmNoRefundOnUse()")
 			return
