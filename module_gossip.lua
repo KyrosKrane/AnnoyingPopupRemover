@@ -227,6 +227,7 @@ GossipIDList[107385] = "Stable master 107385"
 GossipIDList[107788] = "Stable master 107788"
 GossipIDList[110331] = "Stable master 110331" -- Wurallie
 GossipIDList[122708] = "Stable master 122708" -- Wheat in Camp Murroch, The Ringing Deeps
+GossipIDList[131400] = "Stable master 131400" -- Zexel Fingersnap in Siren Isle
 
 -- Start of various encounters in the Dragon Soul raid
 GossipIDList[40206] = "Ultraxion trash"
