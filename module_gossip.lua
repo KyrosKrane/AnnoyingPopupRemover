@@ -258,6 +258,12 @@ GossipIDList[109604] = "Starting a Myrrit dig with 2 maps"
 GossipIDList[109603] = "Starting a Myrrit dig with 3 maps"
 GossipIDList[109815] = "Continuing a Myrrit dig"
 
+-- World quests
+GossipIDList[122688] = "Courier Mission: Ore Delivery - bridge end improvised springboard"
+GossipIDList[123548] = "Courier Mission: Ore Delivery - improvised air control"
+GossipIDList[123529] = "Courier Mission: Ore Delivery - mid bridge improvised springboard"
+GossipIDList[123701] = "Courier Mission: Ore Delivery - fog machine"
+
 -- Start of encounters in Dragonflight raids
 -- @TODO: Implement after DF is no longer current
 -- GossipIDList[55981] = "Vault of the Incarnates - start event for first trash clear"
