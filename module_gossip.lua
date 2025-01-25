@@ -220,6 +220,7 @@ GossipIDList[36818] = "Stable master 36818"
 GossipIDList[41280] = "Stable master 41280"
 GossipIDList[41827] = "Stable master 41827"
 GossipIDList[47842] = "Stable master 47842" -- Lead Rider Jerek in Krokuun
+GossipIDList[48013] = "Stable master 48013" -- Zam'cha in Nazmir
 GossipIDList[48409] = "Stable master 48409" -- Yash in Nazmir
 GossipIDList[49479] = "Stable master 49479" -- Vasilica in Revendreth
 GossipIDList[54986] = "Stable master 54986"
