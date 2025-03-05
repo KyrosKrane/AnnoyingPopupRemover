@@ -1,3 +1,6 @@
+# File revision: @file-abbreviated-hash@
+# File last updated: @file-date-iso@
+
 ## Interface: @toc-version-classic@, @toc-version-cata@, @toc-version-retail@
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
