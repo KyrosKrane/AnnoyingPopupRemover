@@ -1,6 +1,7 @@
--- ruRU.lua
+-- Localization_ruRU.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
+-- Russian translations by ZamestoTV (Hubbotu on Github)
+-- Copyright (c) 2015-2025 KyrosKrane Sylvanblade & ZamestoTV
 -- Licensed under the MIT License, as per the included file.
 
 -- This file sets up localization and text strings for the addon in Russian.
