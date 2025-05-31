@@ -43,6 +43,7 @@ Libs\AddonUtilities\Utilities.lua
 Init.lua
 Localization.lua
 Localization_frFR.lua
+Localization_ruRU.lua
 Init_Post_Locale.lua
 Hide_StaticPopup.lua
 
