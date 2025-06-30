@@ -1,6 +1,6 @@
 -- Init.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2024 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2025 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -52,10 +52,10 @@ APR.HIDE_STARTUP = false
 --#########################################
 
 -- Determine whether we're running Classic or normal. Wrath Classic and Classic Era (vanilla) both count as Classic.
-APR.IsClassic = select(4, GetBuildInfo()) < 50000
+APR.IsClassic = select(4, GetBuildInfo()) < 60000
 
 -- Annoyingly, some functions on Classic Era still use old code. So, track that separately.
-APR.IsClassicEra = select(4, GetBuildInfo()) < 30000
+APR.IsClassicEra = select(4, GetBuildInfo()) < 20000
 
 -- Get the ordering constant of the next module
 APR.NextOrdering = 10
