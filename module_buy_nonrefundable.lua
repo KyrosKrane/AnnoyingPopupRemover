@@ -64,10 +64,6 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	if APR.DB.HideBuyNonrefundable then
-		-- Re-enable the dialog for selling group-looted items to a vendor while still tradable.
-		StaticPopupDialogs["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = APR.StoredDialogs["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"]
-		APR.StoredDialogs["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = nil
-
 		-- Mark that the dialog is shown.
 		APR.DB.HideBuyNonrefundable = APR.SHOW_DIALOG
 
@@ -83,10 +79,6 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideBuyNonrefundable or ForceHide then
-		-- Disable the dialog for selling group-looted items to a vendor while still tradable.
-		APR.StoredDialogs["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = StaticPopupDialogs["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"]
-		StaticPopupDialogs["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = nil
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideBuyNonrefundable = APR.HIDE_DIALOG
 
@@ -98,11 +90,13 @@ end -- HidePopup()
 
 
 -- This function force-buys an item pending in the merchant window if the option is enabled.
-local function ForceBuyNonrefundableItem(SPU_Name, ...)
+local function ForceBuyNonrefundableItem(SPU_Name,  text_arg1, text_arg2, data, insertedFrame, customOnHideScript)
 	DebugPrint("in ForceBuyNonrefundableItem, SPU_Name is " .. SPU_Name)
 	if APR.DB.HideBuyNonrefundable and SPU_Name == "CONFIRM_PURCHASE_NONREFUNDABLE_ITEM" then
 		DebugPrint("in ForceBuyNonrefundableItem, auto buying item")
 		BuyMerchantItem(MerchantFrame.itemIndex, MerchantFrame.count)
+		StaticPopup_Hide(SPU_Name, data)
+		RunNextFrame(function() StaticPopup_Hide(SPU_Name, data) end)
 	else
 	   	DebugPrint("in ForceBuyNonrefundableItem, NOT auto buying item")
 	end

@@ -47,9 +47,11 @@ Localization_ruRU.lua
 Init_Post_Locale.lua
 Hide_StaticPopup.lua
 
+# Void storage no longer exists in any live version of the game
+# module_void.lua
+
 module_loot.lua
 module_roll.lua
-module_void.lua
 module_vendor.lua
 module_buy_alt_currency.lua
 module_buy_nonrefundable.lua

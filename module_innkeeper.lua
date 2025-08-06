@@ -62,10 +62,6 @@ this.WorksInClassic = true
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideInnkeeper then
-		-- Re-enable the dialog for the event that triggers when binding at an innkeeper.
-		StaticPopupDialogs["CONFIRM_BINDER"] = APR.StoredDialogs["CONFIRM_BINDER"]
-		APR.StoredDialogs["CONFIRM_BINDER"] = nil
-
 		-- Mark that the dialog is shown.
 		APR.DB.HideInnkeeper = APR.SHOW_DIALOG
 
@@ -80,10 +76,6 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideInnkeeper or ForceHide then
-		-- Disable the dialog for the event that triggers when binding at an innkeeper.
-		APR.StoredDialogs["CONFIRM_BINDER"] = StaticPopupDialogs["CONFIRM_BINDER"]
-		StaticPopupDialogs["CONFIRM_BINDER"] = nil
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideInnkeeper = APR.HIDE_DIALOG
 
@@ -127,10 +119,11 @@ if not APR.IsClassic or this.WorksInClassic then
 			-- So, we defer the confirmation to the next frame.
 			-- Thanks to Meorawr for the suggestion!
 			DebugPrint("Deferring execution one frame")
-			RunNextFrame(ConfirmBind_PIM)
+			RunNextFrame(function() ConfirmBind_PIM() StaticPopup_Hide("CONFIRM_BINDER") end)
 		else
 			DebugPrint("Executing with pre-DF command")
 			ConfirmBinder()
+			StaticPopup_Hide("CONFIRM_BINDER")
 		end
 
 	end -- APR.Events:CONFIRM_BINDER()
