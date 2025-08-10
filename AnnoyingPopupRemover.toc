@@ -44,6 +44,7 @@ Init.lua
 Localization.lua
 Localization_frFR.lua
 Localization_ruRU.lua
+Localization_zhCN.lua
 Init_Post_Locale.lua
 Hide_StaticPopup.lua
 
