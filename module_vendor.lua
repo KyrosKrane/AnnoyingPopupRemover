@@ -63,10 +63,6 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	if APR.DB.HideVendor then
-		-- Re-enable the dialog for selling group-looted items to a vendor while still tradable.
-		StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"]
-		APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = nil
-
 		-- Mark that the dialog is shown.
 		APR.DB.HideVendor = APR.SHOW_DIALOG
 
@@ -82,10 +78,6 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideVendor or ForceHide then
-		-- Disable the dialog for selling group-looted items to a vendor while still tradable.
-		APR.StoredDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"]
-		StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = nil
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideVendor = APR.HIDE_DIALOG
 
@@ -118,5 +110,6 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		-- Sell the item.
 		SellCursorItem()
+		RunNextFrame(function() StaticPopup_Hide("CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL") end)
 	end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
 end -- WoW Classic check

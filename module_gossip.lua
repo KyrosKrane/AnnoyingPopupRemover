@@ -302,59 +302,56 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		-- Loop through the static popup dialogs to find the one that matches what we need.
-		local found = false
-		for i = 1, STATICPOPUP_NUMDIALOGS do
-			local sp_name = "StaticPopup" .. i
-			local dialog = _G[sp_name]
+		-- Exit early if it's too expensive to auto confirm
+		if cost and cost > MAX_COPPER then
+			DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
+			return
+		end
 
-			if dialog and dialog:IsShown() then
-				DebugPrint(string.format("Dialog %s is shown, validating.", sp_name))
-				found = true
+		-- Find the dialog we need to close
+		local dialog = StaticPopup_FindVisible("GOSSIP_CONFIRM")
 
-				local sp_text = dialog.text and dialog.text.text_arg1 or nil
-				local sp_data = dialog.data
+		if not dialog then
+			DebugPrint("Did not find matching popup")
+			return
+		end
 
-				DebugPrint(string.format("sp_data is %s, sp_text is %s", sp_data or "nil", sp_text or "nil"))
+		local sp_text = dialog.text and dialog.text.text_arg1 or nil
+		local sp_data = dialog.data
 
-				-- Check if the dialog ID is in the list of IDs we want to skip.
-				if sp_data and GossipIDList[sp_data] and sp_data == gossipID then
-					DebugPrint(
-						string.format(
-							"Found matching popup by ID, index %d, ID %s, name is %s",
-							i,
-							sp_data,
-							GossipIDList[sp_data]
-						)
-					)
+		DebugPrint(string.format("sp_data is %s, sp_text is %s", sp_data or "nil", sp_text or "nil"))
 
-					if cost and cost > MAX_COPPER then
-						DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
-						return
-					end
-					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
+		-- Check if the dialog ID is in the list of IDs we want to skip.
+		if sp_data and GossipIDList[sp_data] and sp_data == gossipID then
+			DebugPrint(
+				string.format(
+					"Found matching popup by ID, ID %s, desc is %s",
+					sp_data,
+					GossipIDList[sp_data]
+				)
+			)
 
-				-- Check if the dialog has the specific text we want to auto approve
-				elseif sp_text and GossipTextList[sp_text] then
-					DebugPrint(
-						string.format(
-							"Found matching popup by text, index %d, text %s, name %s",
-							i,
-							sp_text,
-							GossipTextList[sp_text]
-						)
-					)
+			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
 
-					if cost and cost > MAX_COPPER then
-						DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
-						return
-					end
-					StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
-				else
-					DebugPrint("Auto-confirm condition not met.")
-				end
-			end -- if dialog shown
-		end -- for each dialog
+		-- Check if the dialog has the specific text we want to auto approve
+		elseif sp_text and GossipTextList[sp_text] then
+			DebugPrint(
+				string.format(
+					"Found matching popup by text, text %s, desc %s",
+					sp_text,
+					GossipTextList[sp_text]
+				)
+			)
+
+			if cost and cost > MAX_COPPER then
+				DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
+				return
+			end
+			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
+
+		else
+			DebugPrint("Auto-confirm condition not met.")
+		end
 
 		-- Instead of calling OnAccept(), I could also call the direct commands.
 		-- Direct command for retail
@@ -363,8 +360,6 @@ if not APR.IsClassic or this.WorksInClassic then
 		-- Direct command for Classic:
 		-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
 
-		if not found then
-			DebugPrint("Did not find matching popup")
-		end
+
 	end -- APR.Events:GOSSIP_CONFIRM()
 end -- WoW Classic check

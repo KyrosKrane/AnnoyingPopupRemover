@@ -103,7 +103,7 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		-- Check if a dialog is shown, and if so, hide it, then call the accept function
 		if APR:Hide_StaticPopup("CONFIRM_LOOT_ROLL", rollID, rollType) then
-			-- note that Hide_StaticPopup returns the ID of the matching popup, or nil. We don't care about the specific ID, just that it's not nil.
+			-- note that Hide_StaticPopup returns true if a dialog was hidden, false otherwise.
 
 			-- call the approval function and hide the popup
 			RunNextFrame(function() StaticPopupDialogs["CONFIRM_LOOT_ROLL"]:OnAccept(rollID, rollType) end)

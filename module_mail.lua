@@ -62,10 +62,6 @@ this.WorksInClassic = true
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm, printconfirm is " .. MakeString(printconfirm))
 	if APR.DB.HideMail then
-		-- Re-enable the dialog for mailing refundable items while still tradable.
-		StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
-		APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = nil
-
 		-- Mark that the dialog is shown.
 		APR.DB.HideMail = APR.SHOW_DIALOG
 
@@ -80,10 +76,6 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 	if not APR.DB.HideMail or ForceHide then
-		-- Disable the dialog for mailing refundable items while still tradable.
-		APR.StoredDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"]
-		StaticPopupDialogs["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = nil
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideMail = APR.HIDE_DIALOG
 
@@ -115,5 +107,8 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		-- Confirm the mail.
 		RespondMailLockSendItem(mailSlot, true)
+
+		-- Hide the popup that's showing
+		RunNextFrame(function() StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE") end)
 	end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
 end -- WoW Classic check

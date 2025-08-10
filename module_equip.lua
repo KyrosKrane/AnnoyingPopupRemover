@@ -84,7 +84,6 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideEquip or ForceHide then
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideEquip = APR.HIDE_DIALOG
 
@@ -106,7 +105,7 @@ if not APR.IsClassic or this.WorksInClassic then
 		if APR.DebugMode then
 			DebugPrint("In APR.Events:EQUIP_BIND_CONFIRM")
 			DebugPrint("Slot is " .. slot)
-			DebugPrint("itemLocation (type ItemLocationMixin) is " .. itemLocation and "not nil" or "nil")
+			DebugPrint("itemLocation (type ItemLocationMixin) is " .. (itemLocation and "not nil" or "nil"))
 			APR.Utilities.PrintVarArgs(...)
 		end -- if APR.DebugMode
 
