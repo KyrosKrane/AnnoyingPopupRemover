@@ -96,7 +96,6 @@ local function ForceBuyNonrefundableItem(SPU_Name,  text_arg1, text_arg2, data, 
 		DebugPrint("in ForceBuyNonrefundableItem, auto buying item")
 		BuyMerchantItem(MerchantFrame.itemIndex, MerchantFrame.count)
 		StaticPopup_Hide(SPU_Name, data)
-		RunNextFrame(function() StaticPopup_Hide(SPU_Name, data) end)
 	else
 	   	DebugPrint("in ForceBuyNonrefundableItem, NOT auto buying item")
 	end
