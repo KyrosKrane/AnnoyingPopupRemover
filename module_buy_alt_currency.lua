@@ -64,10 +64,6 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 	
 	if APR.DB.HideBuyToken then
-		-- Re-enable the dialog for selling group-looted items to a vendor while still tradable.
-		StaticPopupDialogs["CONFIRM_PURCHASE_TOKEN_ITEM"] = APR.StoredDialogs["CONFIRM_PURCHASE_TOKEN_ITEM"]
-		APR.StoredDialogs["CONFIRM_PURCHASE_TOKEN_ITEM"] = nil
-
 		-- Mark that the dialog is shown.
 		APR.DB.HideBuyToken = APR.SHOW_DIALOG
 
@@ -83,10 +79,6 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	if not APR.DB.HideBuyToken or ForceHide then
-		-- Disable the dialog for selling group-looted items to a vendor while still tradable.
-		APR.StoredDialogs["CONFIRM_PURCHASE_TOKEN_ITEM"] = StaticPopupDialogs["CONFIRM_PURCHASE_TOKEN_ITEM"]
-		StaticPopupDialogs["CONFIRM_PURCHASE_TOKEN_ITEM"] = nil
-
 		-- Mark that the dialog is hidden.
 		APR.DB.HideBuyToken = APR.HIDE_DIALOG
 
@@ -101,6 +93,7 @@ end -- HidePopup()
 local function ForceBuyTokenItem(SPU_Name, ...)
 	if APR.DB.HideBuyToken and SPU_Name == "CONFIRM_PURCHASE_TOKEN_ITEM" then
 		BuyMerchantItem(MerchantFrame.itemIndex, MerchantFrame.count)
+		StaticPopup_Hide("CONFIRM_PURCHASE_TOKEN_ITEM")
 	end
 end
 
