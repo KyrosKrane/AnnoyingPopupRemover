@@ -4,13 +4,78 @@
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
--- This file defines functions that let you hide a specific StaticPopup.
+-- This file defines functions that let you work with  StaticPopups and enable compatibility between different API versions.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local _, APR = ...
 
 -- Upvalues for readability
 local DebugPrint = APR.Utilities.DebugPrint
+
+
+-- Create a holder for our StaticPopup abstraction functions
+APR.SP={}
+
+local function FindVisible(WhichType)
+	-- Loop through the static popup dialogs to find the one that matches what we need.
+	for i = STATICPOPUP_NUMDIALOGS, 1, -1 do
+		local sp_name = "StaticPopup" .. i
+		local dialog = _G[sp_name]
+
+		-- We need to check three things.
+		-- 1) Does the dialog exist?
+		-- 2) Is the dialog shown?
+		-- 3) Is the dialog type the one we want?
+		-- 4) Does the dialog data match the requested? (This differentiates if there are multiple open dialogs of the same type.)
+
+		-- Check the first three conditions.
+		if dialog then
+			DebugPrint(string.format("Dialog %s exists", sp_name))
+			if dialog:IsShown() then
+				DebugPrint(string.format("Dialog %s is shown", sp_name))
+				if dialog.which == WhichType then
+					DebugPrint(string.format("Dialog %s has type %s", sp_name, dialog.which))
+					return dialog
+				-- else there was a data mismatch, so continue looping looking for another dialog.
+				end -- if dialog type matches
+			end -- if dialog is shown
+		end -- if dialog is not nil
+	end -- for each dialog
+
+	DebugPrint("Did not find matching popup")
+	return nil -- the nil is redundant, but it's better to explicitly mention the intended return value
+
+end -- FindVisible()
+
+APR.SP.FindVisible = StaticPopup_FindVisible or FindVisible
+
+
+-- Finds a shown static popup of the matching type and calls the OnCancel function for it
+-- Assumption is only one dialog of the specified type is shown (true for the vast majority of popups)
+function APR.CancelStaticPopup(WhichType)
+	local dialog = StaticPopup_FindVisible(WhichType)
+	if dialog then
+		dialog:Hide();
+		local OnCancel = StaticPopupDialogs[dialog.which].OnCancel;
+		if ( OnCancel ) then
+			OnCancel(dialog, dialog.data, "override");
+		end
+	end
+end -- APR.CancelStaticPopup()
+
+
+-- Finds a shown static popup of the matching type and calls the OnAccept function for it
+function APR.AcceptStaticPopup(WhichType)
+	local dialog = StaticPopup_FindVisible(WhichType)
+	if dialog then
+		dialog:Hide();
+		local OnAccept = StaticPopupDialogs[dialog.which].OnAccept;
+		if ( OnAccept ) then
+			OnAccept(dialog, dialog.data);
+		end
+	end
+end -- APR.AcceptStaticPopup()
+
 
 -- This function checks if a dialog is shown and hides it. Returns true if at least one dialog was hidden, false otherwise.
 function APR:Hide_StaticPopup(which, data, data2)
