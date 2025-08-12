@@ -41,12 +41,12 @@ Libs\AddonUtilities\Utilities.lua
 
 # In this add-on
 Init.lua
+StaticPopup_Utils.lua
 Localization.lua
 Localization_frFR.lua
 Localization_ruRU.lua
 Localization_zhCN.lua
 Init_Post_Locale.lua
-Hide_StaticPopup.lua
 
 # Void storage no longer exists in any live version of the game
 # module_void.lua
