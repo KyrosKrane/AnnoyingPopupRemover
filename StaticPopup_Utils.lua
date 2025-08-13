@@ -6,6 +6,13 @@
 
 -- This file defines functions that let you work with  StaticPopups and enable compatibility between different API versions.
 
+-- Included functions:
+-- APR.SP.FindVisible(which)
+-- APR.SP.ForEachShownDialog(func)
+-- APR.SP.Cancel(which)
+-- APR.SP.Accept(which)
+-- APR.SP.Hide(which, data, data2)
+
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local _, APR = ...
 
@@ -16,70 +23,63 @@ local DebugPrint = APR.Utilities.DebugPrint
 -- Create a holder for our StaticPopup abstraction functions
 APR.SP={}
 
-local function FindVisible(WhichType)
-	-- Loop through the static popup dialogs to find the one that matches what we need.
-	for i = STATICPOPUP_NUMDIALOGS, 1, -1 do
+-- This function seems to be available in all versions of the API, so we just use the Blizz version.
+APR.SP.FindVisible = StaticPopup_FindVisible
+
+-- This function is a replacement for Blizz's new function, for use with the old API
+local function ForEachShownDialog(func)
+	for i = 1, STATICPOPUP_NUMDIALOGS do
 		local sp_name = "StaticPopup" .. i
 		local dialog = _G[sp_name]
 
-		-- We need to check three things.
+		-- We need to check two things.
 		-- 1) Does the dialog exist?
 		-- 2) Is the dialog shown?
-		-- 3) Is the dialog type the one we want?
-		-- 4) Does the dialog data match the requested? (This differentiates if there are multiple open dialogs of the same type.)
 
 		-- Check the first three conditions.
 		if dialog then
-			DebugPrint(string.format("Dialog %s exists", sp_name))
+			DebugPrint(string.format("in ForEachShownDialog, Dialog %s exists", sp_name))
 			if dialog:IsShown() then
-				DebugPrint(string.format("Dialog %s is shown", sp_name))
-				if dialog.which == WhichType then
-					DebugPrint(string.format("Dialog %s has type %s", sp_name, dialog.which))
-					return dialog
-				-- else there was a data mismatch, so continue looping looking for another dialog.
-				end -- if dialog type matches
+				DebugPrint(string.format("in ForEachShownDialog, Dialog %s is shown", sp_name))
+				func(dialog)
 			end -- if dialog is shown
 		end -- if dialog is not nil
 	end -- for each dialog
+end -- ForEachShownDialog()
 
-	DebugPrint("Did not find matching popup")
-	return nil -- the nil is redundant, but it's better to explicitly mention the intended return value
-
-end -- FindVisible()
-
-APR.SP.FindVisible = StaticPopup_FindVisible or FindVisible
+APR.SP.ForEachShownDialog = StaticPopup_ForEachShownDialog or ForEachShownDialog
 
 
 -- Finds a shown static popup of the matching type and calls the OnCancel function for it
 -- Assumption is only one dialog of the specified type is shown (true for the vast majority of popups)
-function APR.CancelStaticPopup(WhichType)
-	local dialog = StaticPopup_FindVisible(WhichType)
+function APR.SP.Cancel(which)
+	local dialog = APR.SP.FindVisible(which)
 	if dialog then
 		dialog:Hide();
-		local OnCancel = StaticPopupDialogs[dialog.which].OnCancel;
+		local OnCancel = StaticPopupDialogs[which].OnCancel;
 		if ( OnCancel ) then
 			OnCancel(dialog, dialog.data, "override");
 		end
 	end
-end -- APR.CancelStaticPopup()
+end -- APR.APR.SP.Cancel()
 
 
 -- Finds a shown static popup of the matching type and calls the OnAccept function for it
-function APR.AcceptStaticPopup(WhichType)
-	local dialog = StaticPopup_FindVisible(WhichType)
+function APR.SP.Accept(which)
+	local dialog = APR.SP.FindVisible(which)
 	if dialog then
 		dialog:Hide();
-		local OnAccept = StaticPopupDialogs[dialog.which].OnAccept;
+		local OnAccept = StaticPopupDialogs[which].OnAccept;
 		if ( OnAccept ) then
 			OnAccept(dialog, dialog.data);
 		end
 	end
-end -- APR.AcceptStaticPopup()
+end -- APR.SP.Accept()
 
 
 -- This function checks if a dialog is shown and hides it. Returns true if at least one dialog was hidden, false otherwise.
-function APR:Hide_StaticPopup(which, data, data2)
-	DebugPrint(string.format("In APR:Hide_StaticPopup, searching for dialog with type %s, data %s, and data2 %s.", which or "all", data or "nil", data2 or "nil"))
+function APR.SP.Hide(which, data, data2)
+	DebugPrint(string.format("In APR.SP.Hide, searching for dialog with type %s, data %s, and data2 %s.", which or "all", data or "nil", data2 or "nil"))
 	
 	-- The default Blizz hide functions don't return a value indicating whether a dialog was specifically hidden or not.
 	-- My use case requires taking certain actions iff a dialog was hidden.
@@ -92,7 +92,7 @@ function APR:Hide_StaticPopup(which, data, data2)
 	-- 3) Is the dialog type the one we want?
 	-- 4) Does the dialog data match the requested? (This differentiates if there are multiple open dialogs of the same type.)
 
-	-- StaticPopup_ForEachShownDialog() takes care of the first two checks. So, we just need to validate 3 and 4, then hide and mark that something was hidden.
+	-- ForEachShownDialog() takes care of the first two checks. So, we just need to validate 3 and 4, then hide and mark that something was hidden.
 
 	local DialogWasHidden = false
 
@@ -134,6 +134,6 @@ function APR:Hide_StaticPopup(which, data, data2)
 	end -- ProcessDialog()
 
 	-- Now we actually loop over the visible dialogs and return the result
-	StaticPopup_ForEachShownDialog(ProcessDialog)
+	APR.SP.ForEachShownDialog(ProcessDialog)
 	return DialogWasHidden
-end -- function APR:Hide_StaticPopup()
+end -- function APR.SP.Hide()

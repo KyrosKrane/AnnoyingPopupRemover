@@ -102,7 +102,7 @@ if not APR.IsClassic or this.WorksInClassic then
 		end
 
 		-- Check if a dialog is shown, and if so, hide it, then call the accept function
-		if APR:Hide_StaticPopup("CONFIRM_LOOT_ROLL", rollID, rollType) then
+		if APR.SP.Hide("CONFIRM_LOOT_ROLL", rollID, rollType) then
 			-- note that Hide_StaticPopup returns true if a dialog was hidden, false otherwise.
 
 			-- call the approval function and hide the popup
