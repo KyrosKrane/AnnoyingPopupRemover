@@ -108,7 +108,7 @@ if not APR.IsClassic or this.WorksInClassic then
 		end
 
 		-- Check if a dialog is shown, and if so, hide it, then call the accept function
-		if APR:Hide_StaticPopup("LOOT_BIND", lootSlot) then
+		if APR.SP.Hide("LOOT_BIND", lootSlot) then
 			-- note that Hide_StaticPopup returns the ID of the matching popup, or nil. We don't care about the specific ID, just that it's not nil.
 
 			-- call the approval function and hide the popup

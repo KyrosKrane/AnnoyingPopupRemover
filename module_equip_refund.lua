@@ -131,7 +131,7 @@ if not APR.IsClassic or this.WorksInClassic then
 			StaticPopupDialogs["EQUIP_BIND_REFUNDABLE"]:OnAccept(data)
 		end
 
-		APR:Hide_StaticPopup("EQUIP_BIND_REFUNDABLE")
+		APR.SP.Hide("EQUIP_BIND_REFUNDABLE")
 
 	end -- APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM()
 
@@ -177,7 +177,7 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		StaticPopupDialogs["USE_NO_REFUND_CONFIRM"]:OnAccept()
 
-		APR:Hide_StaticPopup("USE_NO_REFUND_CONFIRM")
+		APR.SP.Hide("USE_NO_REFUND_CONFIRM")
 
 	end -- APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM()
 

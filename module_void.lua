@@ -102,7 +102,7 @@ local function HideVoidPopup(VoidStorageFrame, event, ...)
 	DebugPrint("HideVoid on, auto confirming")
 
 	-- First, we hide the actual popup.
-	APR:Hide_StaticPopup("VOID_DEPOSIT_CONFIRM");
+	APR.SP.Hide("VOID_DEPOSIT_CONFIRM");
 
 	-- prior to this event firing, the game triggers "VOID_STORAGE_DEPOSIT_UPDATE", which disables the transfer button and normally pops up the dialog.
 	-- So, we simulate clicking OK with the UpdateTransferButton, and pass "nil" to indicate the warning dialog isn't showing.

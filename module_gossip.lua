@@ -309,7 +309,7 @@ if not APR.IsClassic or this.WorksInClassic then
 		end
 
 		-- Find the dialog we need to close
-		local dialog = StaticPopup_FindVisible("GOSSIP_CONFIRM")
+		local dialog = APR.SP.FindVisible("GOSSIP_CONFIRM")
 
 		if not dialog then
 			DebugPrint("Did not find matching popup")
