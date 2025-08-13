@@ -105,7 +105,7 @@ local function CheckPopup(upgradeType)
 	end
 
 	DebugPrint("in followers CheckPopup, auto confirming")
-	APR.AcceptStaticPopup(upgradeType)
+	APR.SP.Accept(upgradeType)
 end -- CheckPopup()
 
 

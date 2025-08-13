@@ -115,7 +115,7 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		DebugPrint("HideVoid on, auto confirming")
 		--StaticPopup_Hide("VOID_DEPOSIT_CONFIRM");
-		APR:Hide_StaticPopup("VOID_DEPOSIT_CONFIRM");
+		APR.SP.Hide("VOID_DEPOSIT_CONFIRM");
 		--DebugPrint("Hid popup with id ", popupID)
 		
 

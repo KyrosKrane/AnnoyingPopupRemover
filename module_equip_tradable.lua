@@ -125,7 +125,7 @@ if not APR.IsClassic or this.WorksInClassic then
 			}
 			StaticPopupDialogs["EQUIP_BIND_TRADEABLE"]:OnAccept(data)
 		end
-		APR:Hide_StaticPopup("EQUIP_BIND_TRADEABLE")
+		APR.SP.Hide("EQUIP_BIND_TRADEABLE")
 
 
 	end -- APR.Events:EQUIP_BIND_TRADEABLE_CONFIRM()

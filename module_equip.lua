@@ -123,7 +123,7 @@ if not APR.IsClassic or this.WorksInClassic then
 			EquipPendingItem(slot)
 		end
 		-- Note that EquipPendingItem() automatically hides the static popup. This command is just a failsafe.
-		APR:Hide_StaticPopup("EQUIP_BIND")
+		APR.SP.Hide("EQUIP_BIND")
 	end -- APR.Events:EQUIP_BIND_CONFIRM()
 end -- WoW Classic check
 
@@ -144,6 +144,6 @@ if not APR.IsClassic then
 		DebugPrint("Converting to BOA.")
 		ConvertItemToBindToAccount()
 
-		APR:Hide_StaticPopup("CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM")
+		APR.SP.Hide("CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM")
 	end -- APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM()
 end -- if not classic
