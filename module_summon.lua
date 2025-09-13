@@ -31,11 +31,11 @@ APR.Modules[ThisModule] = {}
 local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-this.DBName = "Summon"
+this.DBName = "HideSummons"
 this.DBDefaultValue = APR.HIDE_DIALOG
 
 -- The module's category determines where it goes in the options list
-this.Category = "Items"
+this.Category = "GameInterface"
 
 -- This is the config setup for AceConfig
 this.config = {
@@ -54,7 +54,6 @@ this.config = {
 APR.NextOrdering = APR.NextOrdering + 5
 
 -- These are the status strings that are printed to indicate whether it's off or on
--- @TODO: Remember to add these localized strings to the localization file!
 this.hidden_msg = L[ThisModule .. "_hidden"]
 this.shown_msg = L[ThisModule .. "_shown"]
 
@@ -69,7 +68,8 @@ this.DisableInCombat = false
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
-	-- code here
+	-- Mark that the dialog should be shown.
+	APR.DB.HideSummons = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -79,26 +79,60 @@ end -- ShowPopup()
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
-	-- code here
+	-- Mark that the dialog should be hidden.
+	APR.DB.HideSummons = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
--- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
--- This function can be safely deleted if not used by this module.
-this.PreloadFunc = function()
-end
-
-
 -- Now capture the events that this module has to handle
--- This block can be deleted if you don't use events.
 if not APR.IsClassic or this.WorksInClassic then
 
 	-- This event fires when the player is receiving a summon
 	function APR.Events:CONFIRM_SUMMON(summonReason, skippingStartExperience)
-		ChatPrint("Summon received!")
+		DebugPrint("in CONFIRM_SUMMON, Summon received")
+		if not APR.DB.HideSummons then
+			DebugPrint("in CONFIRM_SUMMON, Summon hiding is turned off, bailing out.")
+			return
+		end
+
+		-- Make sure the game didn't decide to show one of the special dialogs related to the starting experience.
+		-- I'm assuming that a player can't be prank-summoned within the starting experience.
+		-- In fact, it's a reasonable assumption that players in the starting experience areas can't summon at all.
+		local dialog = APR.SP.FindVisible("CONFIRM_SUMMON")
+		if not dialog then
+			DebugPrint("in CONFIRM_SUMMON, no matching dialog is shown, bailing out.")
+			return
+		end
+
+		local Summoner = C_SummonInfo.GetSummonConfirmSummoner()
+		DebugPrint("in CONFIRM_SUMMON, Summoner is ", Summoner)
+
+		-- This should never happen, but just to be safe...
+		if not Summoner or "" == Summoner then
+			DebugPrint("in CONFIRM_SUMMON, Summoner is blank or nil, bailing out.")
+			return
+		end
+
+		-- allow summons if the player is summoning themself.
+		if UnitIsUnit(Summoner, "player") then
+			DebugPrint("in CONFIRM_SUMMON, Player is summoning self, bailing out.")
+			return
+		end
+
+		if UnitInRange(Summoner) then
+			DebugPrint("in CONFIRM_SUMMON,", Summoner, "is in range.")
+			if IsShiftKeyDown() then
+				DebugPrint("in CONFIRM_SUMMON, shift key is down, not auto cancelling.")
+			else
+				DebugPrint("in CONFIRM_SUMMON, shift key is NOT down, auto cancelling.")
+				APR.SP.Cancel("CONFIRM_SUMMON")
+			end
+		else
+			DebugPrint("in CONFIRM_SUMMON,", Summoner, "is NOT in range, not cancelling summon.")
+		end
+
 	end
 
-	-- Events go here
 end -- WoW Classic check
