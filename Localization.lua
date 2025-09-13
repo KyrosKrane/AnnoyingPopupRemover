@@ -171,6 +171,12 @@ L["followers_config"] = "Hide the confirmation pop-up when using items on follow
 L["followers_hidden"] = "Confirmation pop-up when upgrading " .. APR.Utilities.CHAT_GREEN .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["followers_shown"] = "Confirmation pop-up when upgrading " .. APR.Utilities.CHAT_RED .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
+-- summon
+L["summon_name"] = "Receive a summon at short range"
+L["summon_config"] = "Hide the confirmation pop-up when receiving a summon from a nearby player"
+L["summon_hidden"] = "Confirmation pop-up when getting a " .. APR.Utilities.CHAT_GREEN .. "summon" .. FONT_COLOR_CODE_CLOSE .. " at short range will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["summon_shown"] = "Confirmation pop-up when getting a " .. APR.Utilities.CHAT_RED .. "summon" .. FONT_COLOR_CODE_CLOSE .. " at short range will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
 -- module specific strings
 -- This is for the gossip module using string matching
 L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.

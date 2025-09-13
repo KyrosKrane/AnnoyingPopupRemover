@@ -69,5 +69,6 @@ module_workorder.lua
 module_actioncam.lua
 module_gossip.lua
 module_followers.lua
+module_summon.lua
 
 AnnoyingPopupRemover.lua
