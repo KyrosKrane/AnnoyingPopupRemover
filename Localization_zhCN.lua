@@ -3,6 +3,7 @@
 -- 中文翻译基于 Klep-Ysondre 的 Github 法文翻译。
 -- 版权所有 (c) 2025 KyrosKrane Sylvanblade
 -- 遵循随附文件中的 MIT 许可证。
+-- Addon version: @project-version@
 
 -- 此文件为插件设置简体中文本地化和文本字符串。
 

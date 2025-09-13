@@ -3,6 +3,7 @@
 -- Translations by Klep-Ysondre via Github.
 -- Copyright (c) 2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
+-- Addon version: @project-version@
 
 -- This file sets up French localization and text strings for the addon.
 

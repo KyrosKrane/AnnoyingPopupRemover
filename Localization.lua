@@ -2,6 +2,7 @@
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
 -- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
+-- Addon version: @project-version@
 
 -- This file sets up localization and text strings for the addon.
 -- These are the default English strings used if another localization is not provided.
