@@ -176,6 +176,7 @@ L["summon_name"] = "Receive a summon at short range"
 L["summon_config"] = "Hide the confirmation pop-up when receiving a summon from a nearby player. Hold down your Shift key to allow the summon"
 L["summon_hidden"] = "Confirmation pop-up when getting a " .. APR.Utilities.CHAT_GREEN .. "summon" .. FONT_COLOR_CODE_CLOSE .. " at short range will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. ". Hold down your Shift key to allow the summon."
 L["summon_shown"] = "Confirmation pop-up when getting a " .. APR.Utilities.CHAT_RED .. "summon" .. FONT_COLOR_CODE_CLOSE .. " at short range will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["summon_announce_auto_cancel"] = "Summon from nearby player %s has been automatically cancelled." -- %s is the name of the player who tried to summon the user.
 
 -- module specific strings
 -- This is for the gossip module using string matching

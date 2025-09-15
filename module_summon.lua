@@ -128,6 +128,7 @@ if not APR.IsClassic or this.WorksInClassic then
 			else
 				DebugPrint("in CONFIRM_SUMMON, shift key is NOT down, auto cancelling.")
 				APR.SP.Cancel("CONFIRM_SUMMON")
+				ChatPrint(L["summon_announce_auto_cancel"]:format(Summoner))
 			end
 		else
 			DebugPrint("in CONFIRM_SUMMON,", Summoner, "is NOT in range, not cancelling summon.")
