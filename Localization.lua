@@ -178,6 +178,12 @@ L["summon_hidden"] = "Confirmation pop-up when getting a " .. APR.Utilities.CHAT
 L["summon_shown"] = "Confirmation pop-up when getting a " .. APR.Utilities.CHAT_RED .. "summon" .. FONT_COLOR_CODE_CLOSE .. " at short range will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 L["summon_announce_auto_cancel"] = "Summon from nearby player %s has been automatically cancelled." -- %s is the name of the player who tried to summon the user.
 
+-- warbank
+L["warbank_name"] = "Deposit a refundable item into the warbank"
+L["warbank_config"] = "Hide the confirmation pop-up when depositing a refundable item into your warbank"
+L["warbank_hidden"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_GREEN .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["warbank_shown"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_RED .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
 -- module specific strings
 -- This is for the gossip module using string matching
 L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.
