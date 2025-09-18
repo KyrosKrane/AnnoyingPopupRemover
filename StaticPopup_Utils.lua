@@ -65,6 +65,7 @@ end -- APR.APR.SP.Cancel()
 
 
 -- Finds a shown static popup of the matching type and calls the OnAccept function for it
+-- Assumption is only one dialog of the specified type is shown (true for the vast majority of popups)
 function APR.SP.Accept(which)
 	local dialog = APR.SP.FindVisible(which)
 	if dialog then
@@ -80,7 +81,7 @@ end -- APR.SP.Accept()
 -- This function checks if a dialog is shown and hides it. Returns true if at least one dialog was hidden, false otherwise.
 function APR.SP.Hide(which, data, data2)
 	DebugPrint(string.format("In APR.SP.Hide, searching for dialog with type %s, data %s, and data2 %s.", which or "all", data or "nil", data2 or "nil"))
-	
+
 	-- The default Blizz hide functions don't return a value indicating whether a dialog was specifically hidden or not.
 	-- My use case requires taking certain actions iff a dialog was hidden.
 	-- so we can't just use the Blizz hide functions as is.

@@ -76,7 +76,7 @@ end -- ShowPopup()
 
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	-- Mark that the dialog should be hidden.
 	APR.DB.HideWarbankDeposit = APR.HIDE_DIALOG
