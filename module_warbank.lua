@@ -68,7 +68,7 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	-- Mark that the dialog should be hidden.
-	APR.DB.HideSummons = APR.SHOW_DIALOG
+	APR.DB.HideWarbankDeposit = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -79,7 +79,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	-- Mark that the dialog should be hidden.
-	APR.DB.HideSummons = APR.HIDE_DIALOG
+	APR.DB.HideWarbankDeposit = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
@@ -90,7 +90,7 @@ local function CheckWarbankDeposit(which, text_arg1, text_arg2, data, insertedFr
 	if "ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM" ~= which then return end
 	DebugPrint("In CheckWarbankDeposit, dialog type matches")
 
-	if APR.DB.HideSummons == APR.HIDE_DIALOG then
+	if APR.DB.HideWarbankDeposit == APR.HIDE_DIALOG then
 		DebugPrint("In CheckWarbankDeposit, hiding the popup")
 		APR.SP.Accept("ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM")
 	else
