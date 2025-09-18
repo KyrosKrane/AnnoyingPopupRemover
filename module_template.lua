@@ -50,7 +50,7 @@ this.config = {
 } -- config
 
 -- Update the ordering for the next file to be loaded
-APR.NextOrdering = APR.NextOrdering + 5
+APR.NextOrdering = APR.NextOrdering + 1
 
 -- These are the status strings that are printed to indicate whether it's off or on
 -- @TODO: Remember to add these localized strings to the localization file!
