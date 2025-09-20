@@ -1,6 +1,6 @@
 -- Localization_frFR.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Translations by Klep-Ysondre via Github.
+-- Translations by Klep-Ysondre (Machou via Github).
 -- Copyright (c) 2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
@@ -168,10 +168,23 @@ L["gossip_hidden"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.
 L["gossip_shown"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.CHAT_RED .. "conversation" .. FONT_COLOR_CODE_CLOSE .. " avec certains PNJ sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- followers
-L["followers_name"] = "Équipez ou améliorez vos sujets avec des objets"
+L["followers_name"] = "Équiper ou améliorer vos sujets avec des objets"
 L["followers_config"] = "Masquer la fenêtre de confirmation lorsque vous équipez ou améliorez vos sujets avec des objets dans les différentes tables de commandement"
 L["followers_hidden"] = "La fenêtre de confirmation lorsque vous équipez ou améliorez vos " .. APR.Utilities.CHAT_GREEN .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["followers_shown"] = "La fenêtre de confirmation lorsque vous équipez ou améliorez vos " .. APR.Utilities.CHAT_RED .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- summon
+L["summon_name"] = "Invocation à courte portée"
+L["summon_config"] = "Masquer la fenêtre de confirmation lors d'une invocation d'un joueur proche. Maintenez la touche « Maj » pour autoriser l'invocation."
+L["summon_hidden"] = "La fenêtre de confirmation lors " .. APR.Utilities.CHAT_GREEN .. "d'une invocation" .. FONT_COLOR_CODE_CLOSE .. " à courte portée sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. ". Maintenez la touche « Maj » enfoncée pour autoriser l'invocation."
+L["summon_shown"] = "La fenêtre de confirmation lors " .. APR.Utilities.CHAT_RED .. "d'une invocation" .. FONT_COLOR_CODE_CLOSE .. " à courte portée sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["summon_announce_auto_cancel"] = "L'invocation du joueur proche %s a été automatiquement annulée." -- %s is the name of the player who tried to summon the user.
+
+-- warbank
+L["warbank_name"] = "Déposer un objet remboursable dans la Banque de bataillon"
+L["warbank_config"] = "Masquer la fenêtre de confirmation lorsque vous déposez un objet remboursable dans la Banque de bataillon"
+L["warbank_hidden"] = "La fenêtre de confirmation lors du dépôt d'un objet remboursable dans votre " .. APR.Utilities.CHAT_GREEN .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["warbank_shown"] = "La fenêtre de confirmation lors du dépôt d'un objet remboursable dans votre " .. APR.Utilities.CHAT_RED .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- module specific strings
 -- This is for the gossip module using string matching
