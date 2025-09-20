@@ -58,8 +58,8 @@ module_equip.lua
 module_equip_tradable.lua
 module_equip_refund.lua
 module_mail.lua
-module_delete.lua
 module_warbank.lua
+module_delete.lua
 
 # Vendor modules
 module_vendor.lua
