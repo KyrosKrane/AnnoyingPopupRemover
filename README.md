@@ -29,7 +29,7 @@ This add-on removes a number of annoying pop-ups.
 
 - General interface 
 	- Abandoning a quest
-	- Buying a dragonriding talent.
+	- Buying a skyriding talent.
 	- Crafting a profession work order using your own reagents or materials.
 	- Enabling the ActionCam or other experimental settings.
 	- Upgrading followers with equipment or experience (at mission tables in Warlords of Draenor, Legion, Battle for Azeroth, and Shadowlands).
