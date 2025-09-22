@@ -49,7 +49,7 @@ this.config = {
 } -- config
 
 -- Update the ordering for the next file to be loaded
-APR.NextOrdering = APR.NextOrdering + 5
+APR.NextOrdering = APR.NextOrdering + 1
 
 -- These are the status strings that are printed to indicate whether it's off or on
 this.hidden_msg = L[ThisModule .. "_hidden"]

@@ -173,6 +173,20 @@ L["followers_config"] = "在各种指挥台为追随者装备或升级物品时�
 L["followers_hidden"] = "在各种指挥台为" .. APR.Utilities.CHAT_GREEN .. "追随者" .. FONT_COLOR_CODE_CLOSE .. "装备或升级物品时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
 L["followers_shown"] = "在各种指挥台为" .. APR.Utilities.CHAT_RED .. "追随者" .. FONT_COLOR_CODE_CLOSE .. "装备或升级物品时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
 
+-- summon
+L["summon_name"] = "接收短距离召唤"
+L["summon_config"] = "隐藏附近玩家对你发起召唤时的确认弹窗。按住Shift键可允许此次召唤"
+L["summon_hidden"] = "短距离接收" .. APR.Utilities.CHAT_GREEN .. "召唤" .. FONT_COLOR_CODE_CLOSE .. "时的确认弹窗将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。按住Shift键可允许召唤。"
+L["summon_shown"] = "短距离接收" .. APR.Utilities.CHAT_RED .. "召唤" .. FONT_COLOR_CODE_CLOSE .. "时的确认弹窗将" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["summon_announce_auto_cancel"] = "附近玩家%s发起的召唤已被自动取消。"
+
+-- warbank
+L["warbank_name"] = "向公会银行存入可退还物品"
+L["warbank_config"] = "向公会银行存入可退还物品时隐藏确认弹窗"
+L["warbank_hidden"] = "向" .. APR.Utilities.CHAT_GREEN .. "公会银行" .. FONT_COLOR_CODE_CLOSE .. "存入可退还物品时的确认弹窗将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["warbank_shown"] = "向" .. APR.Utilities.CHAT_RED .. "公会银行" .. FONT_COLOR_CODE_CLOSE .. "存入可退还物品时的确认弹窗将" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+
+
 -- 模块特定字符串
 -- 这是用于使用字符串匹配的 gossip 模块
 L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- 此行（用于暗月马戏团）在暴雪的lua代码中未本地化。APR中实际未使用。
