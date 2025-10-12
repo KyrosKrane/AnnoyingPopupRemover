@@ -273,12 +273,16 @@ GossipIDList[48829] = "Shrine of the Storm Exit"
 GossipIDList[49426] = "Underrot Exit" -- both horde and alliance
 -- Motherlode, Atal'Dazar, King's Rest, Siege of Boralus (Alliance & Horde versions), and Waycrest Manor do not have a popup
 
+-- Start of Assault on Violet Hold (Legion)
+GossipIDList[45274] = "Assault on Violet Hold"
+
 -- Start of encounters in Dragonflight raids
--- @TODO: Implement after DF is no longer current
--- GossipIDList[55981] = "Vault of the Incarnates - start event for first trash clear"
+GossipIDList[55981] = "Vault of the Incarnates - start event for first trash clear"
 -- I have this note in the same file as the Vault start, but I don't know what it's referring to.
 -- 79691 bronze to start 6/15/2024
 
+-- Assorted Legion prompts discovered during Remix
+GossipIDList[44177] = "Tying Up Loose Ends" -- Val'sharah zone start quest
 
 -- Now capture the events that this module has to handle
 
