@@ -1,0 +1,30 @@
+# Adapted from Numynum's version here:
+# https://github.com/NumyAddon/TalentTreeTweaks/blob/master/.github/workflows/tocBump.yml
+
+name: Update TOC file
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Commit message'
+        required: false
+        default: 'TOC Bump'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get next version
+        uses: reecetech/version-increment@2023.9.3
+        id: version
+        with:
+          scheme: semver
+          increment: patch
+
+      - name: Log the version
+        run: echo "::notice Version is ${{ steps.version.outputs.v-version }}"
+
+
