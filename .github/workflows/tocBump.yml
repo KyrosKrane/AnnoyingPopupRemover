@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Get next version
-        uses: reecetech/version-increment
+        uses: reecetech/version-increment@2024.10.1
         id: version
         with:
           scheme: semver
