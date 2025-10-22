@@ -15,14 +15,16 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Get next version
-        uses: reecetech/version-increment@2023.9.3
+        uses: reecetech/version-increment
         id: version
         with:
           scheme: semver
           increment: patch
+          tag_prefix: v
 
       - name: Log the version
         run: echo "::notice Version is ${{ steps.version.outputs.v-version }}"
