@@ -7,8 +7,13 @@ name: Package release versions
 # other branches or even pullrequests.
 on:
   push:
+    branches: 
+      - master
     tags:
-      - '*-release*'
+      - '**'
+      - '!*-alpha*'
+      - '!*-beta*'
+
 
 # a workflow is built up as jobs, and within these jobs are steps
 jobs:
