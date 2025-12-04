@@ -11,7 +11,7 @@ on:
         default: 'Update TOC'
 
 jobs:
-  build:
+  bump-toc:
     runs-on: ubuntu-22.04
 
     steps:
@@ -37,4 +37,5 @@ jobs:
           git tag -a "${{ steps.version.outputs.v-version }}" -m "${{ steps.version.outputs.v-version }}"
           git push --tags
 
-        # in principle, pushing the tag should trigger a build.
+  package:
+    uses: ./.github/workflows/packager.yml
