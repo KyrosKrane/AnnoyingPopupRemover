@@ -7,8 +7,6 @@ name: Package release versions
 # other branches or even pullrequests.
 on:
   push:
-    branches: 
-      - master
     tags:
       - 'v[0-9]+.[0-9]+.?[0-9]*'
       - '!*-alpha*'
