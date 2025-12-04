@@ -29,7 +29,7 @@ jobs:
       - name: Log the version
         run: echo "::notice Version is ${{ steps.version.outputs.v-version }}"
 
-      - name: Create & push empty commit
+      - name: Create & push empty commit with tag
         run: |
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
@@ -37,5 +37,3 @@ jobs:
           git commit --allow-empty -m "${{ github.event.inputs.message }}"
           git push --tags
 
-  package:
-    uses: ./.github/workflows/packager.yml

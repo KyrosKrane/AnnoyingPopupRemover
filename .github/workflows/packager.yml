@@ -11,7 +11,9 @@ on:
       - 'v[0-9]+.[0-9]+.?[0-9]*'
       - '!*-alpha*'
       - '!*-beta*'
-  workflow_call:
+  workflow_run:
+    workflows: [tocBump]
+    types: [completed]
 
 # a workflow is built up as jobs, and within these jobs are steps
 jobs:
