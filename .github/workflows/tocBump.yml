@@ -33,8 +33,8 @@ jobs:
         run: |
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
-          git commit --allow-empty -m "${{ github.event.inputs.message }}"
           git tag -a "${{ steps.version.outputs.v-version }}" -m "${{ steps.version.outputs.v-version }}"
+          git commit --allow-empty -m "${{ github.event.inputs.message }}"
           git push --tags
 
   package:
