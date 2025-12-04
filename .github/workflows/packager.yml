@@ -12,7 +12,7 @@ on:
       - '!*-alpha*'
       - '!*-beta*'
   workflow_run:
-    workflows: [tocBump]
+    workflows: [Update TOC file]
     types: [completed]
 
 # a workflow is built up as jobs, and within these jobs are steps
