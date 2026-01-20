@@ -40,9 +40,9 @@ You can change your settings using the standard addon options screen, or using t
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
 ## Version Notes
-Version 25 adds the popups when depositing items into the warbank and when getting summoned at short range.
+Version 26 adds support for Midnight on retail, TBC Anniversary, and Wrath Classic.
 
-Version 24 added new localizations (languages packs for the addon).
+Version 25 adds the popups when depositing items into the warbank and when getting summoned at short range.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
