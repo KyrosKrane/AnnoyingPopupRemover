@@ -115,6 +115,13 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
+		-- Blizz is playing secret squirrel games ...
+		-- If you get summoned during combat, the summoner token may be secret.
+		if issecretvalue(Summoner) then
+			DebugPrint("in CONFIRM_SUMMON, Summoner is secret, bailing out.")
+			return
+		end
+
 		-- allow summons if the player is summoning themself.
 		if UnitIsUnit(Summoner, "player") then
 			DebugPrint("in CONFIRM_SUMMON, Player is summoning self, bailing out.")
