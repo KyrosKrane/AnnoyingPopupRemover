@@ -116,7 +116,9 @@ if not APR.IsClassic or this.WorksInClassic then
 		end
 
 		-- Blizz is playing secret squirrel games ...
-		-- If you get summoned during combat, the summoner token may be secret.
+		-- If you get summoned during combat, the summoner token may be secret on retail.
+		-- But the function to check doesn't exist on Classic instances, so we have to fake it
+		local issecretvalue = issecretvalue or function() return false end
 		if issecretvalue(Summoner) then
 			DebugPrint("in CONFIRM_SUMMON, Summoner is secret, bailing out.")
 			return
