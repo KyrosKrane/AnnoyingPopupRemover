@@ -285,6 +285,9 @@ GossipIDList[55981] = "Vault of the Incarnates - start event for first trash cle
 -- Assorted Legion prompts discovered during Remix
 GossipIDList[44177] = "Tying Up Loose Ends" -- Val'sharah zone start quest
 
+-- Darkmoon Faire confirmations
+GossipIDList[40872] = "Teleportologist Fozlebub"
+
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
