@@ -1,12 +1,10 @@
 -- Localization_frFR.lua
--- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Translations by Klep-Ysondre (Machou via Github).
--- Copyright (c) 2023 KyrosKrane Sylvanblade
+-- Written by KyrosKrane Sylvanblade (kyros@kyros.info), Translations frFR by Klep-Ysondre
+-- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
--- Addon version: @project-version@
+-- Addon version: v26.4.0
 
 -- This file sets up French localization and text strings for the addon.
-
 
 --#########################################
 --# Parameters
@@ -20,7 +18,6 @@ if "frFR" ~= APR.locale then return end
 
 -- Get a handle to the localization table for easier reading
 local L = APR.L
-
 
 --#########################################
 --# Strings
@@ -38,14 +35,15 @@ L["Startup_message"] = L["Version_message"] .. " Pour de l’aide et afficher le
 
 -- Config options
 L["startup_config"] = "Afficher un message d’accueil lors de votre connexion"
-L["status_config"] = "Afficher le résumé des paramètres dans la fenêtre de dialogue"
+L["status_config"] = "Afficher le résumé des paramètres dans la fenêtre de discussion"
 L["version_config"] = "Afficher la version d’APR et le résumé de l’aide"
+
 
 -- Config headers
 L["ItemsHeader"] = "Objets"
 L["VendoringHeader"] = "Ventes"
-L["NPCInteractionHeader"] = "Interaction avec les PNJs"
-L["GameInterfaceHeader"] = "Interface de Jeu"
+L["NPCInteractionHeader"] = "Interaction avec les PNJ"
+L["GameInterfaceHeader"] = "Interface de jeu"
 L["AddonOptionsHeader"] = L["APR"] .. " Options"
 
 
@@ -96,10 +94,10 @@ L["nonrefundable_hidden"] = "La fenêtre de confirmation lorsque vous achetez un
 L["nonrefundable_shown"]  = "La fenêtre de confirmation lorsque vous achetez un objet " .. APR.Utilities.CHAT_RED .. "non remboursable" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip
-L["equip_name"] = "Équiper un objet LqÉ"
-L["equip_config"] = "Masquer la fenêtre de confirmation lors de l'équipement d'un objet Lié quand équipé"
-L["equip_hidden"] = "La fenêtre de confirmation lors de l'" .. APR.Utilities.CHAT_GREEN .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " un objet Lié quand équipé sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
-L["equip_shown"] = "La fenêtre de confirmation lors de l'" .. APR.Utilities.CHAT_RED .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " un objet Lié quand équipé sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["equip_name"] = "Équiper un objet Lié quand équipé"
+L["equip_config"] = "Masquer la fenêtre de confirmation lors de l’équipement d’un objet Lié quand équipé"
+L["equip_hidden"] = "La fenêtre de confirmation lors de l’" .. APR.Utilities.CHAT_GREEN .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " un objet Lié quand équipé sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["equip_shown"] = "La fenêtre de confirmation lors de l’" .. APR.Utilities.CHAT_RED .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " un objet Lié quand équipé sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_tradable
 L["trade_name"] = "Équiper un objet pouvant encore être échangé"
@@ -108,7 +106,7 @@ L["trade_hidden"] = "La fenêtre de confirmation lorsque vous équipez un objet 
 L["trade_shown"] = "La fenêtre de confirmation lorsque vous équipez un objet qui a été pillé et qui peut encore être " .. APR.Utilities.CHAT_RED .. "échangé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_refund
-L["refund_name"] = "Équiper ou utilisez un objet remboursable"
+L["refund_name"] = "Équiper ou utiliser un objet remboursable"
 L["refund_config"] = "Masquer la fenêtre de confirmation lorsque vous équipez ou utilisez un objet qui peut encore être remboursé"
 L["refund_hidden"] = "La fenêtre de confirmation lorsque vous équipez ou utilisez un objet qui peut encore être " .. APR.Utilities.CHAT_GREEN .. "remboursé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["refund_shown"] = "La fenêtre de confirmation lorsque vous équipez ou utilisez un objet qui peut encore être " .. APR.Utilities.CHAT_RED .. "remboursé" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
@@ -151,9 +149,9 @@ L["dragonriding_shown"] = "La fenêtre de confirmation lorsque vous sélectionne
 
 -- workorder
 L["workorder_name"] = "Commandes nécessiants vos composants"
-L["workorder_config"] = "Masquer la fenêtre de confirmation lorsque vous réalisez une commande nécessitant certains de vos propres composants"
-L["workorder_hidden"] = "La fenêtre de confirmation lorsque vous réalisez une " .. APR.Utilities.CHAT_GREEN .. "commande" .. FONT_COLOR_CODE_CLOSE .. " nécessiant certains de vos propres composants sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
-L["workorder_shown"] = "La fenêtre de confirmation lorsque vous réalisez une " .. APR.Utilities.CHAT_RED .. "commande" .. FONT_COLOR_CODE_CLOSE .. " nécessiant certains de vos propres composants sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["workorder_config"] = "Masquer la fenêtre de confirmation lorsque vous effectuez une commande nécessitant certains de vos propres composants"
+L["workorder_hidden"] = "La fenêtre de confirmation lorsque vous effectuez une " .. APR.Utilities.CHAT_GREEN .. "commande" .. FONT_COLOR_CODE_CLOSE .. " nécessiant certains de vos propres composants sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["workorder_shown"] = "La fenêtre de confirmation lorsque vous effectuez une " .. APR.Utilities.CHAT_RED .. "commande" .. FONT_COLOR_CODE_CLOSE .. " nécessiant certains de vos propres composants sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- actioncam
 L["actioncam_name"] = "Utiliser l’ActionCam"
@@ -162,8 +160,8 @@ L["actioncam_hidden"] = "La fenêtre d’avertissement lors de l’utilisation d
 L["actioncam_shown"] = "La fenêtre d’avertissement lors de l’utilisation de l’" .. APR.Utilities.CHAT_RED .. "ActionCam" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- gossip
-L["gossip_name"] = "Conversation avec les PNJs"
-L["gossip_config"] = "Masquer la fenêtre de confirmation pour certaines discussions avec des PNJs"
+L["gossip_name"] = "Conversation avec les PNJ"
+L["gossip_config"] = "Masquer la fenêtre de confirmation pour certaines discussions avec des PNJ"
 L["gossip_hidden"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.CHAT_GREEN .. "conversation" .. FONT_COLOR_CODE_CLOSE .. " avec certains PNJ sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["gossip_shown"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.CHAT_RED .. "conversation" .. FONT_COLOR_CODE_CLOSE .. " avec certains PNJ sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
@@ -175,17 +173,17 @@ L["followers_shown"] = "La fenêtre de confirmation lorsque vous équipez ou am�
 
 -- summon
 L["summon_name"] = "Invocation à courte portée"
-L["summon_config"] = "Masquer la fenêtre de confirmation lors d'une invocation d'un joueur proche. Maintenez la touche « Maj » pour autoriser l'invocation."
-L["summon_hidden"] = "La fenêtre de confirmation lors " .. APR.Utilities.CHAT_GREEN .. "d'une invocation" .. FONT_COLOR_CODE_CLOSE .. " à courte portée sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. ". Maintenez la touche « Maj » enfoncée pour autoriser l'invocation."
-L["summon_shown"] = "La fenêtre de confirmation lors " .. APR.Utilities.CHAT_RED .. "d'une invocation" .. FONT_COLOR_CODE_CLOSE .. " à courte portée sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
-L["summon_announce_auto_cancel"] = "L'invocation du joueur proche %s a été automatiquement annulée." -- %s is the name of the player who tried to summon the user.
+L["summon_config"] = "Masquer la fenêtre de confirmation lors d’une invocation d’un joueur proche. Maintenez la touche « Maj » pour autoriser l’invocation."
+L["summon_hidden"] = "La fenêtre de confirmation lors " .. APR.Utilities.CHAT_GREEN .. "d’une invocation" .. FONT_COLOR_CODE_CLOSE .. " à courte portée sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. ". Maintenez la touche « Maj » enfoncée pour autoriser l’invocation."
+L["summon_shown"] = "La fenêtre de confirmation lors " .. APR.Utilities.CHAT_RED .. "d’une invocation" .. FONT_COLOR_CODE_CLOSE .. " à courte portée sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["summon_announce_auto_cancel"] = "L’invocation du joueur proche %s a été automatiquement annulée." -- %s is the name of the player who tried to summon the user.
 
 -- warbank
 L["warbank_name"] = "Déposer un objet remboursable dans la Banque de bataillon"
 L["warbank_config"] = "Masquer la fenêtre de confirmation lorsque vous déposez un objet remboursable dans la Banque de bataillon"
-L["warbank_hidden"] = "La fenêtre de confirmation lors du dépôt d'un objet remboursable dans votre " .. APR.Utilities.CHAT_GREEN .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
-L["warbank_shown"] = "La fenêtre de confirmation lors du dépôt d'un objet remboursable dans votre " .. APR.Utilities.CHAT_RED .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["warbank_hidden"] = "La fenêtre de confirmation lors du dépôt d’un objet remboursable dans votre " .. APR.Utilities.CHAT_GREEN .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["warbank_shown"] = "La fenêtre de confirmation lors du dépôt d’un objet remboursable dans votre " .. APR.Utilities.CHAT_RED .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- module specific strings
 -- This is for the gossip module using string matching
-L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.
+L["Darkmoon_travel"] = "Le déplacement jusqu’à la zone de rassemblement de la foire coûtera :" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.
