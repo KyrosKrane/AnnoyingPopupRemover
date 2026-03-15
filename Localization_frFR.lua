@@ -2,7 +2,7 @@
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info), Translations frFR by Klep-Ysondre
 -- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
--- Addon version: v26.4.0
+-- Addon version: @project-version@
 
 -- This file sets up French localization and text strings for the addon.
 
