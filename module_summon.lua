@@ -16,6 +16,10 @@ local ChatPrint = APR.Utilities.ChatPrint
 local MakeString = APR.Utilities.MakeString
 local L = APR.L
 
+-- Blizz is playing secret squirrel games ...
+-- But the function to check doesn't exist on Classic instances, so we have to fake it
+local issecretvalue = issecretvalue or function() return false end
+
 
 --#########################################
 --# Module settings
@@ -109,18 +113,15 @@ if not APR.IsClassic or this.WorksInClassic then
 		local Summoner = C_SummonInfo.GetSummonConfirmSummoner()
 		DebugPrint("in CONFIRM_SUMMON, Summoner is ", Summoner)
 
-		-- This should never happen, but just to be safe...
-		if not Summoner or "" == Summoner then
-			DebugPrint("in CONFIRM_SUMMON, Summoner is blank or nil, bailing out.")
+		-- If you get summoned during combat, the summoner token may be secret on retail.
+		if issecretvalue(Summoner) then
+			DebugPrint("in CONFIRM_SUMMON, Summoner is secret, bailing out.")
 			return
 		end
 
-		-- Blizz is playing secret squirrel games ...
-		-- If you get summoned during combat, the summoner token may be secret on retail.
-		-- But the function to check doesn't exist on Classic instances, so we have to fake it
-		local issecretvalue = issecretvalue or function() return false end
-		if issecretvalue(Summoner) then
-			DebugPrint("in CONFIRM_SUMMON, Summoner is secret, bailing out.")
+		-- This should never happen, but just to be safe...
+		if not Summoner or "" == Summoner then
+			DebugPrint("in CONFIRM_SUMMON, Summoner is blank or nil, bailing out.")
 			return
 		end
 
@@ -130,7 +131,14 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		if UnitInRange(Summoner) then
+		-- UnitInRange() can itself return secret values too, even if the argument isn't secret.
+		local InRange = UnitInRange(Summoner)
+		if issecretvalue(InRange) then
+			DebugPrint("in CONFIRM_SUMMON, UnitInRange returned a secret value, bailing out.")
+			return
+		end
+
+		if InRange then
 			DebugPrint("in CONFIRM_SUMMON,", Summoner, "is in range.")
 			if IsShiftKeyDown() then
 				DebugPrint("in CONFIRM_SUMMON, shift key is down, not auto cancelling.")
