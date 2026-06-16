@@ -48,9 +48,6 @@ Localization_ruRU.lua
 Localization_zhCN.lua
 Init_Post_Locale.lua
 
-# Void storage no longer exists in any live version of the game
-# module_void.lua
-
 # Item modules
 module_loot.lua
 module_roll.lua
