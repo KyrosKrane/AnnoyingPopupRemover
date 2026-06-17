@@ -1,12 +1,12 @@
-# File revision: @file-abbreviated-hash@
-# File last updated: @file-date-iso@
-
 ## Interface: @toc-version-classic@, @toc-version-bcc@, @toc-version-wrath@, @toc-version-mists@, @toc-version-retail@
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
 ## Author: KyrosKrane Sylvanblade
 ## Notes: Removes multiple annoying confirmation popups throughout the game.
 ## IconTexture: Interface\AddOns\AnnoyingPopupRemover\Media\thumbup.blp
+
+# File revision: @file-abbreviated-hash@
+# File last updated: @file-date-iso@
 
 ## SavedVariablesPerCharacter: APR_DB
 
