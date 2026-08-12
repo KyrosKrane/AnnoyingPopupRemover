@@ -90,10 +90,12 @@ local function APR_Abandon_Quest()
 	if APR.DB.HideAbandonQuest == APR.SHOW_DIALOG then return end
 
 	-- These lines adapted from Interface/FrameXML/QuestMapFrame.lua, function QuestMapQuestOptions_AbandonQuest()
+	-- Retail path: Interface\AddOns\Blizzard_UIPanels_Game\Mainline\QuestMapFrame.lua
 	StaticPopup_Hide("ABANDON_QUEST")
 	StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
 
 	-- These lines adapted from Interface/FrameXML/StaticPopup.lua, section StaticPopupDialogs["ABANDON_QUEST"]
+	-- retail path: 
 	if C_QuestLog and C_QuestLog.AbandonQuest then
 		C_QuestLog.AbandonQuest()
 	else
@@ -105,7 +107,13 @@ local function APR_Abandon_Quest()
 			HideUIPanel(QuestLogPopupDetailFrame)
 		end
 	end
-	PlaySound(SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST)
+	
+	-- Apparently on Project Ascension, they use some other method of determining sounds. So, skip this line if the sound ID doesn't exist
+	if not SOUNDKIT or not SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST then
+		DebugPrint("SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST does not exist, skipping abandon quest sound")
+	else
+		PlaySound(SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST)
+	end
 end
 
 
