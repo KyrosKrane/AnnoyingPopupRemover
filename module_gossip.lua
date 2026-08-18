@@ -327,7 +327,7 @@ if not APR.IsClassic or this.WorksInClassic then
 		local sp_text = dialog.text and dialog.text.text_arg1 or nil
 		local sp_data = dialog.data
 
-		DebugPrint(string.format("sp_data is %s, sp_text is %s", sp_data or "nil", sp_text or "nil"))
+		DebugPrint("sp_data is", sp_data, ", sp_text is", sp_text)
 
 		-- Check if the dialog ID is in the list of IDs we want to skip.
 		if sp_data and GossipIDList[sp_data] and sp_data == gossipID then
