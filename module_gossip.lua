@@ -324,25 +324,41 @@ if not APR.IsClassic or this.WorksInClassic then
 			return
 		end
 
-		local sp_text = dialog.text and dialog.text.text_arg1 or nil
-		local sp_data = dialog.data
+		local sp_data, sp_data_gossipID
+		sp_data = dialog.data
+		if "table" == type(sp_data) then
+			sp_data_gossipID = sp_data.optionID
+		else
+			sp_data_gossipID = sp_data
+		end
 
-		DebugPrint("sp_data is", sp_data, ", sp_text is", sp_text)
+		DebugPrint("sp_data is", sp_data, ", sp_data_gossipID is", sp_data_gossipID)
 
 		-- Check if the dialog ID is in the list of IDs we want to skip.
-		if sp_data and GossipIDList[sp_data] and sp_data == gossipID then
+		if sp_data_gossipID and GossipIDList[sp_data_gossipID] and sp_data_gossipID == gossipID then
 			DebugPrint(
 				string.format(
 					"Found matching popup by ID, ID %s, desc is %s",
-					sp_data,
-					GossipIDList[sp_data]
+					sp_data_gossipID,
+					GossipIDList[sp_data_gossipID]
 				)
 			)
 
-			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
+			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(sp_data)
+			return
+		end
+
+		local sp_text
+		if dialog.GetText then
+			sp_text = dialog:GetText()
+		elseif dialog.text and dialog.text.text_arg1 then
+			sp_text = dialog.text.text_arg1
+		end
+
+		DebugPrint("sp_text is", sp_text)
 
 		-- Check if the dialog has the specific text we want to auto approve
-		elseif sp_text and GossipTextList[sp_text] then
+		if sp_text and GossipTextList[sp_text] then
 			DebugPrint(
 				string.format(
 					"Found matching popup by text, text %s, desc %s",
@@ -351,15 +367,11 @@ if not APR.IsClassic or this.WorksInClassic then
 				)
 			)
 
-			if cost and cost > MAX_COPPER then
-				DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
-				return
-			end
-			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(gossipID)
-
-		else
-			DebugPrint("Auto-confirm condition not met.")
+			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(sp_data)
+			return
 		end
+
+		DebugPrint("Auto-confirm condition not met.")
 
 		-- Instead of calling OnAccept(), I could also call the direct commands.
 		-- Direct command for retail
@@ -367,7 +379,6 @@ if not APR.IsClassic or this.WorksInClassic then
 
 		-- Direct command for Classic:
 		-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
-
 
 	end -- APR.Events:GOSSIP_CONFIRM()
 end -- WoW Classic check
