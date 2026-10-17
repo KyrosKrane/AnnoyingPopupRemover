@@ -167,9 +167,9 @@ L["gossip_shown"] = "La fenêtre de confirmation lors de la " .. APR.Utilities.C
 
 -- followers
 L["followers_name"] = "Équiper ou améliorer vos sujets avec des objets"
-L["followers_config"] = "Masquer la fenêtre de confirmation lorsque vous équipez ou améliorez vos sujets avec des objets dans les différentes tables de commandement"
-L["followers_hidden"] = "La fenêtre de confirmation lorsque vous équipez ou améliorez vos " .. APR.Utilities.CHAT_GREEN .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
-L["followers_shown"] = "La fenêtre de confirmation lorsque vous équipez ou améliorez vos " .. APR.Utilities.CHAT_RED .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["followers_config"] = "Masquer la fenêtre de confirmation lors de la manipulation de vos sujets dans les différentes tables de commandement"
+L["followers_hidden"] = "La fenêtre de confirmation lors de la manipulation de vos " .. APR.Utilities.CHAT_GREEN .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["followers_shown"] = "La fenêtre de confirmation lors de la manipulation de vos " .. APR.Utilities.CHAT_RED .. "sujets" .. FONT_COLOR_CODE_CLOSE .. " dans les différentes tables de commandement sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- summon
 L["summon_name"] = "Invocation à courte portée"
