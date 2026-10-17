@@ -166,10 +166,10 @@ L["gossip_hidden"] = "Confirmation pop-up when " .. APR.Utilities.CHAT_GREEN .. 
 L["gossip_shown"] = "Confirmation pop-up when " .. APR.Utilities.CHAT_RED .. "gossip" .. FONT_COLOR_CODE_CLOSE .. "ing with some NPCS will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- followers
-L["followers_name"] = "Equip or upgrade followers with items"
-L["followers_config"] = "Hide the confirmation pop-up when using items on followers at mission tables"
-L["followers_hidden"] = "Confirmation pop-up when upgrading " .. APR.Utilities.CHAT_GREEN .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["followers_shown"] = "Confirmation pop-up when upgrading " .. APR.Utilities.CHAT_RED .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["followers_name"] = "Work with followers at mission tables"
+L["followers_config"] = "Hide the confirmation pop-up when working with followers at mission tables"
+L["followers_hidden"] = "Confirmation pop-up when working with " .. APR.Utilities.CHAT_GREEN .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["followers_shown"] = "Confirmation pop-up when working with " .. APR.Utilities.CHAT_RED .. "followers" .. FONT_COLOR_CODE_CLOSE .. " at mission tables will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- summon
 L["summon_name"] = "Receive a summon at short range"
@@ -183,12 +183,6 @@ L["warbank_name"] = "Deposit a refundable item into the warbank"
 L["warbank_config"] = "Hide the confirmation pop-up when depositing a refundable item into your warbank"
 L["warbank_hidden"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_GREEN .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["warbank_shown"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_RED .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
-
--- follower
-L["follower_name"] = "Deactivate a follower at the mission table"
-L["follower_config"] = "Hide the confirmation pop-up when deactivating a follower at a mission table."
-L["follower_hidden"] = "Confirmation pop-up when deactivating a " .. APR.Utilities.CHAT_GREEN .. "follower" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["follower_shown"] = "Confirmation pop-up when deactivating a " .. APR.Utilities.CHAT_RED .. "follower" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- module specific strings
 -- This is for the gossip module using string matching
