@@ -38,22 +38,22 @@ local function CheckPopup(SPU_Name, ...)
     if "function" == type(APR.AutoClose[SPU_Name]) then
         DebugPrint("in common CheckPopup, ", SPU_Name, " has a function evaluator")
         result = APR.AutoClose[SPU_Name](SPU_Name, ...)
-        DebugPrint("in common CheckPopup, function returned ", result)
-
     elseif "string" == type(APR.AutoClose[SPU_Name]) then
         DebugPrint("in common CheckPopup, ", SPU_Name, " has a string value of ", APR.AutoClose[SPU_Name])
         result = APR.DB[APR.AutoClose[SPU_Name]]
-        DebugPrint("in common CheckPopup, string lookup evalutes to ", result)
-
     else
         DebugPrint("in common CheckPopup, ", SPU_Name, " has a static value of ", APR.AutoClose[SPU_Name])
         result = APR.AutoClose[SPU_Name]
     end
+    DebugPrint("in common CheckPopup, result evalutes to ", result)
 
     -- Hide the popup if needed
     if result then
+        DebugPrint("in common CheckPopup, calling acceptor and hiding")
         APR.SP.Accept(SPU_Name)
         StaticPopup_Hide(SPU_Name)
+    else
+        DebugPrint("in common CheckPopup, NOT accepting and hiding")
     end
 
 end -- CheckPopup()
