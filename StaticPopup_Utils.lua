@@ -55,11 +55,12 @@ APR.SP.ForEachShownDialog = StaticPopup_ForEachShownDialog or ForEachShownDialog
 function APR.SP.Cancel(which)
 	local dialog = APR.SP.FindVisible(which)
 	if dialog then
-		dialog:Hide();
 		local OnCancel = StaticPopupDialogs[which].OnCancel;
 		if ( OnCancel ) then
 			OnCancel(dialog, dialog.data, "override");
 		end
+		-- Some game dialogs require running the cancel handler BEFORE hiding the dialog, otherwise it may fail.
+		dialog:Hide();
 	end
 end -- APR.APR.SP.Cancel()
 
@@ -69,11 +70,12 @@ end -- APR.APR.SP.Cancel()
 function APR.SP.Accept(which)
 	local dialog = APR.SP.FindVisible(which)
 	if dialog then
-		dialog:Hide();
 		local OnAccept = StaticPopupDialogs[which].OnAccept;
 		if ( OnAccept ) then
 			OnAccept(dialog, dialog.data);
 		end
+		-- Some game dialogs require running the accept handler BEFORE hiding the dialog, otherwise it may fail.
+		dialog:Hide();
 	end
 end -- APR.SP.Accept()
 
