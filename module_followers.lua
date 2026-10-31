@@ -87,38 +87,18 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- This is a list of the popups we want to handle using this module.
-local SkippedPopups = {
-	CONFIRM_FOLLOWER_UPGRADE = 1,
-	CONFIRM_FOLLOWER_ABILITY_UPGRADE = 1,
-	CONFIRM_FOLLOWER_TEMPORARY_ABILITY = 1,
-	CONFIRM_FOLLOWER_EQUIPMENT = 1,
-	DEACTIVATE_FOLLOWER = 1,
-	ACTIVATE_FOLLOWER = 1,
-	CONFIRM_RECRUIT_FOLLOWER = 1,
-} -- SkippedPopups
+-- Add the list of popups that should be auto-closed when this module is enabled.
+APR.AutoClose["CONFIRM_FOLLOWER_UPGRADE"] = this.DBName
+APR.AutoClose["CONFIRM_FOLLOWER_ABILITY_UPGRADE"] = this.DBName
+APR.AutoClose["CONFIRM_FOLLOWER_TEMPORARY_ABILITY"] = this.DBName
+APR.AutoClose["CONFIRM_FOLLOWER_EQUIPMENT"] = this.DBName
+APR.AutoClose["ACTIVATE_FOLLOWER"] = this.DBName
+APR.AutoClose["DEACTIVATE_FOLLOWER"] = this.DBName
+APR.AutoClose["CONFIRM_RECRUIT_FOLLOWER"] = this.DBName
 
 
--- This function is called whenever a static popup is shown, and determines whether to auto accept it.
-local function CheckPopup(SPU_Name, ...)
-	DebugPrint("in followers CheckPopup, SPU_Name is", MakeString(SPU_Name))
-
-	if not SkippedPopups[SPU_Name] then return end
-	if APR.DB.HideFollowers ~= APR.HIDE_DIALOG then
-		DebugPrint("in followers CheckPopup, HideFollowers is off, not auto hiding")
-		return
-	end
-
-	DebugPrint("in followers CheckPopup, auto confirming")
-	APR.SP.Accept(SPU_Name)
-	StaticPopup_Hide(SPU_Name)
-end -- CheckPopup()
-
-
--- Hooks the static popup function so we can check whether we want to suppress that popup.
+-- Handle garrison related stuff after the Garrision UI has loaded.
 local function LoadWithGarrison()
-	hooksecurefunc("StaticPopup_Show", CheckPopup)
-
 	-- There's a restriction in Blizzard's code for the static popup handler that causes a lua error if you pick up a piece of follower equipment and try to drop it directly onto the equipment slot.
 	-- Specifically, C_Garrison.CastItemSpellOnFollowerAbility() is forbidden to addons. It's the handler that's called if you pick up an item and drop it on the equipment slot directly.
 	-- Instead, you have to right click the item and THEN click the spell targeting cursor on the equipment slot.
@@ -127,12 +107,13 @@ local function LoadWithGarrison()
 	-- The code here is adapted from (as of the time of this writing) Blizzard_GarrisonTemplates\Blizzard_GarrisonSharedTemplates.lua in the definition of StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].
 	StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].OnAccept = function(self)
 		if (self.data.source == "spell") then
-			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Auto approving follower spell.")
+			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Approving follower spell.")
 			C_Garrison.CastSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
 		elseif (self.data.source == "item") then
 			-- In the default UI, if you pick up an item and click it on a follower, this branch is executed. But this function throws an error if called from an addon.
 			-- So, don't call it. :)
 			DebugPrint("in CONFIRM_FOLLOWER_EQUIPMENT OnAccept, Follower item use detected and blocked.")
+			--DebugPrint("Test command: /run C_Garrison.CastItemSpellOnFollowerAbility(\"" .. self.data.followerID .. "\", ", self.data.abilityID, ")")
 			-- C_Garrison.CastItemSpellOnFollowerAbility(self.data.followerID, self.data.abilityID);
 		end
 	end -- StaticPopupDialogs["CONFIRM_FOLLOWER_EQUIPMENT"].OnAccept()
