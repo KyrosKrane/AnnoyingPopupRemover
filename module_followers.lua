@@ -6,6 +6,8 @@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
+-- This module removes many popups related to working with followers
+
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
 
@@ -91,21 +93,25 @@ local SkippedPopups = {
 	CONFIRM_FOLLOWER_ABILITY_UPGRADE = 1,
 	CONFIRM_FOLLOWER_TEMPORARY_ABILITY = 1,
 	CONFIRM_FOLLOWER_EQUIPMENT = 1,
+	DEACTIVATE_FOLLOWER = 1,
+	ACTIVATE_FOLLOWER = 1,
+	CONFIRM_RECRUIT_FOLLOWER = 1,
 } -- SkippedPopups
 
 
 -- This function is called whenever a static popup is shown, and determines whether to auto accept it.
-local function CheckPopup(upgradeType)
-	DebugPrint("in followers CheckPopup, upgradeType is " .. MakeString(upgradeType))
+local function CheckPopup(SPU_Name, ...)
+	DebugPrint("in followers CheckPopup, SPU_Name is", MakeString(SPU_Name))
 
-	if not SkippedPopups[upgradeType] then return end
+	if not SkippedPopups[SPU_Name] then return end
 	if APR.DB.HideFollowers ~= APR.HIDE_DIALOG then
-		DebugPrint("in followers CheckPopup, HideFollowers is off")
+		DebugPrint("in followers CheckPopup, HideFollowers is off, not auto hiding")
 		return
 	end
 
 	DebugPrint("in followers CheckPopup, auto confirming")
-	APR.SP.Accept(upgradeType)
+	APR.SP.Accept(SPU_Name)
+	StaticPopup_Hide(SPU_Name)
 end -- CheckPopup()
 
 
