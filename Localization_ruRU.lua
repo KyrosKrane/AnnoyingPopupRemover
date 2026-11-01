@@ -172,6 +172,3 @@ L["followers_name"] = "Экипировка или улучшение спутн
 L["followers_config"] = "Скрывать всплывающее окно подтверждения при использовании предметов для спутников за столом заданий"
 L["followers_hidden"] = "Всплывающее окно подтверждения при улучшении " .. APR.Utilities.CHAT_GREEN .. "спутников" .. FONT_COLOR_CODE_CLOSE .. " за столом заданий будет " .. APR.Utilities.CHAT_GREEN .. "скрыто" .. FONT_COLOR_CODE_CLOSE .. "."
 L["followers_shown"] = "Всплывающее окно подтверждения при улучшении " .. APR.Utilities.CHAT_RED .. "спутников" .. FONT_COLOR_CODE_CLOSE .. " за столом заданий будет " .. APR.Utilities.CHAT_RED .. "показано" .. FONT_COLOR_CODE_CLOSE .. "."
-
--- module specific strings
-L["Darkmoon_travel"] = "Поездка в зону подготовки ярмарки будет стоить:"
