@@ -80,13 +80,12 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- Use the common handler capture and hide the popups
-APR.AutoClose["EQUIP_BIND_REFUNDABLE"] = this.DBName
-
-
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
+
+	-- Use the common handler capture and hide the popups
+	APR.AutoClose["EQUIP_BIND_REFUNDABLE"] = this.DBName
 
 
 	-- Using a cosmetic vendor-refundable item triggers this event.

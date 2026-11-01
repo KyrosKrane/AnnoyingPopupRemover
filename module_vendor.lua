@@ -77,8 +77,8 @@ end -- HidePopup()
 
 
 -- Vendoring an item that was group-looted and is still tradable in the group triggers this.
-function ValidateTradeRefundable()
-	DebugPrint("In ValidateTradeRefundable()")
+function ValidateVendoringTradable()
+	DebugPrint("In ValidateVendoringTradable()")
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideVendor then
 		DebugPrint("HideVendor off, not auto confirming")
@@ -93,5 +93,5 @@ end
 
 if not APR.IsClassic or this.WorksInClassic then
 	-- Add the list of popups that should be auto-closed when this module is enabled.
-	APR.AutoClose["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = ValidateLootRoll
+	APR.AutoClose["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = ValidateVendoringTradable
 end -- WoW Classic check

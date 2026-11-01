@@ -86,5 +86,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
-
-APR.AutoClose["ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM"] = this.DBName
+if not APR.IsClassic or this.WorksInClassic then
+	-- Use the common handler capture and hide the popup
+	APR.AutoClose["ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM"] = this.DBName
+end -- WoW Classic check
