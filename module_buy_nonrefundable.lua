@@ -62,14 +62,8 @@ this.WorksInClassic = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-
-	if APR.DB.HideBuyNonrefundable then
-		-- Mark that the dialog is shown.
-		APR.DB.HideBuyNonrefundable = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Mark that the dialog is shown.
+	APR.DB.HideBuyNonrefundable = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -77,37 +71,10 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
-
-	if not APR.DB.HideBuyNonrefundable or ForceHide then
-		-- Mark that the dialog is hidden.
-		APR.DB.HideBuyNonrefundable = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
-	if printconfirm then APR:PrintStatus(ThisModule) end
+	-- Mark that the dialog is hidden.
+	APR.DB.HideBuyNonrefundable = APR.HIDE_DIALOG
 end -- HidePopup()
 
 
--- This function force-buys an item pending in the merchant window if the option is enabled.
-local function ForceBuyNonrefundableItem(SPU_Name,  text_arg1, text_arg2, data, insertedFrame, customOnHideScript)
-	DebugPrint("in ForceBuyNonrefundableItem, SPU_Name is " .. SPU_Name)
-	if APR.DB.HideBuyNonrefundable and SPU_Name == "CONFIRM_PURCHASE_NONREFUNDABLE_ITEM" then
-		DebugPrint("in ForceBuyNonrefundableItem, auto buying item")
-		BuyMerchantItem(MerchantFrame.itemIndex, MerchantFrame.count)
-		StaticPopup_Hide(SPU_Name, data)
-	else
-	   	DebugPrint("in ForceBuyNonrefundableItem, NOT auto buying item")
-	end
-end
-
-
--- Now hook the purchase function.
-if not APR.IsClassic or this.WorksInClassic then
-	-- This function executes before the addon has fully loaded. Use it to initialize any settings this module needs.
-	this.PreloadFunc = function()
-		-- Hook the function called when you try to buy an item with an alternate currency.
-		-- This Blizz function calls the static dialog with the confirm option.
-		hooksecurefunc("StaticPopup_Show", ForceBuyNonrefundableItem)
-	end
-end -- WoW Classic check
+-- Use the common handler capture and hide the popups
+APR.AutoClose["CONFIRM_PURCHASE_NONREFUNDABLE_ITEM"] = this.DBName

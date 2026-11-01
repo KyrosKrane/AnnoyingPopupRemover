@@ -13,7 +13,6 @@ local addonName, APR = ...
 
 -- Upvalues for readability
 local DebugPrint = APR.Utilities.DebugPrint
-local ChatPrint = APR.Utilities.ChatPrint
 local MakeString = APR.Utilities.MakeString
 local L = APR.L
 
@@ -66,84 +65,21 @@ this.DisableInCombat = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-
-	if APR.DB.HideEquip then
-
-		-- Mark that the dialog is shown.
-		APR.DB.HideEquip = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Mark that the dialog is shown.
+	APR.DB.HideEquip = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
-	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
-
-	if not APR.DB.HideEquip or ForceHide then
-		-- Mark that the dialog is hidden.
-		APR.DB.HideEquip = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
+	APR.DB.HideEquip = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
-
-
--- Now capture the events that this module has to handle
-
 if not APR.IsClassic or this.WorksInClassic then
-	-- Equipping a BoE item triggers this event.
-	-- This event exists in both classic and retail
-	function APR.Events:EQUIP_BIND_CONFIRM(slot, itemLocation, ...)
-
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:EQUIP_BIND_CONFIRM")
-			DebugPrint("Slot is " .. slot)
-			DebugPrint("itemLocation (type ItemLocationMixin) is " .. (itemLocation and "not nil" or "nil"))
-			APR.Utilities.PrintVarArgs(...)
-		end -- if APR.DebugMode
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideEquip then
-			DebugPrint("HideEquip off, not auto confirming")
-			return
-		end
-
-		-- Note that while EquipPendingItem() still takes a slot, the dialog's OnAccept handler now expects a data table, similar to the other equip modules.
-		-- If I ever revise this, I also need to create a data table and pass it in.
-
-		if slot then
-			DebugPrint("Slot is valid.")
-			EquipPendingItem(slot)
-		end
-		-- Note that EquipPendingItem() automatically hides the static popup. This command is just a failsafe.
-		APR.SP.Hide("EQUIP_BIND")
-	end -- APR.Events:EQUIP_BIND_CONFIRM()
+	-- Use the common handler capture and hide the popups
+	APR.AutoClose["EQUIP_BIND"] = this.DBName
+	APR.AutoClose["CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM"] = this.DBName
 end -- WoW Classic check
-
-
-if not APR.IsClassic then
-	-- Trying to equip a BoE item your class cannot normally use triggers this event.
-	-- This event exists only in retail
-	function APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM()
-		DebugPrint("In APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM")
-		-- This event should not have any args as per the documentation
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideEquip then
-			DebugPrint("HideEquip off, not auto confirming")
-			return
-		end
-
-		DebugPrint("Converting to BOA.")
-		ConvertItemToBindToAccount()
-
-		APR.SP.Hide("CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM")
-	end -- APR.Events:CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM()
-end -- if not classic

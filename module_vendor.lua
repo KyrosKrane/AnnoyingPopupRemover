@@ -61,14 +61,8 @@ this.WorksInClassic = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-
-	if APR.DB.HideVendor then
-		-- Mark that the dialog is shown.
-		APR.DB.HideVendor = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Mark that the dialog is shown.
+	APR.DB.HideVendor = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -76,40 +70,28 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-
-	if not APR.DB.HideVendor or ForceHide then
-		-- Mark that the dialog is hidden.
-		APR.DB.HideVendor = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	-- Mark that the dialog is hidden.
+	APR.DB.HideVendor = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
+-- Vendoring an item that was group-looted and is still tradable in the group triggers this.
+function ValidateTradeRefundable()
+	DebugPrint("In ValidateTradeRefundable()")
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideVendor then
+		DebugPrint("HideVendor off, not auto confirming")
+		return false
+	end
+
+	DebugPrint("HideVendor on, auto confirming next frame")
+	return true, true
+end
+
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
--- Vendoring an item that was group-looted and is still tradable in the group triggers this.
-	function APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL(...)
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL")
-			APR.Utilities.PrintVarArgs(...)
-
-			-- Document the incoming parameters.
-			-- local item = ... -- this is an item link.
-			-- DebugPrint("item is " .. item)
-		end -- if APR.DebugMode
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideVendor then
-			DebugPrint("HideVendor off, not auto confirming")
-			return
-		end
-
-		-- Sell the item.
-		SellCursorItem()
-		RunNextFrame(function() StaticPopup_Hide("CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL") end)
-	end -- APR.Events:MERCHANT_CONFIRM_TRADE_TIMER_REMOVAL()
+	-- Add the list of popups that should be auto-closed when this module is enabled.
+	APR.AutoClose["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"] = ValidateLootRoll
 end -- WoW Classic check

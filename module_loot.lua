@@ -60,62 +60,32 @@ this.WorksInClassic = true
 
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-	if APR.DB.HideBind then
-
-		-- Mark that the dialog is shown.
-		APR.DB.HideBind = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Mark that the dialog is shown.
+	APR.DB.HideBind = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-	if not APR.DB.HideBind or ForceHide then
-
-		-- Mark that the dialog is hidden.
-		APR.DB.HideBind = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	-- Mark that the dialog is hidden.
+	APR.DB.HideBind = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
+local function ValidateLootBindDialog()
+	if not APR.DB.HideBind then
+		DebugPrint("HideBind off, not auto confirming")
+		return false
+	end
+
+	DebugPrint("HideBind on, auto confirming next frame")
+	return true, true
+end
+
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
-
-	-- Looting a BOP item triggers this event.
-	function APR.Events:LOOT_BIND_CONFIRM(lootSlot)
-		DebugPrint("In APR.Events:LOOT_BIND_CONFIRM")
-
-		if not lootSlot then
-			DebugPrint("lootSlot is nil, skipping")
-			return
-		end
-
-		DebugPrint("lootSlot is ", lootSlot)
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideBind then
-			DebugPrint("HideBind off, not auto confirming")
-			return
-		end
-
-		-- Check if a dialog is shown, and if so, hide it, then call the accept function
-		if APR.SP.Hide("LOOT_BIND", lootSlot) then
-			-- note that Hide_StaticPopup returns the ID of the matching popup, or nil. We don't care about the specific ID, just that it's not nil.
-
-			-- call the approval function and hide the popup
-			RunNextFrame(function() StaticPopupDialogs["LOOT_BIND"]:OnAccept(lootSlot) end)
-			-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
-		end
-
-	end -- APR.Events:LOOT_BIND_CONFIRM()
-
+	APR.AutoClose["LOOT_BIND"] = ValidateLootBindDialog
 end -- WoW Classic check

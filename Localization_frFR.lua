@@ -183,7 +183,3 @@ L["warbank_name"] = "Déposer un objet remboursable dans la Banque de bataillon"
 L["warbank_config"] = "Masquer la fenêtre de confirmation lorsque vous déposez un objet remboursable dans la Banque de bataillon"
 L["warbank_hidden"] = "La fenêtre de confirmation lors du dépôt d’un objet remboursable dans votre " .. APR.Utilities.CHAT_GREEN .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["warbank_shown"] = "La fenêtre de confirmation lors du dépôt d’un objet remboursable dans votre " .. APR.Utilities.CHAT_RED .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
-
--- module specific strings
--- This is for the gossip module using string matching
-L["Darkmoon_travel"] = "Le déplacement jusqu’à la zone de rassemblement de la foire coûtera :" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.

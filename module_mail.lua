@@ -61,13 +61,8 @@ this.WorksInClassic = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm, printconfirm is " .. MakeString(printconfirm))
-	if APR.DB.HideMail then
-		-- Mark that the dialog is shown.
-		APR.DB.HideMail = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Mark that the dialog is shown.
+	APR.DB.HideMail = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -75,40 +70,24 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-	if not APR.DB.HideMail or ForceHide then
-		-- Mark that the dialog is hidden.
-		APR.DB.HideMail = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	-- Mark that the dialog is hidden.
+	APR.DB.HideMail = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
+local function ValidateMailDialog()
+	if not APR.DB.HideMail then
+		DebugPrint("HideMail off, not auto confirming")
+		return false
+	end
+
+	DebugPrint("HideMail on, auto confirming next frame")
+	return true, true
+
+end
 
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
-	function APR.Events:MAIL_LOCK_SEND_ITEMS(...)
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:MAIL_LOCK_SEND_ITEMS")
-			APR.Utilities.PrintVarArgs(...)
-		end -- if APR.DebugMode
-
-		-- Document the incoming parameters.
-		local mailSlot, itemLink = ...
-		DebugPrint("mailSlot is " .. mailSlot .. ", itemLink is " .. itemLink)
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideMail then
-			DebugPrint("HideMail off, not auto confirming")
-			return
-		end
-
-		-- Confirm the mail.
-		RespondMailLockSendItem(mailSlot, true)
-
-		-- Hide the popup that's showing
-		RunNextFrame(function() StaticPopup_Hide("CONFIRM_MAIL_ITEM_UNREFUNDABLE") end)
-	end -- APR.Events:MAIL_LOCK_SEND_ITEMS()
+	APR.AutoClose["CONFIRM_MAIL_ITEM_UNREFUNDABLE"] = ValidateMailDialog
 end -- WoW Classic check

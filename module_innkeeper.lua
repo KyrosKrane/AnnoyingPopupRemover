@@ -61,13 +61,8 @@ this.WorksInClassic = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-	if APR.DB.HideInnkeeper then
-		-- Mark that the dialog is shown.
-		APR.DB.HideInnkeeper = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Mark that the dialog is shown.
+	APR.DB.HideInnkeeper = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -75,56 +70,30 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
-	if not APR.DB.HideInnkeeper or ForceHide then
-		-- Mark that the dialog is hidden.
-		APR.DB.HideInnkeeper = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	-- Mark that the dialog is hidden.
+	APR.DB.HideInnkeeper = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
--- We have to defer the actual binding on retail by a frame. So, this function does the actual bind.
-local function ConfirmBind_PIM()
-	DebugPrint("In ConfirmBind_PIM(), Executing with Interaction Manager command")
-	C_PlayerInteractionManager.ConfirmationInteraction(Enum.PlayerInteractionType.Binder)
-	C_PlayerInteractionManager.ClearInteraction(Enum.PlayerInteractionType.Binder)
+local function ValidateAndHideInnkeeperDialog()
+	if not APR.DB.HideInnkeeper then
+		DebugPrint("HideInnkeeper off, not auto confirming")
+		return false
+	end
+
+	-- Note that we have to defer the approval to the next frame on game versions that have the Player Interaction Manager.
+	if C_PlayerInteractionManager and C_PlayerInteractionManager.ConfirmationInteraction then
+		DebugPrint("HideInnkeeper on, auto confirming next frame")
+		return true, true
+	else
+		DebugPrint("HideInnkeeper on, auto confirming immediately")
+		return true, false
+	end
 end
 
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
-	-- Requesting a bind at an innkeeper triggers this event.
-	function APR.Events:CONFIRM_BINDER(...)
-		if APR.DebugMode then
-			DebugPrint("In APR.Events:CONFIRM_BINDER")
-			APR.Utilities.PrintVarArgs(...)
-
-			-- Document the parameters
-			local InnName = ...
-			DebugPrint("InnName is " .. InnName)
-		end -- if APR.DebugMode
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideInnkeeper then
-			DebugPrint("HideInnkeeper off, not auto confirming")
-			return
-		end
-
-		DebugPrint("Auto confirming Innkeeper bind request")
-		if C_PlayerInteractionManager and C_PlayerInteractionManager.ConfirmationInteraction then
-			-- If we try to confirm right away, it will silently fail. The confirmation doesn't work the same frame. 
-			-- So, we defer the confirmation to the next frame.
-			-- Thanks to Meorawr for the suggestion!
-			DebugPrint("Deferring execution one frame")
-			RunNextFrame(function() ConfirmBind_PIM() StaticPopup_Hide("CONFIRM_BINDER") end)
-		else
-			DebugPrint("Executing with pre-DF command")
-			ConfirmBinder()
-			StaticPopup_Hide("CONFIRM_BINDER")
-		end
-
-	end -- APR.Events:CONFIRM_BINDER()
+	APR.AutoClose["CONFIRM_BINDER"] = ValidateAndHideInnkeeperDialog
 end -- WoW Classic check

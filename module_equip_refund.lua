@@ -65,14 +65,8 @@ this.DisableInCombat = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-
-	if APR.DB.HideRefund then
-		-- Re-enable the dialog that pops to confirm equipping BoE gear yourself.
-		APR.DB.HideRefund = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Re-enable the dialog that pops to confirm equipping BoE gear yourself.
+	APR.DB.HideRefund = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -80,60 +74,19 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
-
-	if not APR.DB.HideRefund or ForceHide then
-		-- Disable the dialog that pops to confirm equipping BoE gear yourself.
-		APR.DB.HideRefund = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	-- Disable the dialog that pops to confirm equipping BoE gear yourself.
+	APR.DB.HideRefund = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
+
+
+-- Use the common handler capture and hide the popups
+APR.AutoClose["EQUIP_BIND_REFUNDABLE"] = this.DBName
 
 
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
-	-- Equipping a vendor-refundable item triggers this event.
-	function APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM(slot, itemLocation)
-
-		DebugPrint("In APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM")
-		DebugPrint("Slot is ", slot)
-		DebugPrint("itemLocation is ", itemLocation and "not nil" or "nil")
-
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideRefund then
-			DebugPrint("HideRefund off, not auto confirming")
-			return
-		end
-
-		if not slot then
-			DebugPrint("Slot is invalid.")
-			return
-		end
-
-
-		-- Note that if we hide the dialog, the OnHide function is called, which cancels the pending equip request. 
-		-- So, we have to accept first, then hide.
-		-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. 
-		-- The StaticPopup_OnClick function actually references the static version.
-
-		if APR.IsClassic then
-			StaticPopupDialogs["EQUIP_BIND_REFUNDABLE"]:OnAccept(slot)
-		else
-			-- in 11.0.0, Blizz changed the functions in this static dialog to expect a data table with a slot element, not just the slot number.
-			local data = {
-				slot = slot,
-				itemLocation = itemLocation
-			}
-			StaticPopupDialogs["EQUIP_BIND_REFUNDABLE"]:OnAccept(data)
-		end
-
-		APR.SP.Hide("EQUIP_BIND_REFUNDABLE")
-
-	end -- APR.Events:EQUIP_BIND_REFUNDABLE_CONFIRM()
 
 
 	-- Using a cosmetic vendor-refundable item triggers this event.

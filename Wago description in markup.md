@@ -39,19 +39,21 @@ You can change your settings using the standard addon options screen, or using t
 ## Configuration
 The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
 
-## Version Notes
-Version 26 adds support for Midnight on retail, TBC Anniversary, and Wrath Classic.
+## Version notes
+Version 27 makes significant back-end changes that will allow adding new pop-ups in the future more easily, but doesn't add handling for any new pop-ups.
 
-Version 25 adds the popups when depositing items into the warbank and when getting summoned at short range.
+Version 26 adds support for Midnight on retail, TBC Anniversary, and Wrath Classic.
 
 So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
-## Known errors
+## Reporting errors and known issues
+**Version 27 is the last version to be actively tested on any Classic version.** I don't have a toon high enough to test thoroughly all the different Classic types. Future APR versions will only be tested in Classic if there is a specific issue reported and I can work with the reporter.
+
+If you find any errors, please report them! Either contact me through [Discord](https://discord.gg/YRBDrxQ) or [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github.
+
 I tried to include the most common stable masters and pet battles, but I might have missed some. If you see a popup asking you to confirm healing your pets at a stable master or to confirm starting a pet battle, please report it in [my Discord server](https://discord.gg/YRBDrxQ). I'll need to know your player faction (Horde/Alliance) and the name of the pet tamer or stable master you got the popup from.
 
 I've had reports that the addon can interfere with picking up bind-on-pickup items on Classic Era and MOP Classic servers. Reported examples are fishing up Old Ironjaw or Old Crafty. I've never been able to reproduce this properly, so I don't know what the root cause is or how to fix it. If you are trying for those fish, I suggest disabling the options for looting bind-on-pickup items.
-
-I don't have a toon high enough to test thoroughly on WoW Classic, so if you find any errors, please [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github.
 
 ## Future update plans
 Let me know what you'd like to see in future versions by [visiting my Discord server](https://discord.gg/YRBDrxQ)!

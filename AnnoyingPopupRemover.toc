@@ -42,6 +42,7 @@ Libs\AddonUtilities\Utilities.lua
 # In this add-on
 Init.lua
 StaticPopup_Utils.lua
+Common_Hide_Popup.lua
 Localization.lua
 Localization_frFR.lua
 Localization_ruRU.lua

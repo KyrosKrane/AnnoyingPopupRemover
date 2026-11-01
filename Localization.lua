@@ -184,9 +184,6 @@ L["warbank_config"] = "Hide the confirmation pop-up when depositing a refundable
 L["warbank_hidden"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_GREEN .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["warbank_shown"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_RED .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
--- module specific strings
--- This is for the gossip module using string matching
-L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- This line (for the DMF) is not localized in Blizzard's lua code. Not actually used in APR.
 
 -- For testing purposes, I need to know if any strings are not translated.
 -- So, add a prefix if we're not in English and a string isn't translated.

@@ -1,6 +1,6 @@
 -- module_gossip.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2023-2025 KyrosKrane Sylvanblade
+-- Copyright (c) 2023-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -56,41 +56,33 @@ this.hidden_msg = L[ThisModule .. "_hidden"]
 this.shown_msg = L[ThisModule .. "_shown"]
 
 -- This Boolean tells us whether this module works in Classic.
-this.WorksInClassic = false
--- Although the Darkmoon Faire exists in classic, the teleport NPC does not.
--- Pet battles and suffusion camps also don't exist in Classic.
--- If I ever implement a gossip popup that exists in Classic, I'll have to review the code below.
+this.WorksInClassic = true
+-- Given how this module works, it should be safe to enable it in Classic.
+-- It may or may not catch all the same things that exist in retail.
+-- But the format for catching and hiding the dialog works transparently in both.
 
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 this.DisableInCombat = false
 -- I was never able to trigger an error using these during combat. I'm assuming it's fine.
 
--- Since the gossip StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
+-- Since the GOSSIP_CONFIRM StaticPopup is shared among many chats, most of which we don't handle, we can't just nuke the entire popup.
 -- Instead, we just instantly confirm when it pops up for our selected events.
 
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-
 	-- Mark that the dialog is shown.
 	APR.DB.HideGossip = APR.SHOW_DIALOG
-
-	if printconfirm then
-		APR:PrintStatus(ThisModule)
-	end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm) .. ", ForceHide is " .. MakeString(ForceHide))
-
 	-- Mark that the dialog is hidden.
 	APR.DB.HideGossip = APR.HIDE_DIALOG
-
-	if printconfirm then
-		APR:PrintStatus(ThisModule)
-	end
+	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
@@ -98,17 +90,7 @@ end -- HidePopup()
 -- This is the max amount (in copper pieces) to auto confirm.
 local MAX_COPPER = 50000 -- 5g
 
--- List the gossip text strings that should be auto confirmed.
--- format: GossipTextList["Blizzard text"] = "Name for use in APR"
-local GossipTextList = {}
--- Before I realized I could use the IDs to identify specific gossips, I tried using the text of the popup dialog.
--- It works, but it's unreliable due to localization.
--- So, while the code and infrastructure for it are still here, it shouldn't be used.
--- Use the gossipID instead.
--- Example:
--- GossipTextList[L["Darkmoon_travel"]] = "Darkmoon_travel"
-
--- Similarly track gossips by ID that should be auto confirmed.
+-- Track gossips by ID that should be auto confirmed.
 -- format: GossipIDList[gossipID] = "Name for use in APR"
 local GossipIDList = {}
 
@@ -290,95 +272,47 @@ GossipIDList[40872] = "Teleportologist Fozlebub"
 
 -- Now capture the events that this module has to handle
 
+local function ValidateAndHideGossipDialog(SPU_NAME, text_arg1, text_arg2, data, ...)
+	DebugPrint("In ValidateAndHideGossipDialog()")
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideGossip then
+		DebugPrint("HideGossip off, not auto confirming")
+		return false
+	end
+
+	local gossipID, cost = data.optionID, data.cost
+
+	-- If the gossipID is nil or blank, then it's not a dialog we care about
+	if not gossipID or "" == gossipID then
+		DebugPrint("GossipID is nil or blank, not auto confirming")
+		return false
+	end
+
+	DebugPrint("gossipID is ", gossipID)
+	DebugPrint("cost is ", cost)
+
+	-- If it's not a specific gossip ID we care about, don't confirm.
+	if not GossipIDList[gossipID] then
+		DebugPrint("gossipID is not in hide list, not auto confirming")
+		return false
+	end
+
+	-- Check if it's too expensive to auto confirm
+	if cost and cost > MAX_COPPER then
+		DebugPrint(string.format("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER))
+		return false
+	end
+
+	-- This section used to have some long, complex code about finding the right dialog, on the assumption that there could be more than one gossip dialog open at the same time.
+	-- It doesn't seem to be needed. Even Blizz's code seems to assume there's only one gossip dialog open at any given time.
+
+	DebugPrint("Found matching gossipID in hide list and cost is reasonable, confirming")
+	return true
+end
+
 if not APR.IsClassic or this.WorksInClassic then
-	function APR.Events:GOSSIP_CONFIRM(gossipID, text, cost)
-		DebugPrint("In APR.Events:GOSSIP_CONFIRM")
-
-		-- If the gossipID is nil or blank, then it's not a dialog we care about
-		if not gossipID or "" == gossipID then
-			DebugPrint("GossipID is nil or blank, not auto confirming")
-			return
-		end
-
-		DebugPrint("gossipID is ", gossipID)
-		DebugPrint("text is ", text)
-		DebugPrint("cost is ", cost)
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideGossip then
-			DebugPrint("HideGossip off, not auto confirming")
-			return
-		end
-
-		-- Exit early if it's too expensive to auto confirm
-		if cost and cost > MAX_COPPER then
-			DebugPrint("Cost %s exceeds max amount of %s. Not auto confirming.", cost, MAX_COPPER)
-			return
-		end
-
-		-- Find the dialog we need to close
-		local dialog = APR.SP.FindVisible("GOSSIP_CONFIRM")
-
-		if not dialog then
-			DebugPrint("Did not find matching popup")
-			return
-		end
-
-		local sp_data, sp_data_gossipID
-		sp_data = dialog.data
-		if "table" == type(sp_data) then
-			sp_data_gossipID = sp_data.optionID
-		else
-			sp_data_gossipID = sp_data
-		end
-
-		DebugPrint("sp_data is", sp_data, ", sp_data_gossipID is", sp_data_gossipID)
-
-		-- Check if the dialog ID is in the list of IDs we want to skip.
-		if sp_data_gossipID and GossipIDList[sp_data_gossipID] and sp_data_gossipID == gossipID then
-			DebugPrint(
-				string.format(
-					"Found matching popup by ID, ID %s, desc is %s",
-					sp_data_gossipID,
-					GossipIDList[sp_data_gossipID]
-				)
-			)
-
-			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(sp_data)
-			return
-		end
-
-		local sp_text
-		if dialog.GetText then
-			sp_text = dialog:GetText()
-		elseif dialog.text and dialog.text.text_arg1 then
-			sp_text = dialog.text.text_arg1
-		end
-
-		DebugPrint("sp_text is", sp_text)
-
-		-- Check if the dialog has the specific text we want to auto approve
-		if sp_text and GossipTextList[sp_text] then
-			DebugPrint(
-				string.format(
-					"Found matching popup by text, text %s, desc %s",
-					sp_text,
-					GossipTextList[sp_text]
-				)
-			)
-
-			StaticPopupDialogs["GOSSIP_CONFIRM"]:OnAccept(sp_data)
-			return
-		end
-
-		DebugPrint("Auto-confirm condition not met.")
-
-		-- Instead of calling OnAccept(), I could also call the direct commands.
-		-- Direct command for retail
-		-- C_GossipInfo.SelectOption(gossipID, "", true)
-
-		-- Direct command for Classic:
-		-- SelectGossipOption(data, "", true) -- need to figure out if data is just the gossipID again.
-
-	end -- APR.Events:GOSSIP_CONFIRM()
+	APR.AutoClose["GOSSIP_CONFIRM"] = ValidateAndHideGossipDialog
 end -- WoW Classic check
+
+

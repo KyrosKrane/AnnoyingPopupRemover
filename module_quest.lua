@@ -95,10 +95,11 @@ local function APR_Abandon_Quest()
 	StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
 
 	-- These lines adapted from Interface/FrameXML/StaticPopup.lua, section StaticPopupDialogs["ABANDON_QUEST"]
-	-- retail path: 
 	if C_QuestLog and C_QuestLog.AbandonQuest then
+		-- retail path: 
 		C_QuestLog.AbandonQuest()
 	else
+		-- classic path:
 		AbandonQuest()
 	end
 
@@ -107,7 +108,7 @@ local function APR_Abandon_Quest()
 			HideUIPanel(QuestLogPopupDetailFrame)
 		end
 	end
-	
+
 	-- Apparently on Project Ascension, they use some other method of determining sounds. So, skip this line if the sound ID doesn't exist
 	if not SOUNDKIT or not SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST then
 		DebugPrint("SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST does not exist, skipping abandon quest sound")

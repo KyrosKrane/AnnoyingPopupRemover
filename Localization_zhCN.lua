@@ -185,8 +185,3 @@ L["warbank_name"] = "向公会银行存入可退还物品"
 L["warbank_config"] = "向公会银行存入可退还物品时隐藏确认弹窗"
 L["warbank_hidden"] = "向" .. APR.Utilities.CHAT_GREEN .. "公会银行" .. FONT_COLOR_CODE_CLOSE .. "存入可退还物品时的确认弹窗将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
 L["warbank_shown"] = "向" .. APR.Utilities.CHAT_RED .. "公会银行" .. FONT_COLOR_CODE_CLOSE .. "存入可退还物品时的确认弹窗将" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
-
-
--- 模块特定字符串
--- 这是用于使用字符串匹配的 gossip 模块
-L["Darkmoon_travel"] = "Travel to the faire staging area will cost:" -- 此行（用于暗月马戏团）在暴雪的lua代码中未本地化。APR中实际未使用。

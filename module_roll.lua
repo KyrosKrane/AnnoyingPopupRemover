@@ -60,56 +60,35 @@ this.WorksInClassic = true
 
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-	if APR.DB.HideRoll then
-		-- Re-enable the dialog for the event that triggers when rolling on BOP items.
-		APR.DB.HideRoll = APR.SHOW_DIALOG
-
-	-- else already shown, nothing to do.
-	end
-
+	-- Re-enable the dialog for the event that triggers when rolling on BOP items.
+	APR.DB.HideRoll = APR.SHOW_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
 
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
-	if not APR.DB.HideRoll or ForceHide then
-		-- Disable the dialog for the event that triggers when rolling on BOP items.
-		APR.DB.HideRoll = APR.HIDE_DIALOG
-
-	-- else already hidden, nothing to do.
-	end
-
+	-- Disable the dialog for the event that triggers when rolling on BOP items.
+	APR.DB.HideRoll = APR.HIDE_DIALOG
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
 
+function ValidateLootRoll()
+	DebugPrint("In ValidateLootRoll()")
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideRoll then
+		DebugPrint("HideRoll off, not auto confirming")
+		return false
+	end
+
+	DebugPrint("HideRoll on, auto confirming next frame")
+	return true, true
+end
+
 -- Now capture the events that this module has to handle
 
 if not APR.IsClassic or this.WorksInClassic then
-
-	-- Rolling on a BOP item triggers this event.
-	function APR.Events:CONFIRM_LOOT_ROLL(rollID, rollType, confirmReason)
-		DebugPrint("In APR.Events:CONFIRM_LOOT_ROLL")
-
-		DebugPrint("rollID is " .. rollID)
-		DebugPrint("rollType is " .. rollType)
-
-		-- If the user didn't ask us to hide this popup, just return.
-		if not APR.DB.HideRoll then
-			DebugPrint("HideRoll off, not auto confirming")
-			return
-		end
-
-		-- Check if a dialog is shown, and if so, hide it, then call the accept function
-		if APR.SP.Hide("CONFIRM_LOOT_ROLL", rollID, rollType) then
-			-- note that Hide_StaticPopup returns true if a dialog was hidden, false otherwise.
-
-			-- call the approval function and hide the popup
-			RunNextFrame(function() StaticPopupDialogs["CONFIRM_LOOT_ROLL"]:OnAccept(rollID, rollType) end)
-			-- note that due to the way Blizz does the dialogs, you can't do dialog:OnAccept() - it doesn't exist. The StaticPopup_OnClick function actually references the static version.
-		end
-
-	end -- APR.Events:CONFIRM_LOOT_ROLL()
-
+	-- Add the list of popups that should be auto-closed when this module is enabled.
+	APR.AutoClose["CONFIRM_LOOT_ROLL"] = ValidateLootRoll
 end -- WoW Classic check
