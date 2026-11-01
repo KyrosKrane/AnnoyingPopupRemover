@@ -184,6 +184,12 @@ L["warbank_config"] = "Hide the confirmation pop-up when depositing a refundable
 L["warbank_hidden"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_GREEN .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["warbank_shown"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_RED .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
+-- expensive
+L["expensive_name"] = "Buy an item for up to SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_config"] = "Hide the confirmation pop-up when buying an item for up to SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_hidden"] = "Confirmation pop-up when you buy an " .. APR.Utilities.CHAT_GREEN .. "expensive" .. FONT_COLOR_CODE_CLOSE .. " item for up to SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["expensive_shown"] = "Confirmation pop-up when you buy an " .. APR.Utilities.CHAT_RED .. "expensive" .. FONT_COLOR_CODE_CLOSE .. " item for up to SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
 
 -- For testing purposes, I need to know if any strings are not translated.
 -- So, add a prefix if we're not in English and a string isn't translated.
