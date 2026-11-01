@@ -63,6 +63,7 @@ module_delete.lua
 module_vendor.lua
 module_buy_alt_currency.lua
 module_buy_nonrefundable.lua
+module_expensive.lua
 
 # NPC Interaction modules
 module_innkeeper.lua
@@ -77,4 +78,5 @@ module_actioncam.lua
 module_followers.lua
 module_summon.lua
 
+# Main application
 AnnoyingPopupRemover.lua
