@@ -21,7 +21,12 @@ local MakeString = APR.Utilities.MakeString
 -- value of true means always hide
 -- value of false means never hide
 -- a string is treated as the name of a value in the APR.DB table, which makes linking to modules easy.
--- a function is evaluated as func(SPU_Name, ...); the result is evaluated as a Boolean. If true, the popup is hidden, otherwise it's left allowed. The parameters are the same as what's passed to StaticPopup_Show() in Blizzard code.
+-- a function has special handling.
+	-- It is evaluated as func(SPU_Name, ...); the parameters are the same as what's passed to StaticPopup_Show() in Blizzard code.
+	-- It must return either one or two parameters. Both are evaluated as a Boolean.
+		-- ShouldHide: Required. If true, the popup is hidden, otherwise it's left allowed.
+		-- ShouldDefer: Optional. If true, the hiding call is deferred to the next frame.
+	-- Note that the function should handle checking the APR.DB.name setting before returning its result.
 -- Note that non-Boolean values or function results can give unexpected behavior, as they're evaluated using Lua's truthiness rules, which might occasionally be surprising.
 APR.AutoClose = {}
 
@@ -30,31 +35,34 @@ APR.AutoClose = {}
 local function CheckPopup(SPU_Name, ...)
 	DebugPrint("in common CheckPopup, SPU_Name is", MakeString(SPU_Name))
 
+	-- Check whether to accept this popup
 	if not APR.AutoClose[SPU_Name] then return end
 
-    -- Check whether to accept this popup
-    local result
+    local ShouldHide, ShouldDefer
 
-    if "function" == type(APR.AutoClose[SPU_Name]) then
+	if "function" == type(APR.AutoClose[SPU_Name]) then
         DebugPrint("in common CheckPopup, ", SPU_Name, " has a function evaluator")
-        result = APR.AutoClose[SPU_Name](SPU_Name, ...)
-    elseif "string" == type(APR.AutoClose[SPU_Name]) then
+		ShouldHide, ShouldDefer = APR.AutoClose[SPU_Name](SPU_Name, ...)
+	elseif "string" == type(APR.AutoClose[SPU_Name]) then
         DebugPrint("in common CheckPopup, ", SPU_Name, " has a string value of ", APR.AutoClose[SPU_Name])
-        result = APR.DB[APR.AutoClose[SPU_Name]]
-    else
+		ShouldHide = APR.DB[APR.AutoClose[SPU_Name]]
+	else
         DebugPrint("in common CheckPopup, ", SPU_Name, " has a static value of ", APR.AutoClose[SPU_Name])
-        result = APR.AutoClose[SPU_Name]
-    end
-    DebugPrint("in common CheckPopup, result evalutes to ", result)
+		ShouldHide = APR.AutoClose[SPU_Name]
+	end
+    DebugPrint("in common CheckPopup, ShouldHide evalutes to ", ShouldHide)
 
-    -- Hide the popup if needed
-    if result then
+	-- Hide the popup if needed
+	if ShouldHide and ShouldDefer then
+        DebugPrint("in common CheckPopup, deferring accept and hide calls to next frame")
+		RunNextFrame(function() APR.SP.Accept(SPU_Name); StaticPopup_Hide(SPU_Name); end)
+    elseif ShouldHide then
         DebugPrint("in common CheckPopup, calling acceptor and hiding")
-        APR.SP.Accept(SPU_Name)
-        StaticPopup_Hide(SPU_Name)
-    else
+		APR.SP.Accept(SPU_Name)
+		StaticPopup_Hide(SPU_Name)
+	else
         DebugPrint("in common CheckPopup, NOT accepting and hiding")
-    end
+	end
 
 end -- CheckPopup()
 
