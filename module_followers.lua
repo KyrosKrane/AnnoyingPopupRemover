@@ -68,10 +68,8 @@ this.DisableInCombat = false
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
-
 	-- Mark that the dialog should be shown.
 	APR.DB.HideFollowers = APR.SHOW_DIALOG
-
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -79,22 +77,10 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
-
 	-- Mark that the dialog should be hidden.
 	APR.DB.HideFollowers = APR.HIDE_DIALOG
-
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
-
-
--- Add the list of popups that should be auto-closed when this module is enabled.
-APR.AutoClose["CONFIRM_FOLLOWER_UPGRADE"] = this.DBName
-APR.AutoClose["CONFIRM_FOLLOWER_ABILITY_UPGRADE"] = this.DBName
-APR.AutoClose["CONFIRM_FOLLOWER_TEMPORARY_ABILITY"] = this.DBName
-APR.AutoClose["CONFIRM_FOLLOWER_EQUIPMENT"] = this.DBName
-APR.AutoClose["ACTIVATE_FOLLOWER"] = this.DBName
-APR.AutoClose["DEACTIVATE_FOLLOWER"] = this.DBName
-APR.AutoClose["CONFIRM_RECRUIT_FOLLOWER"] = this.DBName
 
 
 -- Handle garrison related stuff after the Garrision UI has loaded.
@@ -122,5 +108,16 @@ end -- LoadWithGarrison()
 
 -- Now capture the events that this module has to handle
 if not APR.IsClassic or this.WorksInClassic then
+
+	-- Add the list of popups that should be auto-closed when this module is enabled.
+	APR.AutoClose["CONFIRM_FOLLOWER_UPGRADE"] = this.DBName
+	APR.AutoClose["CONFIRM_FOLLOWER_ABILITY_UPGRADE"] = this.DBName
+	APR.AutoClose["CONFIRM_FOLLOWER_TEMPORARY_ABILITY"] = this.DBName
+	APR.AutoClose["CONFIRM_FOLLOWER_EQUIPMENT"] = this.DBName
+	APR.AutoClose["ACTIVATE_FOLLOWER"] = this.DBName
+	APR.AutoClose["DEACTIVATE_FOLLOWER"] = this.DBName
+	APR.AutoClose["CONFIRM_RECRUIT_FOLLOWER"] = this.DBName
+
+	-- Handle the special case needed for confirming follower equipment upgrades.
 	EventUtil.ContinueOnAddOnLoaded("Blizzard_GarrisonTemplates", LoadWithGarrison)
 end -- WoW Classic check

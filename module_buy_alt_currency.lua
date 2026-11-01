@@ -75,5 +75,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
--- Use the common handler capture and hide the popups
-APR.AutoClose["CONFIRM_PURCHASE_TOKEN_ITEM"] = this.DBName
+if not APR.IsClassic or this.WorksInClassic then
+	-- Use the common handler capture and hide the popups
+	APR.AutoClose["CONFIRM_PURCHASE_TOKEN_ITEM"] = this.DBName
+end -- WoW Classic check

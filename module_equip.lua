@@ -78,6 +78,8 @@ this.HidePopup = function(printconfirm, ForceHide)
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
--- Use the common handler capture and hide the popups
-APR.AutoClose["EQUIP_BIND"] = this.DBName
-APR.AutoClose["CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM"] = this.DBName
+if not APR.IsClassic or this.WorksInClassic then
+	-- Use the common handler capture and hide the popups
+	APR.AutoClose["EQUIP_BIND"] = this.DBName
+	APR.AutoClose["CONVERT_TO_BIND_TO_ACCOUNT_CONFIRM"] = this.DBName
+end -- WoW Classic check
