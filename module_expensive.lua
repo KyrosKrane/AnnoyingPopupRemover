@@ -72,7 +72,6 @@ this.WorksInClassic = false
 -- This Boolean tells us whether to disable this module during combat. This can be deleted if it's false.
 this.DisableInCombat = false
 
-
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
@@ -82,7 +81,6 @@ this.ShowPopup = function(printconfirm)
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
-
 
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
@@ -94,6 +92,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
+
 local function CheckVendorCostAndApprove(SPU_NAME, text_arg1, text_arg2, data, ...)
 	DebugPrint("In CheckVendorCostAndApprove")
 
@@ -103,9 +102,8 @@ local function CheckVendorCostAndApprove(SPU_NAME, text_arg1, text_arg2, data, .
 		return false
 	end
 
-	-- The game's code gets the item cost directly from the merchant frame, so we're going to do the same.
+	-- The game's code gets the purchase cost directly from the merchant frame, so we're going to do the same.
 	local Purchase_Cost = MerchantFrame.price * MerchantFrame.count
-
 
 	if Purchase_Cost > MAX_COPPER_COST_TO_APPROVE then
 		DebugPrint("Item costs", Purchase_Cost, ", max approval amount is", MAX_COPPER_COST_TO_APPROVE, ", not auto confirming")
