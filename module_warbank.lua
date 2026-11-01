@@ -6,6 +6,8 @@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
+-- This module removes the popup when depositing refundable items into the Warbank.
+
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
 
@@ -85,19 +87,4 @@ this.HidePopup = function(printconfirm, ForceHide)
 end -- HidePopup()
 
 
-local function CheckWarbankDeposit(which, text_arg1, text_arg2, data, insertedFrame, customOnHideScript)
-	-- Make sure it's the right dialog.
-	if "ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM" ~= which then return end
-	DebugPrint("In CheckWarbankDeposit, dialog type matches")
-
-	if APR.DB.HideWarbankDeposit == APR.HIDE_DIALOG then
-		DebugPrint("In CheckWarbankDeposit, hiding the popup")
-		APR.SP.Accept("ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM")
-	else
-		DebugPrint("In CheckWarbankDeposit, NOT hiding the popup")
-	end
-end
-
--- check when a popup is shown if it's the one we want
-hooksecurefunc("StaticPopup_Show", CheckWarbankDeposit)
-
+APR.AutoClose["ACCOUNT_BANK_DEPOSIT_NO_REFUND_CONFIRM"] = this.DBName
