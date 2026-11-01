@@ -82,7 +82,6 @@ local function ValidateLootBindDialog()
 
 	DebugPrint("HideBind on, auto confirming next frame")
 	return true, true
-
 end
 
 -- Now capture the events that this module has to handle
