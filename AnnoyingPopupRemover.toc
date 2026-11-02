@@ -79,6 +79,7 @@ module_actioncam.lua
 module_followers.lua
 module_summon.lua
 module_equipment_sets.lua
+module_partysync.lua
 
 # Main application
 AnnoyingPopupRemover.lua

@@ -202,6 +202,12 @@ L["equipment_config"] = "Hide the confirmation pop-up when saving a gear set in 
 L["equipment_hidden"] = "Confirmation pop-up when you save a gear set in the " .. APR.Utilities.CHAT_GREEN .. "Equipment" .. FONT_COLOR_CODE_CLOSE .. " Manager will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["equipment_shown"] = "Confirmation pop-up when you save a gear set in the " .. APR.Utilities.CHAT_RED .. "Equipment" .. FONT_COLOR_CODE_CLOSE .. " Manager will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
+-- sync (party sync)
+L["sync_name"] = "Use the Party Sync system"
+L["sync_config"] = "Hide the confirmation pop-ups when using the Party Sync system"
+L["sync_hidden"] = "Confirmation pop-up when you use the Party " .. APR.Utilities.CHAT_GREEN .. "Sync" .. FONT_COLOR_CODE_CLOSE .. " system will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["sync_shown"] = "Confirmation pop-up when you use the Party " .. APR.Utilities.CHAT_RED .. "Sync" .. FONT_COLOR_CODE_CLOSE .. " system will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
 
 -- For testing purposes, I need to know if any strings are not translated.
 -- So, add a prefix if we're not in English and a string isn't translated.
