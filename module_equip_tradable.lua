@@ -1,12 +1,12 @@
 -- module_equip_tradable.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2025 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
 
--- This module removes the popup when equipping an item looted in a group, and the item is still tradable.
+-- This module removes the popup when equipping or using an item looted in a group, and the item is still tradable.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -65,8 +65,10 @@ this.DisableInCombat = true
 -- This function causes the popup to show when triggered.
 this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
+
 	-- Re-enable the dialog that pops to confirm equipping BoE gear yourself.
 	APR.DB.HideEquipTrade = APR.SHOW_DIALOG
+
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
 
@@ -74,8 +76,10 @@ end -- ShowPopup()
 -- This function causes the popup to be hidden when triggered.
 this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
+
 	-- Disable the dialog that pops to confirm equipping BoE gear yourself.
 	APR.DB.HideEquipTrade = APR.HIDE_DIALOG
+
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
 
@@ -86,4 +90,5 @@ if not APR.IsClassic or this.WorksInClassic then
 	-- Equipping a group-looted item that is still tradable triggers this dialog.
 	-- Use the common handler to capture and hide the popup
 	APR.AutoClose["EQUIP_BIND_TRADEABLE"] = this.DBName
+	APR.AutoClose["END_BOUND_TRADEABLE"] = this.DBName
 end -- WoW Classic check

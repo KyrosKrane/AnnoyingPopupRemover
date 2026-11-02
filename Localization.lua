@@ -100,10 +100,10 @@ L["equip_hidden"] = "Confirmation pop-up when you " .. APR.Utilities.CHAT_GREEN 
 L["equip_shown"] = "Confirmation pop-up when you " .. APR.Utilities.CHAT_RED .. "equip" .. FONT_COLOR_CODE_CLOSE .. " a bind-on-equip item will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_tradable
-L["trade_name"] = "Equip a tradable item"
-L["trade_config"] = "Hide the confirmation pop-up when equipping an item that was looted in a group and can still be traded."
-L["trade_hidden"] = "Confirmation pop-up when equipping a group-looted items you can still " .. APR.Utilities.CHAT_GREEN .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["trade_shown"] = "Confirmation pop-up when equipping a group-looted items you can still " .. APR.Utilities.CHAT_RED .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["trade_name"] = "Equip or use a tradable item"
+L["trade_config"] = "Hide the confirmation pop-up when equipping or using an item that was looted in a group and can still be traded."
+L["trade_hidden"] = "Confirmation pop-up when equipping or using a group-looted items you can still " .. APR.Utilities.CHAT_GREEN .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["trade_shown"] = "Confirmation pop-up when equipping or using a group-looted items you can still " .. APR.Utilities.CHAT_RED .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_refund
 L["refund_name"] = "Equip or use a refundable item"
