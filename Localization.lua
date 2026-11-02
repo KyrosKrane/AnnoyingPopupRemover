@@ -190,6 +190,12 @@ L["expensive_config"] = "Hide the confirmation pop-up when buying an item for up
 L["expensive_hidden"] = "Confirmation pop-up when you buy an " .. APR.Utilities.CHAT_GREEN .. "expensive" .. FONT_COLOR_CODE_CLOSE .. " item for up to SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["expensive_shown"] = "Confirmation pop-up when you buy an " .. APR.Utilities.CHAT_RED .. "expensive" .. FONT_COLOR_CODE_CLOSE .. " item for up to SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
+-- prey
+L["prey_name"] = "Take part in Midnight's Prey events"
+L["prey_config"] = "Hide the confirmation pop-up when starting or taking part in Midnight's Prey hunts"
+L["prey_hidden"] = "Confirmation pop-up when you start or take part in Midnight's " .. APR.Utilities.CHAT_GREEN .. "Prey" .. FONT_COLOR_CODE_CLOSE .. " hunts will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["prey_shown"] = "Confirmation pop-up when you start or take part in Midnight's " .. APR.Utilities.CHAT_RED .. "Prey" .. FONT_COLOR_CODE_CLOSE .. " hunts will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
 
 -- For testing purposes, I need to know if any strings are not translated.
 -- So, add a prefix if we're not in English and a string isn't translated.
