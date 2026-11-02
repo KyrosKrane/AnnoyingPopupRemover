@@ -1,10 +1,12 @@
--- module_housing.lua
+-- module_expensive.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
 -- Copyright (c) 2015-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
+
+-- This module removes the popups when purchasing expensive items or completing quests that require gold, up to a set amount.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -40,7 +42,7 @@ APR.Modules[ThisModule] = {}
 local this = APR.Modules[ThisModule]
 
 -- the name of the variable in APR.DB and its default value
-this.DBName = "HideHousing"
+this.DBName = "HideExpensive"
 this.DBDefaultValue = APR.HIDE_DIALOG
 
 -- The module's category determines where it goes in the options list
@@ -77,7 +79,7 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	-- Mark that the dialog is shown.
-	APR.DB.HideHousing = APR.SHOW_DIALOG
+	APR.DB.HideExpensive = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -87,7 +89,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	-- Mark that the dialog is hidden.
-	APR.DB.HideHousing = APR.HIDE_DIALOG
+	APR.DB.HideExpensive = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
@@ -97,8 +99,8 @@ local function CheckVendorCostAndApprove(SPU_NAME, text_arg1, text_arg2, data, .
 	DebugPrint("In CheckVendorCostAndApprove")
 
 	-- If the user didn't ask us to hide this popup, just return.
-	if not APR.DB.HideHousing then
-		DebugPrint("HideHousing off, not auto confirming")
+	if not APR.DB.HideExpensive then
+		DebugPrint("HideExpensive off, not auto confirming")
 		return false
 	end
 
@@ -113,7 +115,29 @@ local function CheckVendorCostAndApprove(SPU_NAME, text_arg1, text_arg2, data, .
 	-- Approve the purchase.
 	DebugPrint("Item costs", Purchase_Cost, ", max approval amount is", MAX_COPPER_COST_TO_APPROVE, ", buy it!")
 	return true
-end
+end -- CheckVendorCostAndApprove()
+
+
+local function CheckQuestCostAndApprove(SPU_NAME, text_arg1, text_arg2, data, ...)
+	DebugPrint("In CheckQuestCostAndApprove")
+
+	-- If the user didn't ask us to hide this popup, just return.
+	if not APR.DB.HideExpensive then
+		DebugPrint("HideExpensive off, not auto confirming")
+		return false
+	end
+
+	local Quest_Cost = GetQuestMoneyToGet();
+
+	if Quest_Cost > MAX_COPPER_COST_TO_APPROVE then
+		DebugPrint("Quest costs", Quest_Cost, ", max approval amount is", MAX_COPPER_COST_TO_APPROVE, ", not auto confirming")
+		return false
+	end
+
+	-- Approve the purchase.
+	DebugPrint("Quest costs", Quest_Cost, ", max approval amount is", MAX_COPPER_COST_TO_APPROVE, ", buy it!")
+	return true
+end -- CheckQuestCostAndApprove()
 
 
 -- Now capture the events that this module has to handle
@@ -121,4 +145,5 @@ end
 if not APR.IsClassic or this.WorksInClassic then
 	-- Add the list of popups that should be auto-closed when this module is enabled.
 	APR.AutoClose["CONFIRM_HIGH_COST_ITEM"] = CheckVendorCostAndApprove
+	APR.AutoClose["CONFIRM_COMPLETE_EXPENSIVE_QUEST"] = CheckQuestCostAndApprove
 end -- WoW Classic check
