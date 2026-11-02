@@ -196,6 +196,12 @@ L["prey_config"] = "Hide the confirmation pop-up when starting or taking part in
 L["prey_hidden"] = "Confirmation pop-up when you start or take part in Midnight's " .. APR.Utilities.CHAT_GREEN .. "Prey" .. FONT_COLOR_CODE_CLOSE .. " hunts will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["prey_shown"] = "Confirmation pop-up when you start or take part in Midnight's " .. APR.Utilities.CHAT_RED .. "Prey" .. FONT_COLOR_CODE_CLOSE .. " hunts will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
+-- equipment
+L["equipment_name"] = "Use the Equipment Manager"
+L["equipment_config"] = "Hide the confirmation pop-up when saving a gear set in the Equipment Manager"
+L["equipment_hidden"] = "Confirmation pop-up when you save a gear set in the " .. APR.Utilities.CHAT_GREEN .. "Equipment" .. FONT_COLOR_CODE_CLOSE .. " Manager will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["equipment_shown"] = "Confirmation pop-up when you save a gear set in the " .. APR.Utilities.CHAT_RED .. "Equipment" .. FONT_COLOR_CODE_CLOSE .. " Manager will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
 
 -- For testing purposes, I need to know if any strings are not translated.
 -- So, add a prefix if we're not in English and a string isn't translated.
