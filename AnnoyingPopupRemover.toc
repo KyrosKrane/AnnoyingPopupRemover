@@ -69,6 +69,7 @@ module_expensive.lua
 module_innkeeper.lua
 module_undercut.lua
 module_gossip.lua
+module_prey.lua
 
 # Game Interface modules
 module_quest.lua
