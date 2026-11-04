@@ -95,8 +95,13 @@ local MAX_COPPER = 50000 -- 5g
 local GossipIDList = {}
 
 -- Darkmoon Faire teleports
-GossipIDList[40457] = "Darkmoon Faire Alliance" -- both alliance and horde gossips are shared across all the factional Mystic Mage NPCs
+-- On retail, both alliance and horde gossips are shared across all the factional Mystic Mage NPCs
+GossipIDList[40457] = "Darkmoon Faire Alliance"
 GossipIDList[40007] = "Darkmoon Faire Horde"
+
+-- On MOP Classic, the IDs are different
+GossipIDList[113794] = "Darkmoon Faire Alliance" -- tested Stormwind, Darnassus, and Ironforge
+GossipIDList[225435] = "Darkmoon Faire Horde" -- tested Origrimmar, Thunder Bluff, and yolo :D
 
 -- Shadowlands covenant swap
 -- No idea why you get the different versions. Might be related to how high you are in the covenant paths?
@@ -274,6 +279,9 @@ GossipIDList[40872] = "Teleportologist Fozlebub"
 
 local function ValidateAndHideGossipDialog(SPU_NAME, text_arg1, text_arg2, data, ...)
 	DebugPrint("In ValidateAndHideGossipDialog()")
+	local gossipID, cost = data.optionID, data.cost
+	DebugPrint("gossipID is ", gossipID)
+	DebugPrint("cost is ", cost)
 
 	-- If the user didn't ask us to hide this popup, just return.
 	if not APR.DB.HideGossip then
@@ -281,16 +289,11 @@ local function ValidateAndHideGossipDialog(SPU_NAME, text_arg1, text_arg2, data,
 		return false
 	end
 
-	local gossipID, cost = data.optionID, data.cost
-
 	-- If the gossipID is nil or blank, then it's not a dialog we care about
 	if not gossipID or "" == gossipID then
 		DebugPrint("GossipID is nil or blank, not auto confirming")
 		return false
 	end
-
-	DebugPrint("gossipID is ", gossipID)
-	DebugPrint("cost is ", cost)
 
 	-- If it's not a specific gossip ID we care about, don't confirm.
 	if not GossipIDList[gossipID] then
@@ -311,8 +314,62 @@ local function ValidateAndHideGossipDialog(SPU_NAME, text_arg1, text_arg2, data,
 	return true
 end
 
-if not APR.IsClassic or this.WorksInClassic then
+
+if not APR.IsClassic  then
+	-- In retail we can use the AutoClose system.
 	APR.AutoClose["GOSSIP_CONFIRM"] = ValidateAndHideGossipDialog
+
+elseif this.WorksInClassic then
+	-- In Classic and Classic Era servers, the cost isn't part of the StaticPopup_Show() arguments; instead it's taken from the event itself that triggers the call. The MoneyFrame in the dialog is updated after the dialog is shown.
+	-- So, at the time we process the hook on StaticPopup_Show(), we've already lost the event with the cost, and we don't yet have the MoneyFrame updated with the cost (that happens in the line after the StaticPopup_Show() call).
+	-- So effectively, in Classic realms, we have to rely on the event and can't use our AutoClose functionality.
+	function APR.Events:GOSSIP_CONFIRM(gossipID, text, cost)
+		DebugPrint("In APR.Events:GOSSIP_CONFIRM")
+		DebugPrint("gossipID is ", gossipID)
+		DebugPrint("text is ", text)
+		DebugPrint("cost is ", cost)
+
+		-- If the user didn't ask us to hide this popup, just return.
+		if not APR.DB.HideGossip then
+			DebugPrint("HideGossip off, not auto confirming")
+			return
+		end
+
+		-- If the gossipID is nil or blank, then it's not a dialog we care about
+		if not gossipID or "" == gossipID then
+			DebugPrint("GossipID is nil or blank, not auto confirming")
+			return
+		end
+
+		-- Exit if the gossipID is not on our list.
+		if not GossipIDList[gossipID] then
+			DebugPrint("GossipID is not on our list. Not auto confirming.")
+			return
+		end
+
+		-- Exit if it's too expensive to auto confirm
+		if cost and cost > MAX_COPPER then
+			DebugPrint(("Cost %s exceeds max amount of %s. Not auto confirming."):format(cost, MAX_COPPER))
+			return
+		end
+
+		-- Find the dialog we need to close
+		local dialog = APR.SP.FindVisible("GOSSIP_CONFIRM", gossipID)
+
+		if not dialog then
+			DebugPrint("Did not find matching popup")
+			return
+		end
+
+		DebugPrint(
+			string.format(
+				"Found matching popup by ID, ID %s, desc is %s",
+				gossipID,
+				GossipIDList[gossipID]
+			)
+		)
+
+		StaticPopupDialogs["GOSSIP_CONFIRM"].OnAccept(dialog, dialog.data)
+		APR.SP.Hide("GOSSIP_CONFIRM", gossipID)
+	end -- APR.Events:GOSSIP_CONFIRM()
 end -- WoW Classic check
-
-
