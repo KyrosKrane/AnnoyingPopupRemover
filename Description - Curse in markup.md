@@ -5,7 +5,7 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 	- Looting a bind-on-pickup item.
 	- Rolling on a bind-on-pickup item.
 	- Equipping a bind-on-equip item. (This is off by default; you can turn it on in the settings.)
-	- Equipping a tradable item
+	- Equipping or using a tradable item
 	- Equipping or using an item you can return to a vendor for a refund.
 	- Mailing an item you purchased from a vendor while it can still be returned for a refund.
 	- Depositing a refundable item into the warbank.
@@ -14,19 +14,23 @@ Ever get annoyed by those pop-ups in the game that make you feel like it's an ov
 	- Selling an item looted in a group while it is still tradable with others who were in the group.
 	- Buying an item with an alternate currency cost.
 	- Buying an item that is not refundable.
+	- Buying an expensive item, such as housing decor.
 
 - NPC interaction
 	- Setting your hearthstone location at an innkeeper.
 	- Undercutting when selling an item on the auction house. (This is off by default - please don't undercut, it's not needed!)
 	- Chatting with NPCs, such as teleporting to the Darkmoon Faire, healing pets at a stable master, or starting pet battles.
+	- Accepting random Prey hunts. (This is off by default; you can turn it on in the settings.)
 
 - General interface 
-	- Abandoning a quest
+	- Completing quests that require a gold payment, up to a limit.
+	- Abandoning a quest.
+	- Using the Equipment Manager.
 	- Buying a skyriding talent.
 	- Crafting a profession work order using your own reagents or materials.
+	- Working with followers at mission tables in Warlords of Draenor, Legion, Battle for Azeroth, and Shadowlands; and around your WoD Garrison.
+	- Getting summoned by someone who is near you (you can hold Shift if you actually want to be summoned). Note this doesn't work in instances due to Blizzard limitations.
 	- Enabling the ActionCam or other experimental settings.
-	- Upgrading followers with equipment or experience (at mission tables in Warlords of Draenor, Legion, Battle for Azeroth, and Shadowlands).
-	- Getting summoned by someone who is near you (you can hold Shift if you actually want to be summoned)
 
 In all cases, the add-on hides the dialog and makes the game think you clicked to allow the action. That's it!
 
@@ -34,22 +38,18 @@ In addition, it simplifies the following dialog:
 
 - Changing the dialog that requires you to type "delete" when deleting a good item into a simple yes/no box.
 
-You can change your settings using the standard addon options screen, or using the command line options in the game. Your settings are saved separately for each character, so you can set it up as you like.
-
 ## Configuration
-The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options.
+All these settings can be turned on or off individually. The easiest way to configure the addon is through the standard Blizzard addon interface. If you want to use the command line instead, type `/apr` to see your options. Your settings are saved separately for each character.
 
 ## Version notes
+Version 28 enables WoW: Forever support; enables buying expensive items (like housing decor); completing expensive quests (up to a limit); and removes some popups when doing Prey events and using the Equipment Manager.
+
 Version 27 makes significant back-end changes that will allow adding new pop-ups in the future more easily, but doesn't add handling for any new pop-ups.
-
-Version 26 adds support for Midnight on retail, TBC Anniversary, and Wrath Classic.
-
-So far, I've tested this add-on in a variety of situations, and it seems to work well for all scenarios I've encountered. If you encounter any errors, PLEASE [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. I also need to know whether you were solo, in a group, or in a raid; and what the group/raid loot settings were (e.g., master loot, NBG, etc., and what the loot threshold was).
 
 ## Reporting errors and known issues
 **Version 27 is the last version to be actively tested on any Classic version.** I don't have a toon high enough to test thoroughly all the different Classic types. Future APR versions will only be tested in Classic if there is a specific issue reported and I can work with the reporter.
 
-If you find any errors, please report them! Either contact me through [Discord](https://discord.gg/YRBDrxQ) or [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github.
+If you find any errors, please report them! The best way is to [open an issue](https://github.com/KyrosKrane/AnnoyingPopupRemover/issues) on Github including the FULL error message and what you were doing when it happened. For quick questions, you can also contact me through [Discord](https://discord.gg/YRBDrxQ). I don't always monitor the comments on here!
 
 I tried to include the most common stable masters and pet battles, but I might have missed some. If you see a popup asking you to confirm healing your pets at a stable master or to confirm starting a pet battle, please report it in [my Discord server](https://discord.gg/YRBDrxQ). I'll need to know your player faction (Horde/Alliance) and the name of the pet tamer or stable master you got the popup from.
 
