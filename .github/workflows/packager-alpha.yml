@@ -50,4 +50,3 @@ jobs:
         uses: BigWigsMods/packager@v2
         with:
           args: -w 0 -n "APR-{project-version}{nolib}{classic}" # do not load alphas to WowInterface, and use an abbreviated file name
-            
