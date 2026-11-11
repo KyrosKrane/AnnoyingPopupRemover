@@ -1,10 +1,12 @@
--- Module Template.lua
+-- module_template.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2020 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
 -- This file defines a module that APR can handle. Each module is one setting or popup.
+
+-- @TODO: Describe the purpose of this module.
 
 -- Grab the WoW-defined addon folder name and storage table for our addon
 local addonName, APR = ...
@@ -46,7 +48,7 @@ this.config = {
 	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
-	order = APR.Categories[this.Category].order + APR.NextOrdering,
+	order = APR.NextOrdering,
 } -- config
 
 -- Update the ordering for the next file to be loaded
@@ -69,6 +71,7 @@ this.ShowPopup = function(printconfirm)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].ShowPopup, printconfirm is " .. MakeString(printconfirm))
 
 	-- code here
+	APR.DB[this.DBName] = APR.SHOW_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- ShowPopup()
@@ -79,6 +82,7 @@ this.HidePopup = function(printconfirm, ForceHide)
 	DebugPrint("in APR.Modules['" .. ThisModule .. "'].HidePopup, printconfirm is " .. MakeString(printconfirm ) .. ", ForceHide is " .. MakeString(ForceHide))
 
 	-- code here
+	APR.DB[this.DBName] = APR.HIDE_DIALOG
 
 	if printconfirm then APR:PrintStatus(ThisModule) end
 end -- HidePopup()
@@ -90,8 +94,11 @@ this.PreloadFunc = function()
 end
 
 
--- Now capture the events that this module has to handle
+-- Now capture the events that this module has to handle, or include other functions
 -- This block can be deleted if you don't use events.
 if not APR.IsClassic or this.WorksInClassic then
 	-- Events go here
+
+	APR.AutoClose["NAME_OF_STATIC_POPUP"] = this.DBName
+
 end -- WoW Classic check

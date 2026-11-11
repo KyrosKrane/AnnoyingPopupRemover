@@ -54,19 +54,40 @@ APR.USER_ADDON_SHORT_NAME = L["APR"]
 APR.OptionsTable = {
 	type = "group",
 	args = {
-		-- Headers are now added programmatically below
 
-		-- Addon options should be between 601 and 699
+		-- These are the settings that go in the main settings page. Additional pages are generated dynamically later.
+		TopLevel = {
+			name = APR.Version, -- yes this is silly, but it's what's needed to make it display right in game.
+			type = "group",
+			args = {
+				instructions = {
+					name = "\nSettings for specific pop-ups can now be\nfound in the category pages on the left.\n\n\n",
+					type = "description",
+					fontSize ="large",
+					descStyle = "inline",
+					width = "full",
+					order = 10,
+				}, -- instructions
 
-		startup = {
-			name = L["startup_config"],
-			type = "toggle",
-			set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
-			get = function(info) return APR.DB.PrintStartupMessage end,
-			descStyle = "inline",
-			width = "full",
-			order = 610,
-		}, -- startup
+				AddonOptionsHeader = {
+					name = L["AddonOptionsHeader"],
+					type = "header",
+					order = 100,
+				}, -- AddonOptions
+
+				startup = {
+					name = L["startup_config"],
+					type = "toggle",
+					set = function(info,val) APR:HandleAceSettingsChange(val, info) end,
+					get = function(info) return APR.DB.PrintStartupMessage end,
+					descStyle = "inline",
+					width = "full",
+					order = 110,
+				}, -- startup
+
+			}, -- TopLevel args
+		}, -- TopLevel
+
 
 
 		-- Hidden options should be between 701 and 799
@@ -86,6 +107,7 @@ APR.OptionsTable = {
 
 
 		-- Other items should be 800+
+		-- Example: command line only switches
 
 		status = {
 			name = L["status_config"],
@@ -101,36 +123,62 @@ APR.OptionsTable = {
 			func = function() APR:PrintVersion() end,
 			guiHidden = true,
 			order = 801,
-		}, -- status
+		}, -- version
 	} -- args
 } -- APR.OptionsTable
 
--- Programmatically add the headers
-DebugPrint("About to add headers")
-for HeaderName, HeaderSettings in pairs(APR.Categories) do
-	DebugPrint("Adding header ", HeaderName)
-	APR.OptionsTable.args[HeaderName .. "Header"] = HeaderSettings
+
+-- Programmatically add the categories
+DebugPrint("About to add categories")
+for k, CategoryInfo in ipairs(APR.OrderedCategories) do
+	local CategoryCodeName = CategoryInfo[1]
+	local CategoryUserLabel = CategoryInfo[2]
+
+	DebugPrint("Adding category ", CategoryUserLabel)
+	APR.OptionsTable.args[CategoryCodeName] = {
+		name = CategoryUserLabel,
+		type = "group",
+		args={}
+	}
 end
 
 -- Programmatically add the settings for each module
+DebugPrint("About to add module settings")
 for ModuleName, ModuleSettings in pairs(APR.Modules) do
 	if (not APR.IsClassic or ModuleSettings.WorksInClassic) then
-		APR.OptionsTable.args[ModuleName] = ModuleSettings.config
+		DebugPrint("Adding module ", ModuleName)
+		APR.OptionsTable.args[ModuleSettings.Category].args[ModuleName] = ModuleSettings.config
 	end
 end
 
+-- Set the names displayed in the Blizz settings pane, 
+-- and in the title section of our addon's settings.
+local NameInBlizzSettings = APR.USER_ADDON_NAME
+local AceTitle = APR.USER_ADDON_NAME
 
 -- Process the options and create the AceConfig options table
-local AceName = APR.USER_ADDON_NAME .. " " .. APR.Version
 APR.AceConfigReg = LibStub("AceConfigRegistry-3.0")
-APR.AceConfigReg:RegisterOptionsTable(AceName, APR.OptionsTable)
+APR.AceConfigReg:RegisterOptionsTable(AceTitle, APR.OptionsTable)
 
 -- Create the slash command handler
 APR.AceConfigCmd = LibStub("AceConfigCmd-3.0")
-APR.AceConfigCmd:CreateChatCommand("apr", AceName)
+APR.AceConfigCmd:CreateChatCommand("apr", AceTitle)
 
 -- Create the frame to set the options and add it to the Blizzard settings
-APR.ConfigFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(AceName, APR.USER_ADDON_NAME)
+APR.AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
+APR.ConfigFrame = {}
+APR.ConfigFrame.Reference, APR.ConfigFrame.PageID = APR.AceConfigDialog:AddToBlizOptions(AceTitle, NameInBlizzSettings, nil, "TopLevel")
+-- as of this writing, I don't use the reference or page ID, but building this in for future stuff.
+
+-- Create the category frames and add them to Blizzard settings too.
+for k, CategoryInfo in ipairs(APR.OrderedCategories) do
+	local CategoryCodeName = CategoryInfo[1]
+	local CategoryUserLabel = CategoryInfo[2]
+	-- note that we don't need to store references to the subsection config frames.
+	-- we can discard the retuns from AddToBlizOptions.
+	APR.AceConfigDialog:AddToBlizOptions(AceTitle, CategoryUserLabel, NameInBlizzSettings, CategoryCodeName)
+end
 
 
 --#########################################

@@ -62,7 +62,7 @@ this.config = {
 	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
-	order = APR.Categories[this.Category].order + APR.NextOrdering,
+	order = APR.NextOrdering,
 } -- config
 
 -- Update the ordering for the next file to be loaded

@@ -1,4 +1,4 @@
-## Interface: @toc-version-classic@, @toc-version-bcc@, @toc-version-wrath@, @toc-version-mists@, @toc-version-retail@
+## Interface: @toc-version-classic@, @toc-version-forever@, @toc-version-bcc@, @toc-version-wrath@, @toc-version-mists@, @toc-version-retail@
 ## Title: Annoying Popup Remover
 ## Version: @project-version@
 ## Author: KyrosKrane Sylvanblade
@@ -63,11 +63,13 @@ module_delete.lua
 module_vendor.lua
 module_buy_alt_currency.lua
 module_buy_nonrefundable.lua
+module_expensive.lua
 
 # NPC Interaction modules
 module_innkeeper.lua
 module_undercut.lua
 module_gossip.lua
+module_prey.lua
 
 # Game Interface modules
 module_quest.lua
@@ -76,5 +78,7 @@ module_workorder.lua
 module_actioncam.lua
 module_followers.lua
 module_summon.lua
+module_equipment_sets.lua
 
+# Main application
 AnnoyingPopupRemover.lua

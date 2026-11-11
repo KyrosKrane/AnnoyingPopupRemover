@@ -45,7 +45,7 @@ this.config = {
 	get = function(info) return APR.DB[this.DBName] end,
 	descStyle = "inline",
 	width = "full",
-	order = APR.Categories[this.Category].order + APR.NextOrdering,
+	order = APR.NextOrdering,
 } -- config
 
 -- Update the ordering for the next file to be loaded
@@ -93,6 +93,7 @@ local MAX_COPPER = 50000 -- 5g
 -- Track gossips by ID that should be auto confirmed.
 -- format: GossipIDList[gossipID] = "Name for use in APR"
 local GossipIDList = {}
+APR.GossipIDList = GossipIDList
 
 -- Darkmoon Faire teleports
 -- On retail, both alliance and horde gossips are shared across all the factional Mystic Mage NPCs

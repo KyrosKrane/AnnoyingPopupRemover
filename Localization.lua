@@ -100,10 +100,10 @@ L["equip_hidden"] = "Confirmation pop-up when you " .. APR.Utilities.CHAT_GREEN 
 L["equip_shown"] = "Confirmation pop-up when you " .. APR.Utilities.CHAT_RED .. "equip" .. FONT_COLOR_CODE_CLOSE .. " a bind-on-equip item will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_tradable
-L["trade_name"] = "Equip a tradable item"
-L["trade_config"] = "Hide the confirmation pop-up when equipping an item that was looted in a group and can still be traded."
-L["trade_hidden"] = "Confirmation pop-up when equipping a group-looted items you can still " .. APR.Utilities.CHAT_GREEN .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
-L["trade_shown"] = "Confirmation pop-up when equipping a group-looted items you can still " .. APR.Utilities.CHAT_RED .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+L["trade_name"] = "Equip or use a tradable item"
+L["trade_config"] = "Hide the confirmation pop-up when equipping or using an item that was looted in a group and can still be traded."
+L["trade_hidden"] = "Confirmation pop-up when equipping or using a group-looted items you can still " .. APR.Utilities.CHAT_GREEN .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["trade_shown"] = "Confirmation pop-up when equipping or using a group-looted items you can still " .. APR.Utilities.CHAT_RED .. "trade" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 -- equip_refund
 L["refund_name"] = "Equip or use a refundable item"
@@ -183,6 +183,24 @@ L["warbank_name"] = "Deposit a refundable item into the warbank"
 L["warbank_config"] = "Hide the confirmation pop-up when depositing a refundable item into your warbank"
 L["warbank_hidden"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_GREEN .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
 L["warbank_shown"] = "Confirmation pop-up when depositing a refundable item into your " .. APR.Utilities.CHAT_RED .. "warbank" .. FONT_COLOR_CODE_CLOSE .. " will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- expensive
+L["expensive_name"] = "Buy an item or complete a quest costing up to SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_config"] = "Hide the confirmation pop-up when buying an item or completing a quest costing up to SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_hidden"] = "Confirmation pop-up when you buy an " .. APR.Utilities.CHAT_GREEN .. "expensive" .. FONT_COLOR_CODE_CLOSE .. " item, or complete a quest requiring gold, costing up to SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["expensive_shown"] = "Confirmation pop-up when you buy an " .. APR.Utilities.CHAT_RED .. "expensive" .. FONT_COLOR_CODE_CLOSE .. " item, or complete a quest requiring gold, costing up to SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- prey
+L["prey_name"] = "Take part in Midnight's Prey events"
+L["prey_config"] = "Hide the confirmation pop-up when starting or taking part in Midnight's Prey hunts"
+L["prey_hidden"] = "Confirmation pop-up when you start or take part in Midnight's " .. APR.Utilities.CHAT_GREEN .. "Prey" .. FONT_COLOR_CODE_CLOSE .. " hunts will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["prey_shown"] = "Confirmation pop-up when you start or take part in Midnight's " .. APR.Utilities.CHAT_RED .. "Prey" .. FONT_COLOR_CODE_CLOSE .. " hunts will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- equipment
+L["equipment_name"] = "Use the Equipment Manager"
+L["equipment_config"] = "Hide the confirmation pop-up when saving a gear set in the Equipment Manager"
+L["equipment_hidden"] = "Confirmation pop-up when you save a gear set in the " .. APR.Utilities.CHAT_GREEN .. "Equipment" .. FONT_COLOR_CODE_CLOSE .. " Manager will be " .. APR.Utilities.CHAT_GREEN .. "hidden" .. FONT_COLOR_CODE_CLOSE .. "."
+L["equipment_shown"] = "Confirmation pop-up when you save a gear set in the " .. APR.Utilities.CHAT_RED .. "Equipment" .. FONT_COLOR_CODE_CLOSE .. " Manager will be " .. APR.Utilities.CHAT_RED .. "shown" .. FONT_COLOR_CODE_CLOSE .. "."
 
 
 -- For testing purposes, I need to know if any strings are not translated.

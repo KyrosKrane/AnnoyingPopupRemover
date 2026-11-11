@@ -52,3 +52,5 @@ jobs:
       # package for all versions of the game
       - name: Package and upload releases
         uses: BigWigsMods/packager@v2
+        with:
+          args: -n "APR-{project-version}{nolib}{classic}" # use an abbreviated file name
