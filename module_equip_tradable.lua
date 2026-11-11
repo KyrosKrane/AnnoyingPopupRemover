@@ -1,6 +1,6 @@
 -- module_equip_tradable.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2026 KyrosKrane Sylvanblade
+-- Copyright (c) 2022-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 

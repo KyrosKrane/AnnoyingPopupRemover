@@ -1,6 +1,6 @@
 -- module_expensive.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2015-2026 KyrosKrane Sylvanblade
+-- Copyright (c) 2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -135,7 +135,7 @@ local function CheckQuestCostAndApprove(SPU_NAME, text_arg1, text_arg2, data, ..
 	end
 
 	-- Approve the purchase.
-	DebugPrint("Quest costs", Quest_Cost, ", max approval amount is", MAX_COPPER_COST_TO_APPROVE, ", buy it!")
+	DebugPrint("Quest costs", Quest_Cost, ", max approval amount is", MAX_COPPER_COST_TO_APPROVE, ", complete it!")
 	return true
 end -- CheckQuestCostAndApprove()
 

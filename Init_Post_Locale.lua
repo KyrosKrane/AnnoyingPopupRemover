@@ -1,6 +1,6 @@
 -- Post_Locale_Init.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info)
--- Copyright (c) 2023 KyrosKrane Sylvanblade
+-- Copyright (c) 2024-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
