@@ -72,7 +72,11 @@ function APR.SP.Accept(which)
 	if dialog then
 		local OnAccept = StaticPopupDialogs[which].OnAccept;
 		if ( OnAccept ) then
-			OnAccept(dialog, dialog.data);
+			if dialog.data2 then
+				OnAccept(dialog, dialog.data, dialog.data2);
+			else
+				OnAccept(dialog, dialog.data);
+			end
 		end
 		-- Some game dialogs require running the accept handler BEFORE hiding the dialog, otherwise it may fail.
 		dialog:Hide();
