@@ -38,6 +38,10 @@ L["startup_config"] = "Show a startup announcement message in your chat frame at
 L["status_config"] = "Print the setting summary to the chat window"
 L["version_config"] = "Print the APR version and help summary"
 
+-- When localizing this, please check that it appears readably formatted with good spacing and vertical padding in the settings pane.
+-- For the English text, I had to add manual line breaks to make it fit correctly. Other languages may need similar.
+L["Settings_instructions"] = "\nSettings for specific pop-ups can now be\nfound in the category pages on the left.\n\n\n"
+
 
 -- Config headers
 L["ItemsHeader"] = "Items"

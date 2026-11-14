@@ -54,14 +54,13 @@ APR.USER_ADDON_SHORT_NAME = L["APR"]
 APR.OptionsTable = {
 	type = "group",
 	args = {
-
 		-- These are the settings that go in the main settings page. Additional pages are generated dynamically later.
 		TopLevel = {
 			name = APR.Version, -- yes this is silly, but it's what's needed to make it display right in game.
 			type = "group",
 			args = {
 				instructions = {
-					name = "\nSettings for specific pop-ups can now be\nfound in the category pages on the left.\n\n\n",
+					name = L["Settings_instructions"],
 					type = "description",
 					fontSize ="large",
 					descStyle = "inline",
@@ -73,7 +72,7 @@ APR.OptionsTable = {
 					name = L["AddonOptionsHeader"],
 					type = "header",
 					order = 100,
-				}, -- AddonOptions
+				}, -- AddonOptionsHeader
 
 				startup = {
 					name = L["startup_config"],
@@ -84,10 +83,8 @@ APR.OptionsTable = {
 					width = "full",
 					order = 110,
 				}, -- startup
-
-			}, -- TopLevel args
+			}, -- args for TopLevel
 		}, -- TopLevel
-
 
 
 		-- Hidden options should be between 701 and 799
@@ -124,7 +121,7 @@ APR.OptionsTable = {
 			guiHidden = true,
 			order = 801,
 		}, -- version
-	} -- args
+	} -- args for APR.OptionsTable
 } -- APR.OptionsTable
 
 
