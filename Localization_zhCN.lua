@@ -1,9 +1,9 @@
 -- Localization_zhCN.lua
 -- 由 wxgfxy on Github 编写
 -- 中文翻译基于 Klep-Ysondre 的 Github 法文翻译。
--- 版权所有 (c) 2025 KyrosKrane Sylvanblade
+-- 版权所有 (c) 2015-2026 KyrosKrane Sylvanblade
 -- 遵循随附文件中的 MIT 许可证。
--- Addon version: @project-version@
+-- Addon version: v28.1.0
 
 -- 此文件为插件设置简体中文本地化和文本字符串。
 
@@ -27,7 +27,7 @@ local L = APR.L
 --#########################################
 
 -- 插件名称
-L["Annoying Pop-up Remover"] = "烦人弹窗移除器"
+L["Annoying Pop-up Remover"] = "Annoying Pop-up Remover"
 L["APR"] = "APR" -- 缩写保持英文
 
 
@@ -102,10 +102,10 @@ L["equip_hidden"] = "装备" .. APR.Utilities.CHAT_GREEN .. "装备绑定" .. FO
 L["equip_shown"] = "装备" .. APR.Utilities.CHAT_RED .. "装备绑定" .. FONT_COLOR_CODE_CLOSE .. "物品时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
 
 -- equip_tradable
-L["trade_name"] = "装备仍可交易的物品"
-L["trade_config"] = "装备在队伍中拾取且仍可交易的物品时隐藏确认窗口"
-L["trade_hidden"] = "装备在队伍中拾取且仍可" .. APR.Utilities.CHAT_GREEN .. "交易" .. FONT_COLOR_CODE_CLOSE .. "的物品时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
-L["trade_shown"] = "装备在队伍中拾取且仍可" .. APR.Utilities.CHAT_RED .. "交易" .. FONT_COLOR_CODE_CLOSE .. "的物品时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["trade_name"] = "装备或使用可交易物品"
+L["trade_config"] = "在装备或使用小队拾取且仍可交易的物品时隐藏确认窗口"
+L["trade_hidden"] = "装备或使用在队伍中拾取且仍可" .. APR.Utilities.CHAT_GREEN .. "交易" .. FONT_COLOR_CODE_CLOSE .. "的物品时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["trade_shown"] = "装备或使用在队伍中拾取且仍可" .. APR.Utilities.CHAT_RED .. "交易" .. FONT_COLOR_CODE_CLOSE .. "的物品时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
 
 -- equip_refund
 L["refund_name"] = "装备或使用可退还物品"
@@ -168,10 +168,10 @@ L["gossip_hidden"] = "与某些NPC" .. APR.Utilities.CHAT_GREEN .. "对话" .. F
 L["gossip_shown"] = "与某些NPC" .. APR.Utilities.CHAT_RED .. "对话" .. FONT_COLOR_CODE_CLOSE .. "时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
 
 -- followers
-L["followers_name"] = "为追随者装备或升级物品"
-L["followers_config"] = "在各种指挥台为追随者装备或升级物品时隐藏确认窗口"
-L["followers_hidden"] = "在各种指挥台为" .. APR.Utilities.CHAT_GREEN .. "追随者" .. FONT_COLOR_CODE_CLOSE .. "装备或升级物品时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
-L["followers_shown"] = "在各种指挥台为" .. APR.Utilities.CHAT_RED .. "追随者" .. FONT_COLOR_CODE_CLOSE .. "装备或升级物品时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["followers_name"] = "在任务台与追随者互动"
+L["followers_config"] = "在任务台与追随者互动时隐藏确认窗口"
+L["followers_hidden"] = "在任务台与" .. APR.Utilities.CHAT_GREEN .. "追随者" .. FONT_COLOR_CODE_CLOSE .. "互动时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["followers_shown"] = "在任务台与" .. APR.Utilities.CHAT_RED .. "追随者" .. FONT_COLOR_CODE_CLOSE .. "互动时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
 
 -- summon
 L["summon_name"] = "接收短距离召唤"
@@ -185,3 +185,21 @@ L["warbank_name"] = "向公会银行存入可退还物品"
 L["warbank_config"] = "向公会银行存入可退还物品时隐藏确认弹窗"
 L["warbank_hidden"] = "向" .. APR.Utilities.CHAT_GREEN .. "公会银行" .. FONT_COLOR_CODE_CLOSE .. "存入可退还物品时的确认弹窗将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
 L["warbank_shown"] = "向" .. APR.Utilities.CHAT_RED .. "公会银行" .. FONT_COLOR_CODE_CLOSE .. "存入可退还物品时的确认弹窗将" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+
+-- expensive
+L["expensive_name"] = "购买物品或完成任务花费高达 SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_config"] = "在购买物品或完成任务花费高达 SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t 时隐藏确认窗口"
+L["expensive_hidden"] = "购买" .. APR.Utilities.CHAT_GREEN .. "昂贵" .. FONT_COLOR_CODE_CLOSE .. "物品，或完成需要金币（花费高达 SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t）的任务时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["expensive_shown"] = "购买" .. APR.Utilities.CHAT_RED .. "昂贵" .. FONT_COLOR_CODE_CLOSE .. "物品，或完成需要金币（花费高达 SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t）的任务时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+
+-- prey
+L["prey_name"] = "参与至暗之夜狩猎事件"
+L["prey_config"] = "在开始或参与至暗之夜狩猎时隐藏确认窗口"
+L["prey_hidden"] = "开始或参与" .. APR.Utilities.CHAT_GREEN .. "至暗之夜狩猎" .. FONT_COLOR_CODE_CLOSE .. "时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["prey_shown"] = "开始或参与" .. APR.Utilities.CHAT_RED .. "至暗之夜狩猎" .. FONT_COLOR_CODE_CLOSE .. "时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
+
+-- equipment
+L["equipment_name"] = "使用装备管理"
+L["equipment_config"] = "在装备管理中保存套装时隐藏确认窗口"
+L["equipment_hidden"] = "在" .. APR.Utilities.CHAT_GREEN .. "装备" .. FONT_COLOR_CODE_CLOSE .. "管理中保存套装时的确认窗口将被" .. APR.Utilities.CHAT_GREEN .. "隐藏" .. FONT_COLOR_CODE_CLOSE .. "。"
+L["equipment_shown"] = "在" .. APR.Utilities.CHAT_RED .. "装备" .. FONT_COLOR_CODE_CLOSE .. "管理中保存套装时的确认窗口将被" .. APR.Utilities.CHAT_RED .. "显示" .. FONT_COLOR_CODE_CLOSE .. "。"
