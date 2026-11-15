@@ -40,6 +40,7 @@ L["Startup_message"] = L["Version_message"] .. " 输入 /apr 查看帮助和选�
 L["startup_config"] = "登录时显示欢迎信息"
 L["status_config"] = "在聊天窗口打印设置摘要"
 L["version_config"] = "显示 APR 版本和帮助摘要"
+L["Settings_instructions"] = "\n特定弹窗的设置现在可以\n在左侧的分类页面中找到。\n\n\n"
 
 -- 配置标题
 L["ItemsHeader"] = "物品"
