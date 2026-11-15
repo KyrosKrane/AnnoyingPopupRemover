@@ -40,6 +40,10 @@ L["startup_config"] = "Показывать сообщение о запуске
 L["status_config"] = "Вывести сводку текущих настроек в окно чата"
 L["version_config"] = "Вывести версию APR и краткую справку"
 
+-- When localizing this, please check that it appears readably formatted with good spacing and vertical padding in the settings pane.
+-- For the English text, I had to add manual line breaks to make it fit correctly. Other languages may need similar.
+L["Settings_instructions"] = "\nНастройки отдельных всплывающих окон теперь\nнаходятся на страницах категорий слева.\n\n\n"
+
 
 -- Config headers
 L["ItemsHeader"] = "Предметы"
