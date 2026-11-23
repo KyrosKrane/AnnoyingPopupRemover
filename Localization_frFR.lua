@@ -1,6 +1,6 @@
 -- Localization_frFR.lua
 -- Written by KyrosKrane Sylvanblade (kyros@kyros.info), Translations frFR by Klep-Ysondre
--- Copyright (c) 2015-2023 KyrosKrane Sylvanblade
+-- Copyright (c) 2015-2026 KyrosKrane Sylvanblade
 -- Licensed under the MIT License, as per the included file.
 -- Addon version: @project-version@
 
@@ -37,6 +37,10 @@ L["Startup_message"] = L["Version_message"] .. " Pour de l’aide et afficher le
 L["startup_config"] = "Afficher un message d’accueil lors de votre connexion"
 L["status_config"] = "Afficher le résumé des paramètres dans la fenêtre de discussion"
 L["version_config"] = "Afficher la version d’APR et le résumé de l’aide"
+
+-- When localizing this, please check that it appears readably formatted with good spacing and vertical padding in the settings pane.
+-- For the English text, I had to add manual line breaks to make it fit correctly. Other languages may need similar.
+L["Settings_instructions"] = "\nLes paramètres relatifs à des fenêtres surgissantes\nspécifiques se trouvent désormais dans les\npages de catégories, sur la gauche.\n\n\n" -- About fr_FR: I cannot test it in-game at the moment.
 
 
 -- Config headers
@@ -183,3 +187,30 @@ L["warbank_name"] = "Déposer un objet remboursable dans la Banque de bataillon"
 L["warbank_config"] = "Masquer la fenêtre de confirmation lorsque vous déposez un objet remboursable dans la Banque de bataillon"
 L["warbank_hidden"] = "La fenêtre de confirmation lors du dépôt d’un objet remboursable dans votre " .. APR.Utilities.CHAT_GREEN .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["warbank_shown"] = "La fenêtre de confirmation lors du dépôt d’un objet remboursable dans votre " .. APR.Utilities.CHAT_RED .. "Banque de bataillon" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- expensive
+L["expensive_name"] = "Acheter un objet ou terminer une quête coûtant jusqu'à SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_config"] = "Masquer la fenêtre de confirmation lors de l'achat d'un objet ou de l'accomplissement d'une quête coûtant jusqu'à SUBSTITUTE_ME_LATER |TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t"
+L["expensive_hidden"] = "La fenêtre de confirmation lors de l'achat d'un objet " .. APR.Utilities.CHAT_GREEN .. "coûteux" .. FONT_COLOR_CODE_CLOSE .. " ou de l'accomplissement d'une quête nécessitant de l'or, pour un montant allant jusqu'à SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t, sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["expensive_shown"] = "La fenêtre de confirmation lors de l'achat d'un objet " .. APR.Utilities.CHAT_RED .. "coûteux" .. FONT_COLOR_CODE_CLOSE .. " ou de l'accomplissement d'une quête nécessitant de l'or, pour un montant allant jusqu'à SUBSTITUTE_ME_LATER|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t, sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- prey
+L["prey_name"] = "Participer aux événements de Traque"
+L["prey_config"] = "Masquer la fenêtre de confirmation lors du lancement ou de la participation aux Traques"
+L["prey_hidden"] = "La fenêtre de confirmation lors du lancement ou de la participation aux événements de " .. APR.Utilities.CHAT_GREEN .. "Traque" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["prey_shown"] = "La fenêtre de confirmation lors du lancement ou de la participation aux événements de " .. APR.Utilities.CHAT_RED .. "Traque" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- equipment
+L["equipment_name"] = "Utiliser le gestionnaire d'équipement"
+L["equipment_config"] = "Masquer la fenêtre de confirmation lors de l'enregistrement d'un ensemble d'équipement dans le gestionnaire d'équipement"
+L["equipment_hidden"] = "La fenêtre de confirmation lors de l'enregistrement d'un ensemble dans le gestionnaire d'" .. APR.Utilities.CHAT_GREEN .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
+L["equipment_shown"] = "La fenêtre de confirmation lors de l'enregistrement d'un ensemble dans le gestionnaire d'" .. APR.Utilities.CHAT_RED .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
+
+-- For testing purposes, I need to know if any strings are not translated.
+-- So, add a prefix if we're not in English and a string isn't translated.
+if APR.DebugMode and "enUS" ~= APR.locale then
+	local prestring = "UNTRANSLATED STRING - "
+	for k, v in pairs(L) do
+		 if k ~= "APR" then L[k] = prestring .. v end
+	end
+end
