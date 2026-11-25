@@ -40,7 +40,7 @@ L["version_config"] = "Afficher la version d’APR et le résumé de l’aide"
 
 -- When localizing this, please check that it appears readably formatted with good spacing and vertical padding in the settings pane.
 -- For the English text, I had to add manual line breaks to make it fit correctly. Other languages may need similar.
-L["Settings_instructions"] = "\nLes paramètres relatifs à des fenêtres surgissantes\nspécifiques se trouvent désormais dans les\npages de catégories, sur la gauche.\n\n\n" -- About fr_FR: I cannot test it in-game at the moment.
+L["Settings_instructions"] = "\nLes paramètres relatifs à des fenêtres surgissantes\nspécifiques se trouvent désormais dans les\npages de catégories, sur la gauche.\n\n\n"
 
 
 -- Config headers
@@ -205,12 +205,3 @@ L["equipment_name"] = "Utiliser le gestionnaire d'équipement"
 L["equipment_config"] = "Masquer la fenêtre de confirmation lors de l'enregistrement d'un ensemble d'équipement dans le gestionnaire d'équipement"
 L["equipment_hidden"] = "La fenêtre de confirmation lors de l'enregistrement d'un ensemble dans le gestionnaire d'" .. APR.Utilities.CHAT_GREEN .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_GREEN .. "masquée" .. FONT_COLOR_CODE_CLOSE .. "."
 L["equipment_shown"] = "La fenêtre de confirmation lors de l'enregistrement d'un ensemble dans le gestionnaire d'" .. APR.Utilities.CHAT_RED .. "équipement" .. FONT_COLOR_CODE_CLOSE .. " sera " .. APR.Utilities.CHAT_RED .. "affichée" .. FONT_COLOR_CODE_CLOSE .. "."
-
--- For testing purposes, I need to know if any strings are not translated.
--- So, add a prefix if we're not in English and a string isn't translated.
-if APR.DebugMode and "enUS" ~= APR.locale then
-	local prestring = "UNTRANSLATED STRING - "
-	for k, v in pairs(L) do
-		 if k ~= "APR" then L[k] = prestring .. v end
-	end
-end
